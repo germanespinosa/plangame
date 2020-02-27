@@ -1,6 +1,6 @@
 var game;
 var tileSize = 12;
-var sightRadius = 70;
+var sightRadius = 100;
 
 window.onload = function() {	
 	game = new Phaser.Game(768, 768, Phaser.AUTO, "");
