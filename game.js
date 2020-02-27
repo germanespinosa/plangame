@@ -101,7 +101,7 @@ playGame.prototype = {
           } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
                console.log("right");
                prey.setNextMove(right);
-          } if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+          } else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
                console.log("up");
                prey.setNextMove(up);
           } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
