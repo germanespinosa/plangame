@@ -2,7 +2,7 @@ var game;
 var tileSize = 48;
 var sightRadius = 30;
 var scale = 4;
-window.onload = function() {	
+window.onload = function () {
 	game = new Phaser.Game(720, 720, Phaser.AUTO, "");
      game.state.add("PlayGame", playGame);
      game.state.start("PlayGame");
@@ -15,6 +15,44 @@ const up = {x:0,y:-1};
 const down = {x:0,y:1};
 const moves = [left, right, down, up];
 var playGame = function(game){};
+
+var prey = {
+    x:7,
+    y:14,
+    nextMove : {x:0,y:0},
+     addMove: function(pos){
+          var new_pos = {
+               x:pos.x,
+               y:pos.y
+          };
+          new_pos.x += prey.x;
+          new_pos.y += prey.y;
+          return new_pos;
+     },
+     setNextMove: function(move){
+         prey.nextMove.x = move.x;
+         prey.nextMove.y = move.y;
+    },
+     move: function() {
+          if (!prey.checkMove(prey.nextMove)) return false;
+          prey.x += prey.nextMove.x;
+          prey.y += prey.nextMove.y;
+          return true;
+     },
+     checkMove: function(move){
+          var candidate = prey.addMove(move);
+          return candidate.x >= 0 &&
+              candidate.y >= 0 &&
+              candidate.x < Dungeon.map_size &&
+              candidate.y < Dungeon.map_size &&
+              Dungeon.map[candidate.y][candidate.x] == 1;
+     }
+};
+
+var key_up;
+var key_down;
+var key_left;
+var key_right;
 
 playGame.prototype = {
      preload: function(){
@@ -36,32 +74,43 @@ playGame.prototype = {
                     }
                }
           }
-          var startCol = 7;
-          var startRow = 14;
           this.lineGroup = game.add.group();
-          this.playerPosition = game.add.sprite(startCol * tileSize, startRow * tileSize, "tile");
-          this.playerPosition.scale.setTo(scale,scale)
-          this.playerPosition.tint = 0x00ff00;
-          this.playerPosition.alpha = 0.5;
-          this.playerPosition.inputEnabled = true;
-          this.playerPosition.input.enableDrag();
-          this.playerPosition.input.boundsRect = new Phaser.Rectangle(0, 0, game.width, game.height);
-          this.playerPosition.input.enableSnap(tileSize, tileSize, true, true);
+          prey.playerPosition = game.add.sprite(prey.x * tileSize, prey.y * tileSize, "tile");
+          prey.playerPosition.scale.setTo(scale,scale)
+          prey.playerPosition.tint = 0x00ff00;
+          prey.playerPosition.alpha = 0.5;
           setInterval(this.time_out, 500);
      },
      update: function(){
           this.visited = [];
           this.visited.length = 0;
           this.lineGroup.removeAll(true);
-          this.drawCircle(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, sightRadius);
+          this.drawCircle( prey.x, prey.y , sightRadius);
      },
-     contact: false,
      time_out: function (){
           var move=stay;
-          if (!this.contact) { // no visual contact random move
+          if (!predator.contact) { // no visual contact random move
                predator.randomMove();
+          } else {
+               predator.moveTowards(prey);
           }
-          console.log(predator);
+          if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+               console.log("left");
+               prey.setNextMove(left);
+          } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+               console.log("right");
+               prey.setNextMove(right);
+          } if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+               console.log("up");
+               prey.setNextMove(up);
+          } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+               console.log("down");
+               prey.setNextMove(down);
+          }
+          prey.move();
+          prey.playerPosition.x = prey.x * tileSize;
+          prey.playerPosition.y = prey.y * tileSize;
+          predator.contact = false;
      },
      drawBresenham: function(x0, y0, x1, y1){
           var saveX0 = x0;
@@ -91,10 +140,12 @@ playGame.prototype = {
                if(this.visited.indexOf(x0 + "," + y0) == -1){
                     var tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
                     tile.scale.setTo(scale,scale);
-                    if (y0==predator.y && x0==predator.x)
+                    if (y0==predator.y && x0==predator.x) {
                          tile.tint = 0xff0000;
-                    else
+                         predator.contact = true;
+                    } else {
                          tile.tint = 0xffffAA;
+                    }
                     tile.alpha = 1 - dist / (sightRadius / 2);
                     this.visited.push(x0 + "," + y0);
                     this.lineGroup.add(tile);
@@ -113,12 +164,12 @@ playGame.prototype = {
      drawCircle: function(x0, y0, radius){
           var x = -radius
           var y = 0;
-          var err = 2 - 2 * radius; 
+          var err = 2 - 2 * radius;
           do {
-               this.drawBresenham(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, (x0 - x), (y0 + y));
-               this.drawBresenham(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, (x0 - y), (y0 - x));
-               this.drawBresenham(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, (x0 + x), (y0 - y));
-               this.drawBresenham(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, (x0 + y), (y0 + x));
+               this.drawBresenham(prey.x, prey.y, (x0 - x), (y0 + y));
+               this.drawBresenham(prey.x, prey.y, (x0 - y), (y0 - x));
+               this.drawBresenham(prey.x, prey.y, (x0 + x), (y0 - y));
+               this.drawBresenham(prey.x, prey.y, (x0 + y), (y0 + x));
                radius = err;
                if (radius <= y){
                     y++;
