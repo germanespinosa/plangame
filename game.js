@@ -1,3 +1,4 @@
+var refreshRate = 200;
 var game;
 var tileSize = 48;
 var sightRadius = 30;
@@ -79,7 +80,7 @@ playGame.prototype = {
           prey.playerPosition.scale.setTo(scale,scale)
           prey.playerPosition.tint = 0x00ff00;
           prey.playerPosition.alpha = 0.5;
-          setInterval(this.time_out, 500);
+          setInterval(this.time_out, refreshRate);
      },
      update: function(){
           this.visited = [];
@@ -106,6 +107,8 @@ playGame.prototype = {
           } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
                console.log("down");
                prey.setNextMove(down);
+          } else {
+               prey.setNextMove(stay);
           }
           prey.move();
           prey.playerPosition.x = prey.x * tileSize;
