@@ -4,7 +4,7 @@ var tileSize = 48;
 var sightRadius = 30;
 var scale = 4;
 window.onload = function () {
-	game = new Phaser.Game(720, 720, Phaser.AUTO, "");
+	game = new Phaser.Game(720, 720, Phaser.AUTO, "game-div");
      game.state.add("PlayGame", playGame);
      game.state.start("PlayGame");
 }
