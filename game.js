@@ -140,7 +140,10 @@ var Helpers = {
         return~~ (Math.random() * (high - low)) + low;
     },
     GetRandomInt: function (ceiling) {
-         return Math.floor(this.GetRandom(0,ceiling+1));
+         return Math.floor(Helpers.GetRandom(0,ceiling));
+    },
+    GetRandomElement: function (arr) {
+         return arr[Helpers.GetRandomInt(arr.length)];
     }
 };
 

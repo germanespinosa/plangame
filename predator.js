@@ -1,8 +1,11 @@
 var predator = {
     x : 7,
     y : 7,
+    moveTowards: function (pos){
+
+    },
     randomMove: function (){
-        while (!predator.move(moves[Math.floor(Helpers.GetRandomInt(3))])) ;
+        while (!predator.move( Helpers.GetRandomElement(moves)));
     },
     move: function(move) {
         if (!predator.checkMove(move)) return false;
