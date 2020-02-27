@@ -1,50 +1,88 @@
 var game;
-var tileSize = 12;
-var sightRadius = 100;
-
+var tileSize = 48;
+var sightRadius = 30;
+var scale = 4;
 window.onload = function() {	
-	game = new Phaser.Game(768, 768, Phaser.AUTO, "");
+	game = new Phaser.Game(720, 720, Phaser.AUTO, "");
      game.state.add("PlayGame", playGame);
      game.state.start("PlayGame");
 }
 
+const stay = {x:0,y:0};
+const left = {x:-1,y:0};
+const right = {x:1,y:0};
+const up = {x:0,y:-1};
+const down = {x:0,y:1};
+const moves = [left, right, down, up];
 var playGame = function(game){};
+
+var predator = {
+     x : 7,
+     y : 7,
+     randomMove: function (){
+          while (!predator.move(moves[Math.floor(Helpers.GetRandomInt(3))])) ;
+     },
+     move: function(move) {
+          if (!predator.checkMove(move)) return false;
+          predator.x += move.x;
+          predator.y += move.y;
+          return true;
+     },
+     checkMove: function(move){
+          return predator.x + move.x >= 0 &&
+              predator.y + move.y >= 0 &&
+              predator.x + move.x < Dungeon.map_size &&
+              predator.y + move.y < Dungeon.map_size &&
+              Dungeon.map[this.y + move.y][this.x + move.x] == 1;
+     }
+};
 
 playGame.prototype = {
      preload: function(){
-           game.load.image("tile", "tile.png");
+          myimage = game.load.image("tile", "tile.png");
      },
      create: function(){
           for(var i = 0; i < Dungeon.map_size; i++){
                for(var j = 0; j < Dungeon.map_size; j++){
                     var tile = Dungeon.map[j][i];
                     if(tile == 0){
-                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");   
-                         wall.tint = 0x222222;       
+                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");
+                         wall.scale.setTo(scale,scale)
+                         wall.tint = 0x222222;
                     }
                     if(tile == 2){
-                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");   
-                         wall.tint = 0x555555;       
+                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");
+                         wall.scale.setTo(scale,scale)
+                         wall.tint = 0x555555;
                     }
                }
           }
-          var startCol = game.rnd.between(0, Dungeon.map_size - 1);
-          var startRow = game.rnd.between(0, Dungeon.map_size - 1);
+          var startCol = 7;
+          var startRow = 14;
           this.lineGroup = game.add.group();
           this.playerPosition = game.add.sprite(startCol * tileSize, startRow * tileSize, "tile");
+          this.playerPosition.scale.setTo(scale,scale)
           this.playerPosition.tint = 0x00ff00;
           this.playerPosition.alpha = 0.5;
           this.playerPosition.inputEnabled = true;
           this.playerPosition.input.enableDrag();
           this.playerPosition.input.boundsRect = new Phaser.Rectangle(0, 0, game.width, game.height);
           this.playerPosition.input.enableSnap(tileSize, tileSize, true, true);
-          
+          setInterval(this.time_out, 500);
      },
      update: function(){
           this.visited = [];
           this.visited.length = 0;
           this.lineGroup.removeAll(true);
           this.drawCircle(this.playerPosition.x / tileSize, this.playerPosition.y / tileSize, sightRadius);
+     },
+     contact: false,
+     time_out: function (){
+          var move=stay;
+          if (!this.contact) { // no visual contact random move
+               predator.randomMove();
+          }
+          console.log(predator);
      },
      drawBresenham: function(x0, y0, x1, y1){
           var saveX0 = x0;
@@ -64,13 +102,20 @@ playGame.prototype = {
                err = dx / 2;
           }
           do{
+               if(x0 < 0 || y0 < 0 || x0 >= Dungeon.map_size || y0 >= Dungeon.map_size || Dungeon.map[y0][x0] != 1){
+                    break;
+               }
                var dist = this.distance(saveX0, saveY0, x0, y0);
-               if(x0 < 0 || y0 < 0 || x0 >= Dungeon.map_size || y0 >= Dungeon.map_size || Dungeon.map[y0][x0] != 1 || dist > sightRadius / 2){
+               if (dist > sightRadius / 2){
                     break;
                }
                if(this.visited.indexOf(x0 + "," + y0) == -1){
                     var tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
-                    tile.tint = 0xffff00;
+                    tile.scale.setTo(scale,scale);
+                    if (y0==predator.y && x0==predator.x)
+                         tile.tint = 0xff0000;
+                    else
+                         tile.tint = 0xffffAA;
                     tile.alpha = 1 - dist / (sightRadius / 2);
                     this.visited.push(x0 + "," + y0);
                     this.lineGroup.add(tile);
@@ -114,6 +159,9 @@ playGame.prototype = {
 var Helpers = {
     GetRandom: function (low, high) {
         return~~ (Math.random() * (high - low)) + low;
+    },
+    GetRandomInt: function (ceiling) {
+         return Math.floor(this.GetRandom(0,ceiling+1));
     }
 };
 
