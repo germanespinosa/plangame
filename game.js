@@ -103,28 +103,8 @@ playGame.prototype = {
      },
      time_out: function (){
           if (game_status.code != 4) return;
-          var move=stay;
-          if (!predator.contact) { // no visual contact random move
-               predator.randomMove();
-          } else {
-               predator.moveTowards(prey);
-          }
-          if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-               console.log("left");
-               prey.setNextMove(left);
-          } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-               console.log("right");
-               prey.setNextMove(right);
-          } else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-               console.log("up");
-               prey.setNextMove(up);
-          } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-               console.log("down");
-               prey.setNextMove(down);
-          } else {
-               prey.setNextMove(stay);
-          }
           prey.move();
+          predator.move();
           if (prey.x == predator.x && prey.y == predator.y) game_status.gameOver();
           prey.playerPosition.x = prey.x * tileSize;
           prey.playerPosition.y = prey.y * tileSize;

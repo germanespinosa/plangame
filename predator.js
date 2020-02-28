@@ -1,6 +1,9 @@
 var predator = {
     x : 7,
     y : 7,
+    start: function(){
+
+    },
     contact: false,
     distance: function (pos){
         return Math.sqrt(Math.pow(pos.x-predator.x,2) + Math.pow(pos.y-predator.y,2));
@@ -12,6 +15,13 @@ var predator = {
       predator.x = pos.x;
       predator.y = pos.y;
     },
+    move: function(){
+        if (!predator.contact) { // no visual contact random move
+            predator.randomMove();
+        } else {
+            predator.moveTowards();
+        }
+    },
     addMove: function(pos){
         var new_pos = {
             x:pos.x,
@@ -21,21 +31,22 @@ var predator = {
         new_pos.y += predator.y;
         return new_pos;
     },
-    moveTowards: function (pos){
-        var min_distance = predator.distance(pos);
+    moveTowards: function (){
+        var min_distance = predator.distance(prey);
         var selected = { x:0, y:0};
         for (var i = 0; i < moves.length; i++){
             if (predator.checkMove(moves[i])) {
-                var ref = {x:pos.x - moves[i].x,y:pos.y - moves[i].y};
+                var ref = {x:prey.x - moves[i].x,y:prey.y - moves[i].y};
                 if (predator.distance(ref) < min_distance) selected = moves[i];
             }
         }
-        predator.move(selected);
+        if(Helpers.GetRandomInt(2)==1) setTimeout(predator.moveTowards, refreshRate/2);
+        predator.tryMove(selected);
     },
     randomMove: function (){
-        while (!predator.move(Helpers.GetRandomElement(moves)));
+        while (!predator.tryMove(Helpers.GetRandomElement(moves)));
     },
-    move: function(move) {
+    tryMove: function(move) {
         if (!predator.checkMove(move)) return false;
         predator.x += move.x;
         predator.y += move.y;
