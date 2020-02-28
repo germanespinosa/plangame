@@ -2,6 +2,30 @@ var prey = {
     x:7,
     y:14,
     nextMove : {x:0,y:0},
+    onDownKeyDown : function (){
+        prey.setNextMove(moves.down);
+    },
+    onUpKeyDown : function (){
+        prey.setNextMove(moves.up);
+    },
+    onLeftKeyDown : function (){
+        prey.setNextMove(moves.left);
+    },
+    onRightKeyDown : function (){
+        prey.setNextMove(moves.right);
+    },
+    onDownKeyUp : function (){
+        if (moves.isDown(prey.nextMove)) prey.nextMove = moves.stay;
+    },
+    onUpKeyUp : function (){
+        if (moves.isUp(prey.nextMove)) prey.nextMove = moves.stay;
+    },
+    onLeftKeyUp : function (){
+        if (moves.isLeft(prey.nextMove)) prey.nextMove = moves.stay;
+    },
+    onRightKeyUp : function (){
+        if (moves.isRight(prey.nextMove)) prey.nextMove = moves.stay;
+    },
     start: function(){
 
     },
@@ -21,18 +45,18 @@ var prey = {
     move: function() {
         if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             console.log("left");
-            prey.setNextMove(left);
+            prey.setNextMove(moves.left);
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             console.log("right");
-            prey.setNextMove(right);
+            prey.setNextMove(moves.right);
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
             console.log("up");
-            prey.setNextMove(up);
+            prey.setNextMove(moves.up);
         } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
             console.log("down");
-            prey.setNextMove(down);
+            prey.setNextMove(moves.down);
         } else {
-            prey.setNextMove(stay);
+            prey.setNextMove(moves.stay);
         }
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;

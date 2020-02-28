@@ -2,18 +2,39 @@ var game;
 var tileSize = 48;
 var sightRadius = 30;
 var scale = 4;
+
 window.onload = function () {
-	game = new Phaser.Game(720, 720, Phaser.AUTO, "game-div");
+	 game = new Phaser.Game(720, 720, Phaser.AUTO, "game-div");
      game.state.add("PlayGame", playGame);
      game.state.start("PlayGame");
 }
 
-const stay = {x:0,y:0};
-const left = {x:-1,y:0};
-const right = {x:1,y:0};
-const up = {x:0,y:-1};
-const down = {x:0,y:1};
-const moves = [left, right, down, up];
+var moves = {
+     stay : {x:0,y:0},
+     left : {x:-1,y:0},
+     right : {x:1,y:0},
+     up : {x:0,y:-1},
+     down : {x:0,y:1},
+     list: [],
+     isMove :function (a,b){
+          return a.x == b.x && a.y == b.y;
+     },
+     isRight(a){
+          return moves.isMove(a,moves.right);
+     },
+     isLeft(a){
+          return moves.isMove(a,moves.left);
+     },
+     isUp(a){
+          return moves.isMove(a,moves.up);
+     },
+     isDown(a){
+          return moves.isMove(a,moves.down);
+     }
+}
+
+moves.list = [moves.left, moves.right, moves.down, moves.up];
+
 var playGame = function(game){};
 
 playGame.prototype = {

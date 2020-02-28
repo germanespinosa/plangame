@@ -34,17 +34,17 @@ var predator = {
     moveTowards: function (){
         var min_distance = predator.distance(prey);
         var selected = { x:0, y:0};
-        for (var i = 0; i < moves.length; i++){
-            if (predator.checkMove(moves[i])) {
-                var ref = {x:prey.x - moves[i].x,y:prey.y - moves[i].y};
-                if (predator.distance(ref) < min_distance) selected = moves[i];
+        for (var i = 0; i < moves.list.length; i++){
+            if (predator.checkMove(moves.list[i])) {
+                var ref = {x:prey.x - moves.list[i].x,y:prey.y - moves.list[i].y};
+                if (predator.distance(ref) < min_distance) selected = moves.list[i];
             }
         }
         if(Helpers.GetRandomInt(3)==0) setTimeout(predator.moveTowards, game_status.refreshRate/2);
         predator.tryMove(selected);
     },
     randomMove: function (){
-        while (!predator.tryMove(Helpers.GetRandomElement(moves)));
+        while (!predator.tryMove(Helpers.GetRandomElement(moves.list)));
     },
     tryMove: function(move) {
         if (!predator.checkMove(move)) return false;
