@@ -3,7 +3,7 @@ var predator = {
     y : 7,
     contact: false,
     distance: function (pos){
-        return Math.abs(pos.x-predator.x) + Math.abs(pos.y-predator.y); //manhattan distance;
+        return Math.sqrt(Math.pow(pos.x-predator.x,2) + Math.pow(pos.y-predator.y,2));
     },
     getPos: function() {
         return {x:predator.x, y:predator.y};

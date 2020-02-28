@@ -17,6 +17,47 @@ const down = {x:0,y:1};
 const moves = [left, right, down, up];
 var playGame = function(game){};
 
+var game_status = {
+     timeOut : 1000,
+     code: 0,
+     group: {},
+     ready: function(){
+          game_status.code = 1;
+          game_status.group = game.add.group();
+          var sprite = game.add.sprite(200,290,"ready");
+          sprite.scale.setTo(1,1);
+          game_status.group.add(sprite);
+          setTimeout(game_status.set,game_status.timeOut);
+     },
+     set: function(){
+          game_status.code = 2;
+          game_status.group.removeAll();
+          var sprite = game.add.sprite(280,290,"set")
+          sprite.scale.setTo(1,1);
+          game_status.group.add(sprite);
+          setTimeout(game_status.go,game_status.timeOut);
+     },
+     go: function (){
+          game_status.code = 3;
+          game_status.group.removeAll();
+          var sprite = game.add.sprite(140,220,"go");
+          sprite.scale.setTo(3.5,3.5);
+          game_status.group.add(sprite);
+          setTimeout(game_status.gameOn,game_status.timeOut);
+     },
+     gameOn:function (){
+          game_status.code = 4;
+          game_status.group.removeAll();
+     },
+     gameOver:function(){
+          game_status.code = 5;
+          game_status.group.removeAll();
+          var sprite = game.add.sprite(60,280,"game_over");
+          sprite.scale.setTo(1,1);
+          game_status.group.add(sprite);
+     }
+}
+
 var prey = {
     x:7,
     y:14,
@@ -57,7 +98,11 @@ var key_right;
 
 playGame.prototype = {
      preload: function(){
-          myimage = game.load.image("tile", "tile.png");
+          game.load.image("tile", "tile.png");
+          game.load.image("ready", "ready.png");
+          game.load.image("set", "set.png");
+          game.load.image("go", "go.png");
+          game.load.image("game_over", "game_over.png");
      },
      create: function(){
           for(var i = 0; i < Dungeon.map_size; i++){
@@ -80,6 +125,7 @@ playGame.prototype = {
           prey.playerPosition.scale.setTo(scale,scale)
           prey.playerPosition.tint = 0x00ff00;
           prey.playerPosition.alpha = 0.5;
+          game_status.ready();
           setInterval(this.time_out, refreshRate);
      },
      update: function(){
@@ -89,6 +135,7 @@ playGame.prototype = {
           this.drawCircle( prey.x, prey.y , sightRadius);
      },
      time_out: function (){
+          if (game_status.code != 4) return;
           var move=stay;
           if (!predator.contact) { // no visual contact random move
                predator.randomMove();
@@ -111,6 +158,7 @@ playGame.prototype = {
                prey.setNextMove(stay);
           }
           prey.move();
+          if (prey.x == predator.x && prey.y == predator.y) game_status.gameOver();
           prey.playerPosition.x = prey.x * tileSize;
           prey.playerPosition.y = prey.y * tileSize;
           predator.contact = false;
