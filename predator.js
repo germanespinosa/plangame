@@ -40,7 +40,7 @@ var predator = {
                 if (predator.distance(ref) < min_distance) selected = moves[i];
             }
         }
-        if(Helpers.GetRandomInt(3)==0) setTimeout(predator.moveTowards, refreshRate/2);
+        if(Helpers.GetRandomInt(3)==0) setTimeout(predator.moveTowards, game_status.refreshRate/2);
         predator.tryMove(selected);
     },
     randomMove: function (){

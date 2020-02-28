@@ -1,4 +1,3 @@
-var refreshRate = 300;
 var game;
 var tileSize = 48;
 var sightRadius = 30;
@@ -16,11 +15,6 @@ const up = {x:0,y:-1};
 const down = {x:0,y:1};
 const moves = [left, right, down, up];
 var playGame = function(game){};
-
-var key_up;
-var key_down;
-var key_left;
-var key_right;
 
 playGame.prototype = {
      preload: function(){
@@ -52,22 +46,12 @@ playGame.prototype = {
           prey.playerPosition.tint = 0x00ff00;
           prey.playerPosition.alpha = 0.5;
           game_status.ready();
-          setInterval(this.time_out, refreshRate);
      },
      update: function(){
           this.visited = [];
           this.visited.length = 0;
           this.lineGroup.removeAll(true);
           this.drawCircle( prey.x, prey.y , sightRadius);
-     },
-     time_out: function (){
-          if (game_status.code != 4) return;
-          prey.move();
-          predator.move();
-          if (prey.x == predator.x && prey.y == predator.y) game_status.gameOver();
-          prey.playerPosition.x = prey.x * tileSize;
-          prey.playerPosition.y = prey.y * tileSize;
-          predator.contact = false;
      },
      drawBresenham: function(x0, y0, x1, y1){
           var saveX0 = x0;
