@@ -92,7 +92,7 @@ playGame.prototype = {
                err = dx / 2;
           }
           do{
-               if(x0 < 0 || y0 < 0 || x0 >= Dungeon.map_size || y0 >= Dungeon.map_size || Dungeon.map[y0][x0] != 1){
+               if(!Dungeon.free({x:x0, y:y0})){
                     break;
                }
                var dist = this.distance(saveX0, saveY0, x0, y0);

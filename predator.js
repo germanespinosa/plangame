@@ -53,11 +53,7 @@ var predator = {
         return true;
     },
     checkMove: function(move){
-        var candidate = predator.addMove(move);
-        return candidate.x >= 0 &&
-            candidate.y >= 0 &&
-            candidate.x < Dungeon.map_size &&
-            candidate.y < Dungeon.map_size &&
-            Dungeon.map[candidate.y][candidate.x] == 1;
+        const candidate = predator.addMove(move);
+        return Dungeon.free(candidate);
     }
 };
