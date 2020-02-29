@@ -29,7 +29,7 @@ let predator = {
         return new_pos;
     },
     moveTowards: function (){
-        var min_distance = predator.distance(prey);
+        var min_distance = maze.distance(prey, predator);
         var selected = { x:0, y:0};
         for (var i = 0; i < moves.list.length; i++){
             if (predator.checkMove(moves.list[i])) {
