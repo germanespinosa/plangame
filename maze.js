@@ -1,4 +1,6 @@
 let maze = {
+    wallScaleX:1,
+    wallScaleY:1,
     startPosition: null,
     dimensions: {},
     map: null,
@@ -12,8 +14,8 @@ let maze = {
             for (let i = 0; i < maze.occlusions.length; i++) {
                 const y = maze.occlusions[i].y;
                 const x = maze.occlusions[i].x;
-                let wall = game.add.sprite(x * tileSize, y * tileSize, "tile");
-                wall.scale.setTo(scale, scale)
+                let wall = game.add.sprite(x * tileSize, y * tileSize, "wall");
+                wall.scale.setTo(maze.wallScaleX, maze.wallScaleY)
                 wall.tint = 0x555555;
                 groups.maze.add(wall);
                 game.world.sendToBack(groups.maze);
@@ -45,6 +47,11 @@ let maze = {
                 let world = JSON.parse(request.responseText);
                 maze.occlusions = world.occlusions;
                 maze.dimensions = world.dimensions;
+                maze.wallScaleX = game.width/maze.dimensions.w/game.cache.getImage("wall").width;
+                maze.wallScaleY = game.height/maze.dimensions.h/game.cache.getImage("wall").height;
+                console.log(maze.wallScaleX);
+                console.log(maze.wallScaleY);
+
                 maze.visualRange = world.visualRange;
                 maze.map = maze.new_map();
                 for(let i=0;i<world.occlusions.length;i++) {
@@ -98,7 +105,7 @@ let maze = {
     },
     drawTile: function(pos, value){
         let tile = game.add.sprite(pos.x * tileSize, pos.y * tileSize, "tile");
-        tile.scale.setTo(scale,scale);
+        tile.scale.setTo(maze.wallScaleX,maze.wallScaleY);
         tile.tint = 0xffffAA;
         tile.alpha = 1 - value / maze.visualRange;
         groups.maze.add(tile);

@@ -18,10 +18,12 @@ let groups = {
 playGame.prototype = {
      preload: function(){
           game.load.image("tile", "tile.png");
+          game.load.image("wall", "tile.png");
           game.load.image("ready", "ready.png");
           game.load.image("set", "set.png");
           game.load.image("go", "go.png");
           game.load.image("game_over", "game_over.png");
+          maze.Generate();
      },
      create: function(){
           groups.status = game.add.group();
@@ -51,5 +53,3 @@ var Helpers = {
          return arr[Helpers.GetRandomInt(arr.length)];
     }
 };
-
-maze.Generate();
