@@ -1,6 +1,8 @@
 let prey = {
     x:7,
     y:14,
+    scaleX: 0,
+    scaleY: 0,
     nextMove : {x:0,y:0},
     onDownKeyDown : function (){
         prey.setNextMove(moves.down);
@@ -27,6 +29,9 @@ let prey = {
         if (moves.isRight(prey.nextMove)) prey.nextMove = moves.stay;
     },
     start: function(){
+        prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
+        prey.scaleY = maze.tileSizeY/game.cache.getImage("prey").height;
+
         const pos = maze.copy(maze.startPosition);
         prey.x = pos.x;
         prey.y = pos.y;
@@ -70,9 +75,9 @@ let prey = {
         return maze.free(candidate);
     },
     draw: function (){
-        let tile = game.add.sprite(prey.x * tileSize, prey.y * tileSize, "tile");
-        tile.scale.setTo(scale,scale);
-        tile.tint = 0x00FF00;
+        const screenPos = maze.screenLocation(prey);
+        let tile = game.add.sprite(screenPos.x , screenPos.y , "prey");
+        tile.scale.setTo(prey.scaleX, prey.scaleX);
         groups.maze.add(tile);
     },
     getPos: function() {

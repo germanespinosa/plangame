@@ -1,6 +1,8 @@
 let maze = {
-    wallScaleX:1,
-    wallScaleY:1,
+    wallScaleX:0,
+    wallScaleY:0,
+    tileSizeX:0,
+    tileSizeY:0,
     startPosition: null,
     dimensions: {},
     map: null,
@@ -12,9 +14,8 @@ let maze = {
         if (maze.ready) {
             groups.maze.removeAll();
             for (let i = 0; i < maze.occlusions.length; i++) {
-                const y = maze.occlusions[i].y;
-                const x = maze.occlusions[i].x;
-                let wall = game.add.sprite(x * tileSize, y * tileSize, "wall");
+                const screenPos = maze.screenLocation(maze.occlusions[i]);
+                let wall = game.add.sprite(screenPos.x, screenPos.y, "wall");
                 wall.scale.setTo(maze.wallScaleX, maze.wallScaleY)
                 wall.tint = 0x555555;
                 groups.maze.add(wall);
@@ -47,8 +48,10 @@ let maze = {
                 let world = JSON.parse(request.responseText);
                 maze.occlusions = world.occlusions;
                 maze.dimensions = world.dimensions;
-                maze.wallScaleX = game.width/maze.dimensions.w/game.cache.getImage("wall").width;
-                maze.wallScaleY = game.height/maze.dimensions.h/game.cache.getImage("wall").height;
+                maze.tileSizeX = game.width/maze.dimensions.w;
+                maze.wallScaleX = maze.tileSizeX/game.cache.getImage("wall").width;
+                maze.tileSizeY = game.height/maze.dimensions.h;
+                maze.wallScaleY = maze.tileSizeY/game.cache.getImage("wall").height;
                 console.log(maze.wallScaleX);
                 console.log(maze.wallScaleY);
 
@@ -57,7 +60,7 @@ let maze = {
                 for(let i=0;i<world.occlusions.length;i++) {
                     const y = world.occlusions[i].y;
                     const x = world.occlusions[i].x;
-                    maze.map[y][x] = 1;
+                    maze.map[x][y] = 1;
                     maze.startPosition = world.startPosition;
                 }
                 maze.ready = true;
@@ -68,7 +71,7 @@ let maze = {
         request.send(null);
     },
     free: function(pos){
-        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.y][pos.x]===0;
+        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.x][pos.y]===0;
     },
     distance: function(pos0, pos1){
         let pos = { x: pos0.x - pos1.x, y: pos0.y - pos1.y};
@@ -104,7 +107,8 @@ let maze = {
       return {x:pos.x,y:pos.y};
     },
     drawTile: function(pos, value){
-        let tile = game.add.sprite(pos.x * tileSize, pos.y * tileSize, "tile");
+        const screenPos = maze.screenLocation(pos);
+        let tile = game.add.sprite(screenPos.x, screenPos.y, "tile");
         tile.scale.setTo(maze.wallScaleX,maze.wallScaleY);
         tile.tint = 0xffffAA;
         tile.alpha = 1 - value / maze.visualRange;
@@ -134,4 +138,7 @@ let maze = {
         }
         return true;
     },
+    screenLocation: function (pos){
+        return {x:pos.x * maze.tileSizeX, y:pos.y * maze.tileSizeY};
+    }
 }

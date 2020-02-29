@@ -19,6 +19,8 @@ playGame.prototype = {
      preload: function(){
           game.load.image("tile", "tile.png");
           game.load.image("wall", "tile.png");
+          game.load.image("prey", "prey.png");
+          game.load.image("predator", "predator.png");
           game.load.image("ready", "ready.png");
           game.load.image("set", "set.png");
           game.load.image("go", "go.png");
