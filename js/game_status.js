@@ -11,7 +11,6 @@ let gameStatus = {
         sprite.scale.setTo(scale,scale);
         groups.status.add(sprite);
         game.world.bringToTop(groups.status);
-
     },
     ready: function(){
         gameStatus.code = 1;

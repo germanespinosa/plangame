@@ -51,8 +51,7 @@ let predator = {
             let tile = game.add.sprite(screenPos.x , screenPos.y , "predator");
             tile.scale.setTo(predator.scaleX, predator.scaleY);
             if (!maze.isVisible(predator,prey)) tile.alpha = .3;
-
-            groups.maze.add(tile);
+            groups.agents.add(tile);
         }
     },
     randomMove: function (){

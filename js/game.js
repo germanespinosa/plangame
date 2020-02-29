@@ -3,7 +3,8 @@ var tileSize = 48;
 var scale = 4;
 
 window.onload = function () {
-	 game = new Phaser.Game(1000, 700, Phaser.AUTO, "game-div");
+     let div = document.getElementById("game-div")
+	 game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.AUTO, "game-div");
      game.state.add("PlayGame", playGame);
      game.state.start("PlayGame");
 }
@@ -27,8 +28,12 @@ playGame.prototype = {
           game.load.image("go", "img/go.png");
           game.load.image("game_over", "img/game_over.png");
           game.load.image("you_win", "img/you_win.png");
+          game.load.script('maze', 'js/maze.js');
+          game.load.script('prey', 'js/prey.js');
+          game.load.script('predator', 'js/predator.js');
      },
      create: function(){
+          groups.agents = game.add.group()
           groups.status = game.add.group();
           groups.maze = game.add.group();
           gameStatus.ready();
@@ -39,8 +44,10 @@ playGame.prototype = {
           if (maze.ready) {
                maze.draw();
                maze.drawVisibility(prey);
+               groups.agents.removeAll(true);
                predator.draw();
                prey.draw();
+               game.world.bringToTop(groups.agents);
           }
      },
 }
