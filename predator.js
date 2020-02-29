@@ -41,8 +41,9 @@ let predator = {
                 if (maze.distance(predator,ref) < min_distance) selected = moves.list[i];
             }
         }
-        if(Helpers.GetRandomInt(3)===0) setTimeout(predator.moveTowards, game_status.refreshRate/2);
+        if(Helpers.GetRandomInt(3)===0) setTimeout(predator.moveTowards, gameStatus.refreshRate/2);
         predator.tryMove(selected);
+        if (prey.x === predator.x && prey.y === predator.y) gameStatus.gameOver();
     },
     draw: function (){
         if (maze.isVisible(predator, prey) || predator.alwaysVisible) {

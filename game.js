@@ -31,7 +31,7 @@ playGame.prototype = {
      create: function(){
           groups.status = game.add.group();
           groups.maze = game.add.group();
-          game_status.ready();
+          gameStatus.ready();
      },
      update: function(){
           this.visited = [];

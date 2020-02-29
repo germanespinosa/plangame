@@ -1,4 +1,4 @@
-let game_status = {
+let gameStatus = {
     titleTimeOut : 1000,
     refreshRate: 300,
     code: 0,
@@ -14,40 +14,39 @@ let game_status = {
 
     },
     ready: function(){
-        game_status.code = 1;
-        game_status.showMessage("ready",.5);
-        setTimeout(game_status.set,game_status.titleTimeOut);
+        gameStatus.code = 1;
+        gameStatus.showMessage("ready",.5);
+        setTimeout(gameStatus.set,gameStatus.titleTimeOut);
         maze.Generate();
     },
     set: function(){
-        game_status.code = 2;
-        game_status.showMessage("set",.6);
-        setTimeout(game_status.go,game_status.titleTimeOut);
+        gameStatus.code = 2;
+        gameStatus.showMessage("set",.6);
+        setTimeout(gameStatus.go,gameStatus.titleTimeOut);
     },
     go: function (){
-        game_status.code = 3;
-        game_status.showMessage("go",.8);
-        setTimeout(game_status.gameOn,game_status.titleTimeOut);
+        gameStatus.code = 3;
+        gameStatus.showMessage("go",.8);
+        setTimeout(gameStatus.gameOn,gameStatus.titleTimeOut);
     },
     gameOn:function (){
         prey.start();
         predator.start();
-        game_status.code = 4;
+        gameStatus.code = 4;
         groups.status.removeAll();
-        setInterval(game_status.update, game_status.refreshRate);
+        setInterval(gameStatus.update, gameStatus.refreshRate);
     },
     gameOver:function(){
-        game_status.code = 5;
-        game_status.showMessage("game_over",.8);
+        gameStatus.code = 5;
+        gameStatus.showMessage("game_over",.8);
     },
     youWin:function(){
-        game_status.code = 6;
-        game_status.showMessage("you_win",.8);
+        gameStatus.code = 6;
+        gameStatus.showMessage("you_win",.8);
     },
     update:function(){
-        if (game_status.code !== 4) return;
+        if (gameStatus.code !== 4) return;
         prey.move();
         predator.move();
-        if (prey.x === predator.x && prey.y === predator.y) game_status.gameOver();
     }
 }
