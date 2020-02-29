@@ -37,6 +37,10 @@ moves.list = [moves.left, moves.right, moves.down, moves.up];
 
 var playGame = function(game){};
 
+let groups = {
+     maze:null,
+}
+
 playGame.prototype = {
      preload: function(){
           game.load.image("tile", "tile.png");
@@ -46,21 +50,7 @@ playGame.prototype = {
           game.load.image("game_over", "game_over.png");
      },
      create: function(){
-          for(var i = 0; i < Dungeon.map_size; i++){
-               for(var j = 0; j < Dungeon.map_size; j++){
-                    var tile = Dungeon.map[j][i];
-                    if(tile == 0){
-                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");
-                         wall.scale.setTo(scale,scale)
-                         wall.tint = 0x222222;
-                    }
-                    if(tile == 2){
-                         var wall = game.add.sprite(i * tileSize, j * tileSize, "tile");
-                         wall.scale.setTo(scale,scale)
-                         wall.tint = 0x555555;
-                    }
-               }
-          }
+          groups.maze = game.add.group();
           this.lineGroup = game.add.group();
           prey.playerPosition = game.add.sprite(prey.x * tileSize, prey.y * tileSize, "tile");
           prey.playerPosition.scale.setTo(scale,scale)
@@ -71,6 +61,7 @@ playGame.prototype = {
      update: function(){
           this.visited = [];
           this.visited.length = 0;
+          Dungeon.draw();
           this.lineGroup.removeAll(true);
           this.drawCircle( prey.x, prey.y , sightRadius);
      },

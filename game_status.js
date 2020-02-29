@@ -9,6 +9,7 @@ var game_status = {
         var sprite = game.add.sprite(200,290,"ready");
         sprite.scale.setTo(1,1);
         game_status.group.add(sprite);
+        game.world.bringToTop(game_status.group);
         setTimeout(game_status.set,game_status.titleTimeOut);
     },
     set: function(){
@@ -17,6 +18,7 @@ var game_status = {
         var sprite = game.add.sprite(280,290,"set")
         sprite.scale.setTo(1,1);
         game_status.group.add(sprite);
+        game.world.bringToTop(game_status.group);
         setTimeout(game_status.go,game_status.titleTimeOut);
     },
     go: function (){
@@ -25,6 +27,7 @@ var game_status = {
         var sprite = game.add.sprite(140,220,"go");
         sprite.scale.setTo(3.5,3.5);
         game_status.group.add(sprite);
+        game.world.bringToTop(game_status.group);
         setTimeout(game_status.gameOn,game_status.titleTimeOut);
     },
     gameOn:function (){
