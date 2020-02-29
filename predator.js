@@ -5,9 +5,6 @@ let predator = {
 
     },
     contact: false,
-    distance: function (pos){
-        return Math.sqrt(Math.pow(pos.x-predator.x,2) + Math.pow(pos.y-predator.y,2));
-    },
     getPos: function() {
         return {x:predator.x, y:predator.y};
     },
@@ -37,10 +34,10 @@ let predator = {
         for (var i = 0; i < moves.list.length; i++){
             if (predator.checkMove(moves.list[i])) {
                 var ref = {x:prey.x - moves.list[i].x,y:prey.y - moves.list[i].y};
-                if (predator.distance(ref) < min_distance) selected = moves.list[i];
+                if (maze.distance(predator,ref) < min_distance) selected = moves.list[i];
             }
         }
-        if(Helpers.GetRandomInt(3)==0) setTimeout(predator.moveTowards, game_status.refreshRate/2);
+        if(Helpers.GetRandomInt(3)===0) setTimeout(predator.moveTowards, game_status.refreshRate/2);
         predator.tryMove(selected);
     },
     randomMove: function (){

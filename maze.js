@@ -50,6 +50,10 @@ let maze = {
         request.send(null);
     },
     free: function(pos){
-        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.y][pos.x]==1;
+        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.y][pos.x]===1;
+    },
+    distance: function(pos0, pos1){
+        let pos = { x: pos0.x - pos1.x, y: pos0.y - pos1.y};
+        return Math.sqrt(pos.x*pos.x+pos.y*pos.y);
     }
 }

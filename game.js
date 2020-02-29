@@ -61,7 +61,7 @@ playGame.prototype = {
                if(!maze.free({x:x0, y:y0})){
                     break;
                }
-               let dist = this.distance(saveX0, saveY0, x0, y0);
+               let dist = maze.distance({x:saveX0, y:saveY0}, {x:x0, y:y0});
                if (dist > maze.visualRange){
                     break;
                }
@@ -110,9 +110,6 @@ playGame.prototype = {
                } 
           } while (x < 0);    
      },
-     distance: function(x0, y0, x1, y1){
-          return Math.sqrt((x0-x1)*(x0-x1)+(y0-y1)*(y0-y1))     
-     }
 }
 
 var Helpers = {
