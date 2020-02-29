@@ -2,31 +2,31 @@ let game_status = {
     titleTimeOut : 1000,
     refreshRate: 300,
     code: 0,
-    ready: function(){
-        game_status.code = 1;
-        let sprite = game.add.sprite(200,290,"ready");
-        sprite.scale.setTo(1,1);
+    showMessage:function(message,size){
+        groups.status.removeAll();
+        let sprite = game.add.sprite(game.width/2,game.height/2,message);
+        sprite.anchor.x = .5;
+        sprite.anchor.y = .5;
+        let scale = game.width/game.cache.getImage(message).width*size;
+        sprite.scale.setTo(scale,scale);
         groups.status.add(sprite);
         game.world.bringToTop(groups.status);
+
+    },
+    ready: function(){
+        game_status.code = 1;
+        game_status.showMessage("ready",.5);
         setTimeout(game_status.set,game_status.titleTimeOut);
         maze.Generate();
     },
     set: function(){
         game_status.code = 2;
-        groups.status.removeAll();
-        let sprite = game.add.sprite(280,290,"set")
-        sprite.scale.setTo(1,1);
-        groups.status.add(sprite);
-        game.world.bringToTop(groups.status);
+        game_status.showMessage("set",.6);
         setTimeout(game_status.go,game_status.titleTimeOut);
     },
     go: function (){
         game_status.code = 3;
-        groups.status.removeAll();
-        let sprite = game.add.sprite(140,220,"go");
-        sprite.scale.setTo(3.5,3.5);
-        groups.status.add(sprite);
-        game.world.bringToTop(groups.status);
+        game_status.showMessage("go",.8);
         setTimeout(game_status.gameOn,game_status.titleTimeOut);
     },
     gameOn:function (){
@@ -38,17 +38,11 @@ let game_status = {
     },
     gameOver:function(){
         game_status.code = 5;
-        groups.status.removeAll();
-        let sprite = game.add.sprite(60,280,"game_over");
-        sprite.scale.setTo(1,1);
-        groups.status.add(sprite);
+        game_status.showMessage("game_over",.8);
     },
     youWin:function(){
         game_status.code = 6;
-        groups.status.removeAll();
-        let sprite = game.add.sprite(60,250,"you_win");
-        sprite.scale.setTo(1.5,1.5);
-        groups.status.add(sprite);
+        game_status.showMessage("you_win",.8);
     },
     update:function(){
         if (game_status.code !== 4) return;

@@ -78,7 +78,7 @@ let prey = {
     draw: function (){
         const screenPos = maze.screenLocation(prey);
         let tile = game.add.sprite(screenPos.x , screenPos.y , "prey");
-        tile.scale.setTo(prey.scaleX, prey.scaleX);
+        tile.scale.setTo(prey.scaleX, prey.scaleY);
         groups.maze.add(tile);
     },
     getPos: function() {
