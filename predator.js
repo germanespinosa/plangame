@@ -1,4 +1,4 @@
-var predator = {
+let predator = {
     x : 7,
     y : 7,
     start: function(){
@@ -54,6 +54,6 @@ var predator = {
     },
     checkMove: function(move){
         const candidate = predator.addMove(move);
-        return Dungeon.free(candidate);
+        return maze.free(candidate);
     }
 };

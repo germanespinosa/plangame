@@ -1,4 +1,4 @@
-var game_status = {
+let game_status = {
     titleTimeOut : 1000,
     refreshRate: 300,
     code: 0,
@@ -6,7 +6,7 @@ var game_status = {
     ready: function(){
         game_status.code = 1;
         game_status.group = game.add.group();
-        var sprite = game.add.sprite(200,290,"ready");
+        let sprite = game.add.sprite(200,290,"ready");
         sprite.scale.setTo(1,1);
         game_status.group.add(sprite);
         game.world.bringToTop(game_status.group);
@@ -15,7 +15,7 @@ var game_status = {
     set: function(){
         game_status.code = 2;
         game_status.group.removeAll();
-        var sprite = game.add.sprite(280,290,"set")
+        let sprite = game.add.sprite(280,290,"set")
         sprite.scale.setTo(1,1);
         game_status.group.add(sprite);
         game.world.bringToTop(game_status.group);
@@ -24,7 +24,7 @@ var game_status = {
     go: function (){
         game_status.code = 3;
         game_status.group.removeAll();
-        var sprite = game.add.sprite(140,220,"go");
+        let sprite = game.add.sprite(140,220,"go");
         sprite.scale.setTo(3.5,3.5);
         game_status.group.add(sprite);
         game.world.bringToTop(game_status.group);
@@ -38,15 +38,15 @@ var game_status = {
     gameOver:function(){
         game_status.code = 5;
         game_status.group.removeAll();
-        var sprite = game.add.sprite(60,280,"game_over");
+        let sprite = game.add.sprite(60,280,"game_over");
         sprite.scale.setTo(1,1);
         game_status.group.add(sprite);
     },
     update:function(){
-        if (game_status.code != 4) return;
+        if (game_status.code !== 4) return;
         prey.move();
         predator.move();
-        if (prey.x == predator.x && prey.y == predator.y) game_status.gameOver();
+        if (prey.x === predator.x && prey.y === predator.y) game_status.gameOver();
         prey.playerPosition.x = prey.x * tileSize;
         prey.playerPosition.y = prey.y * tileSize;
         predator.contact = false;

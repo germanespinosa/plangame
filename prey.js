@@ -1,4 +1,4 @@
-var prey = {
+let prey = {
     x:7,
     y:14,
     nextMove : {x:0,y:0},
@@ -65,6 +65,6 @@ var prey = {
     },
     checkMove: function(move){
         const candidate = prey.addMove(move);
-        return Dungeon.free(candidate);
+        return maze.free(candidate);
     }
 };

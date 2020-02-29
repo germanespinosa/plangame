@@ -1,6 +1,5 @@
 var game;
 var tileSize = 48;
-var sightRadius = 30;
 var scale = 4;
 
 window.onload = function () {
@@ -61,49 +60,51 @@ playGame.prototype = {
      update: function(){
           this.visited = [];
           this.visited.length = 0;
-          Dungeon.draw();
-          this.lineGroup.removeAll(true);
-          this.drawCircle( prey.x, prey.y , sightRadius);
+          if (maze.ready) {
+               maze.draw();
+               this.lineGroup.removeAll(true);
+               this.drawCircle(prey.x, prey.y);
+          }
      },
      drawBresenham: function(x0, y0, x1, y1){
-          var saveX0 = x0;
-          var saveY0 = y0;
-          var dx = Math.abs(x1 - x0);
-          var sx = -1;
+          let saveX0 = x0;
+          let saveY0 = y0;
+          let dx = Math.abs(x1 - x0);
+          let sx = -1;
           if(x0 < x1){
-               var sx = 1
+               sx = 1
           }
-          var dy = Math.abs(y1 - y0);
-          var sy = -1;
+          let dy = Math.abs(y1 - y0);
+          let sy = -1;
           if(y0 < y1){
-               var sy = 1;
+               sy = 1;
           }
-          var err = -dy / 2;
+          let err = -dy / 2;
           if(dx > dy){
                err = dx / 2;
           }
           do{
-               if(!Dungeon.free({x:x0, y:y0})){
+               if(!maze.free({x:x0, y:y0})){
                     break;
                }
-               var dist = this.distance(saveX0, saveY0, x0, y0);
-               if (dist > sightRadius / 2){
+               let dist = this.distance(saveX0, saveY0, x0, y0);
+               if (dist > maze.visualRange){
                     break;
                }
-               if(this.visited.indexOf(x0 + "," + y0) == -1){
-                    var tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
+               if(this.visited.indexOf(x0 + "," + y0) === -1){
+                    let tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
                     tile.scale.setTo(scale,scale);
-                    if (y0==predator.y && x0==predator.x) {
+                    if (y0===predator.y && x0===predator.x) {
                          tile.tint = 0xff0000;
                          predator.contact = true;
                     } else {
                          tile.tint = 0xffffAA;
                     }
-                    tile.alpha = 1 - dist / (sightRadius / 2);
+                    tile.alpha = 1 - dist / maze.visualRange;
                     this.visited.push(x0 + "," + y0);
                     this.lineGroup.add(tile);
                }
-               var e2 = err;
+               let e2 = err;
                if(e2 > -dx){
                     err -= dy;
                     x0 += sx;
@@ -112,12 +113,13 @@ playGame.prototype = {
                     err += dx;
                     y0 += sy;
                }
-          } while(x0 != x1 || y0 != y1)        
+          } while(x0 !== x1 || y0 !== y1)
      },
-     drawCircle: function(x0, y0, radius){
-          var x = -radius
-          var y = 0;
-          var err = 2 - 2 * radius;
+     drawCircle: function(x0, y0){
+          let radius = maze.visualRange;
+          let x = -radius;
+          let y = 0;
+          let err = 2 - 2 * radius;
           do {
                this.drawBresenham(prey.x, prey.y, (x0 - x), (y0 + y));
                this.drawBresenham(prey.x, prey.y, (x0 - y), (y0 - x));
@@ -151,4 +153,4 @@ var Helpers = {
     }
 };
 
-Dungeon.Generate();
+maze.Generate();
