@@ -31,17 +31,11 @@ let maze = {
                 maze.occlusions = world.occlusions;
                 maze.dimensions = world.dimensions;
                 maze.visualRange = world.visualRange;
-                maze.map = [];
-                for (let x = 0; x < maze.dimensions.h; x++) {
-                    maze.map[x] = [];
-                    for (let y = 0; y < maze.dimensions.w; y++) {
-                        maze.map[x][y] = 1;
-                    }
-                }
+                maze.map = maze.new_map();
                 for(let i=0;i<world.occlusions.length;i++) {
                     const y = world.occlusions[i].y;
                     const x = world.occlusions[i].x;
-                    maze.map[y][x] = 2;
+                    maze.map[y][x] = 1;
                 }
                 maze.ready = true;
                 maze.visualRange = world.visualRange;
@@ -50,7 +44,7 @@ let maze = {
         request.send(null);
     },
     free: function(pos){
-        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.y][pos.x]===1;
+        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.y][pos.x]===0;
     },
     distance: function(pos0, pos1){
         let pos = { x: pos0.x - pos1.x, y: pos0.y - pos1.y};
@@ -58,6 +52,16 @@ let maze = {
     },
     addPos: function(pos0,pos1){
         return {x:pos0.x+pos1.x , y:pos0.y+pos1.y};
+    },
+    new_map: function (){
+        let map = []
+        for (let x = 0; x < maze.dimensions.h; x++) {
+            map[x] = [];
+            for (let y = 0; y < maze.dimensions.w; y++) {
+                map[x][y] = 0;
+            }
+        }
+        return map;
     },
     drawCircle: function(pos){
         let radius = maze.visualRange;
@@ -74,12 +78,13 @@ let maze = {
         }
     },
     drawBresenham: function(pos0, pos1, visited){
+
         let x0=pos0.x;
-        let x1=pos1.x;
         let y0=pos0.y;
+
+        let x1=pos1.x;
         let y1=pos1.y;
-        let saveX0 = x0;
-        let saveY0 = y0;
+
         let dx = Math.abs(x1 - x0);
         let sx = -1;
         if(x0 < x1){
@@ -107,7 +112,7 @@ let maze = {
                 } else {
                     tile.tint = 0xffffAA;
                 }
-                let dist = maze.distance({x:saveX0, y:saveY0}, {x:x0, y:y0});
+                let dist = maze.distance(pos0, {x:x0, y:y0});
                 tile.alpha = 1 - dist / maze.visualRange;
                 visited.push(x0 + "," + y0);
                 groups.maze.add(tile);
