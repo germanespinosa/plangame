@@ -3,7 +3,7 @@
     "w": 15,
     "h": 15
   },
-  "visualRange": 15,
+  "visualRange": 5,
   "occlusions": [{
     "x": 13, "y": 0
   },{

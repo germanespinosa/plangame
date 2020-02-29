@@ -36,86 +36,8 @@ playGame.prototype = {
           this.visited.length = 0;
           if (maze.ready) {
                maze.draw();
-               this.lineGroup.removeAll(true);
-               this.drawCircle(prey);
+               maze.drawCircle(prey);
           }
-     },
-     drawBresenham: function(pos0, pos1){
-          let x0=pos0.x;
-          let x1=pos1.x;
-          let y0=pos0.y;
-          let y1=pos1.y;
-
-          let saveX0 = x0;
-          let saveY0 = y0;
-          let dx = Math.abs(x1 - x0);
-          let sx = -1;
-          if(x0 < x1){
-               sx = 1
-          }
-          let dy = Math.abs(y1 - y0);
-          let sy = -1;
-          if(y0 < y1){
-               sy = 1;
-          }
-          let err = -dy / 2;
-          if(dx > dy){
-               err = dx / 2;
-          }
-          do{
-               if(!maze.free({x:x0, y:y0})){
-                    break;
-               }
-               let dist = maze.distance({x:saveX0, y:saveY0}, {x:x0, y:y0});
-               if (dist > maze.visualRange){
-                    break;
-               }
-               if(this.visited.indexOf(x0 + "," + y0) === -1){
-                    let tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
-                    tile.scale.setTo(scale,scale);
-                    if (y0===predator.y && x0===predator.x) {
-                         tile.tint = 0xff0000;
-                         predator.contact = true;
-                    } else {
-                         tile.tint = 0xffffAA;
-                    }
-                    tile.alpha = 1 - dist / maze.visualRange;
-                    this.visited.push(x0 + "," + y0);
-                    this.lineGroup.add(tile);
-               }
-               let e2 = err;
-               if(e2 > -dx){
-                    err -= dy;
-                    x0 += sx;
-               }
-               if(e2 < dy){
-                    err += dx;
-                    y0 += sy;
-               }
-          } while(x0 !== x1 || y0 !== y1)
-     },
-     drawCircle: function(pos){
-          let x0 = pos.x;
-          let y0 = pos.y;
-          let radius = maze.visualRange;
-          let x = -radius;
-          let y = 0;
-          let err = 2 - 2 * radius;
-          do {
-               this.drawBresenham(pos, {x:(x0 - x), y:(y0 + y)});
-               this.drawBresenham(pos, {x:(x0 - y), y:(y0 - x)});
-               this.drawBresenham(pos, {x:(x0 + x), y:(y0 - y)});
-               this.drawBresenham(pos, {x:(x0 + y), y:(y0 + x)});
-               radius = err;
-               if (radius <= y){
-                    y++;
-                    err += y * 2 + 1;
-               }          
-               if (radius > x || err > y){
-                    x++;
-                    err += x * 2 + 1;
-               } 
-          } while (x < 0);    
      },
 }
 
