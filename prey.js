@@ -27,7 +27,9 @@ let prey = {
         if (moves.isRight(prey.nextMove)) prey.nextMove = moves.stay;
     },
     start: function(){
-
+        const pos = maze.copy(maze.startPosition);
+        prey.x = pos.x;
+        prey.y = pos.y;
     },
     addMove: function(pos){
         var new_pos = {
@@ -66,5 +68,18 @@ let prey = {
     checkMove: function(move){
         const candidate = prey.addMove(move);
         return maze.free(candidate);
-    }
+    },
+    draw: function (){
+        let tile = game.add.sprite(prey.x * tileSize, prey.y * tileSize, "tile");
+        tile.scale.setTo(scale,scale);
+        tile.tint = 0x00FF00;
+        groups.maze.add(tile);
+    },
+    getPos: function() {
+        return {x:predator.x, y:predator.y};
+    },
+    setPos: function (pos){
+        predator.x = pos.x;
+        predator.y = pos.y;
+    },
 };

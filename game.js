@@ -12,6 +12,7 @@ var playGame = function(game){};
 
 let groups = {
      maze:null,
+     status:null
 }
 
 playGame.prototype = {
@@ -23,12 +24,8 @@ playGame.prototype = {
           game.load.image("game_over", "game_over.png");
      },
      create: function(){
+          groups.status = game.add.group();
           groups.maze = game.add.group();
-          this.lineGroup = game.add.group();
-          prey.playerPosition = game.add.sprite(prey.x * tileSize, prey.y * tileSize, "tile");
-          prey.playerPosition.scale.setTo(scale,scale)
-          prey.playerPosition.tint = 0x00ff00;
-          prey.playerPosition.alpha = 0.5;
           game_status.ready();
      },
      update: function(){
@@ -36,7 +33,9 @@ playGame.prototype = {
           this.visited.length = 0;
           if (maze.ready) {
                maze.draw();
-               maze.drawCircle(prey);
+               maze.drawVisibility(prey);
+               predator.draw();
+               prey.draw();
           }
      },
 }

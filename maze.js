@@ -1,6 +1,8 @@
 let maze = {
+    startPosition: null,
     dimensions: {},
     map: null,
+    visibility: null,
     ready : false,
     occlusions : [],
     scale : {},
@@ -21,6 +23,19 @@ let maze = {
     Generate: function () {
         maze.loadWorld("savanna","1");
     },
+    computeVisibility: function() {
+        maze.visibility = maze.new_map();
+        for (let x = 0; x < maze.dimensions.h; x++) {
+            for (let y = 0; y < maze.dimensions.w; y++) {
+                maze.visibility[x][y]=maze.new_map();
+                for (let i=0; i< maze.dimensions.h;i++) {
+                    for (let j = 0; j < maze.dimensions.w; j++) {
+                        maze.visibility[x][y][i][j] = maze.existsViewLine({x:x,y:y},{x:i,y:j});
+                    }
+                }
+            }
+        }
+    },
     loadWorld: function (world_type, world_version) {
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
@@ -36,9 +51,11 @@ let maze = {
                     const y = world.occlusions[i].y;
                     const x = world.occlusions[i].x;
                     maze.map[y][x] = 1;
+                    maze.startPosition = world.startPosition;
                 }
                 maze.ready = true;
                 maze.visualRange = world.visualRange;
+                maze.computeVisibility();
             }
         };
         request.send(null);
@@ -50,11 +67,14 @@ let maze = {
         let pos = { x: pos0.x - pos1.x, y: pos0.y - pos1.y};
         return Math.sqrt(pos.x*pos.x+pos.y*pos.y);
     },
+    isVisible: function (pos0, pos1){
+        return maze.visibility[pos0.x][pos0.y][pos1.x][pos1.y];
+    },
     addPos: function(pos0,pos1){
         return {x:pos0.x+pos1.x , y:pos0.y+pos1.y};
     },
     new_map: function (){
-        let map = []
+        let map = [];
         for (let x = 0; x < maze.dimensions.h; x++) {
             map[x] = [];
             for (let y = 0; y < maze.dimensions.w; y++) {
@@ -63,69 +83,48 @@ let maze = {
         }
         return map;
     },
-    drawCircle: function(pos){
+    drawVisibility: function(pos){
         let radius = maze.visualRange;
-        let limit = radius-1;
-        let visited = [];
-        for (let y = 0; y < radius; y++){
-            while(maze.distance({x:0,y:0},{x:limit,y})>radius && limit>=0) limit--;
-            for (let x = limit; x >=0; x--){
-                maze.drawBresenham(pos, {x:(pos.x - x), y:(pos.y + y)}, visited);
-                maze.drawBresenham(pos, {x:(pos.x - y), y:(pos.y - x)}, visited);
-                maze.drawBresenham(pos, {x:(pos.x + x), y:(pos.y - y)}, visited);
-                maze.drawBresenham(pos, {x:(pos.x + y), y:(pos.y + x)}, visited);
+        for (let y = pos.y - radius ; y < pos.y + radius; y++){
+            for (let x = pos.x - radius ; x < pos.x + radius; x++){
+                const candidate = {x:x,y:y}
+                if (maze.free(candidate) && maze.isVisible(pos,candidate))
+                    maze.drawTile(candidate,maze.distance(pos,candidate));
             }
         }
     },
-    drawBresenham: function(pos0, pos1, visited){
-
-        let x0=pos0.x;
-        let y0=pos0.y;
-
-        let x1=pos1.x;
-        let y1=pos1.y;
-
-        let dx = Math.abs(x1 - x0);
-        let sx = -1;
-        if(x0 < x1){
-            sx = 1
-        }
-        let dy = Math.abs(y1 - y0);
-        let sy = -1;
-        if(y0 < y1){
-            sy = 1;
-        }
-        let err = -dy / 2;
-        if(dx > dy){
-            err = dx / 2;
-        }
-        do{
-            if(!maze.free({x:x0, y:y0})){
-                break;
-            }
-            if(visited.indexOf(x0 + "," + y0) === -1){
-                let tile = game.add.sprite(x0 * tileSize, y0 * tileSize, "tile");
-                tile.scale.setTo(scale,scale);
-                if (y0===predator.y && x0===predator.x) {
-                    tile.tint = 0xff0000;
-                    predator.contact = true;
-                } else {
-                    tile.tint = 0xffffAA;
-                }
-                let dist = maze.distance(pos0, {x:x0, y:y0});
-                tile.alpha = 1 - dist / maze.visualRange;
-                visited.push(x0 + "," + y0);
-                groups.maze.add(tile);
-            }
+    copy: function(pos){
+      return {x:pos.x,y:pos.y};
+    },
+    drawTile: function(pos, value){
+        let tile = game.add.sprite(pos.x * tileSize, pos.y * tileSize, "tile");
+        tile.scale.setTo(scale,scale);
+        tile.tint = 0xffffAA;
+        tile.alpha = 1 - value / maze.visualRange;
+        groups.maze.add(tile);
+    },
+    existsViewLine: function(pos0, pos1){
+        if (!maze.free(pos1)) return false;
+        if (maze.distance(pos0,pos1)>maze.visualRange) return false;
+        let a = maze.copy(pos0);
+        let b = maze.copy(pos1);
+        let dx = Math.abs(b.x - a.x);
+        let sx = a.x < b.x ? 1 : -1;
+        let dy = Math.abs(b.y - a.y);
+        let sy = a.y < b.y ? 1 : -1;
+        let err = dx > dy ?  dx / 2 : -dy / 2;
+        while((a.x !== b.x || a.y !== b.y)){
+            if (!maze.free(a)) return false;
             let e2 = err;
             if(e2 > -dx){
                 err -= dy;
-                x0 += sx;
+                a.x += sx;
             }
             if(e2 < dy){
                 err += dx;
-                y0 += sy;
+                a.y += sy;
             }
-        } while(x0 !== x1 || y0 !== y1)
+        }
+        return true;
     },
 }
