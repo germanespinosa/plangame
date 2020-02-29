@@ -40,7 +40,12 @@ playGame.prototype = {
                this.drawCircle(prey);
           }
      },
-     drawBresenham: function(x0, y0, x1, y1){
+     drawBresenham: function(pos0, pos1){
+          let x0=pos0.x;
+          let x1=pos1.x;
+          let y0=pos0.y;
+          let y1=pos1.y;
+
           let saveX0 = x0;
           let saveY0 = y0;
           let dx = Math.abs(x1 - x0);
@@ -97,10 +102,10 @@ playGame.prototype = {
           let y = 0;
           let err = 2 - 2 * radius;
           do {
-               this.drawBresenham(prey.x, prey.y, (x0 - x), (y0 + y));
-               this.drawBresenham(prey.x, prey.y, (x0 - y), (y0 - x));
-               this.drawBresenham(prey.x, prey.y, (x0 + x), (y0 - y));
-               this.drawBresenham(prey.x, prey.y, (x0 + y), (y0 + x));
+               this.drawBresenham(pos, {x:(x0 - x), y:(y0 + y)});
+               this.drawBresenham(pos, {x:(x0 - y), y:(y0 - x)});
+               this.drawBresenham(pos, {x:(x0 + x), y:(y0 - y)});
+               this.drawBresenham(pos, {x:(x0 + y), y:(y0 + x)});
                radius = err;
                if (radius <= y){
                     y++;
