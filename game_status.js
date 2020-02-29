@@ -9,6 +9,7 @@ let game_status = {
         groups.status.add(sprite);
         game.world.bringToTop(groups.status);
         setTimeout(game_status.set,game_status.titleTimeOut);
+        maze.Generate();
     },
     set: function(){
         game_status.code = 2;

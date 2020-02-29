@@ -1,9 +1,12 @@
 let maze = {
     wallScaleX:0,
     wallScaleY:0,
+    goalScaleX:0,
+    goalScaleY:0,
     tileSizeX:0,
     tileSizeY:0,
     startPosition: null,
+    goalPosition: null,
     dimensions: {},
     map: null,
     visibility: null,
@@ -19,8 +22,12 @@ let maze = {
                 wall.scale.setTo(maze.wallScaleX, maze.wallScaleY)
                 wall.tint = 0x555555;
                 groups.maze.add(wall);
-                game.world.sendToBack(groups.maze);
             }
+            const screenPos = maze.screenLocation(maze.goalPosition);
+            let goal = game.add.sprite(screenPos.x, screenPos.y, "goal");
+            goal.scale.setTo(maze.goalScaleX, maze.goalScaleY)
+            groups.maze.add(goal);
+            game.world.sendToBack(groups.maze);
         }
     },
     Generate: function () {
@@ -48,12 +55,23 @@ let maze = {
                 let world = JSON.parse(request.responseText);
                 maze.occlusions = world.occlusions;
                 maze.dimensions = world.dimensions;
+                maze.startPosition = world.startPosition;
+                maze.goalPosition = world.goalPosition;
+
                 maze.tileSizeX = game.width/maze.dimensions.w;
-                maze.wallScaleX = maze.tileSizeX/game.cache.getImage("wall").width;
                 maze.tileSizeY = game.height/maze.dimensions.h;
+                maze.wallScaleX = maze.tileSizeX/game.cache.getImage("wall").width;
                 maze.wallScaleY = maze.tileSizeY/game.cache.getImage("wall").height;
-                console.log(maze.wallScaleX);
-                console.log(maze.wallScaleY);
+                maze.goalScaleX = maze.tileSizeX/game.cache.getImage("goal").width;
+                maze.goalScaleY = maze.tileSizeY/game.cache.getImage("goal").height;
+
+
+                console.log(maze.tileSizeY);
+                console.log(game.cache.getImage("goal").width);
+                console.log(maze.tileSizeY);
+                console.log(game.cache.getImage("goal").height);
+                console.log(maze.goalScaleX);
+                console.log(maze.goalScaleY);
 
                 maze.visualRange = world.visualRange;
                 maze.map = maze.new_map();
@@ -61,7 +79,6 @@ let maze = {
                     const y = world.occlusions[i].y;
                     const x = world.occlusions[i].x;
                     maze.map[x][y] = 1;
-                    maze.startPosition = world.startPosition;
                 }
                 maze.ready = true;
                 maze.visualRange = world.visualRange;

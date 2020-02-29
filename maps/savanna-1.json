@@ -2,9 +2,13 @@
   "startPosition": {
     "x":7,"y":14
   },
+  "goalPosition": {
+    "x": 7,
+    "y": 0
+  },
   "dimensions": {
-    "w": 20,
-    "h": 20
+    "w": 15,
+    "h": 15
   },
   "visualRange": 8,
   "occlusions": [{
