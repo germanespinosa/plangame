@@ -1,4 +1,6 @@
 let maze = {
+    tileScaleX:0,
+    tileScaleY:0,
     wallScaleX:0,
     wallScaleY:0,
     goalScaleX:0,
@@ -20,7 +22,6 @@ let maze = {
                 const screenPos = maze.screenLocation(maze.occlusions[i]);
                 let wall = game.add.sprite(screenPos.x, screenPos.y, "wall");
                 wall.scale.setTo(maze.wallScaleX, maze.wallScaleY)
-                wall.tint = 0x555555;
                 groups.maze.add(wall);
             }
             const screenPos = maze.screenLocation(maze.goalPosition);
@@ -60,11 +61,12 @@ let maze = {
 
                 maze.tileSizeX = game.width/maze.dimensions.w;
                 maze.tileSizeY = game.height/maze.dimensions.h;
+                maze.tileScaleX = maze.tileSizeX/game.cache.getImage("tile").width;
+                maze.tileScaleY = maze.tileSizeY/game.cache.getImage("tile").height;
                 maze.wallScaleX = maze.tileSizeX/game.cache.getImage("wall").width;
                 maze.wallScaleY = maze.tileSizeY/game.cache.getImage("wall").height;
                 maze.goalScaleX = maze.tileSizeX/game.cache.getImage("goal").width;
                 maze.goalScaleY = maze.tileSizeY/game.cache.getImage("goal").height;
-
 
                 console.log(maze.tileSizeY);
                 console.log(game.cache.getImage("goal").width);
@@ -126,7 +128,7 @@ let maze = {
     drawTile: function(pos, value){
         const screenPos = maze.screenLocation(pos);
         let tile = game.add.sprite(screenPos.x, screenPos.y, "tile");
-        tile.scale.setTo(maze.wallScaleX,maze.wallScaleY);
+        tile.scale.setTo(maze.tileScaleX,maze.tileScaleY);
         tile.tint = 0xffffAA;
         tile.alpha = 1 - value / maze.visualRange;
         groups.maze.add(tile);

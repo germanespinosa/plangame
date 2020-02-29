@@ -43,6 +43,13 @@ let game_status = {
         sprite.scale.setTo(1,1);
         groups.status.add(sprite);
     },
+    youWin:function(){
+        game_status.code = 6;
+        groups.status.removeAll();
+        let sprite = game.add.sprite(60,250,"you_win");
+        sprite.scale.setTo(1.5,1.5);
+        groups.status.add(sprite);
+    },
     update:function(){
         if (game_status.code !== 4) return;
         prey.move();

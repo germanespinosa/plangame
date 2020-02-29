@@ -68,6 +68,7 @@ let prey = {
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
         prey.y += prey.nextMove.y;
+        if (maze.goalPosition.x==prey.x && maze.goalPosition.y == prey.y) game_status.youWin();
         return true;
     },
     checkMove: function(move){

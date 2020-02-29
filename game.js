@@ -19,13 +19,14 @@ playGame.prototype = {
      preload: function(){
           game.load.image("goal", "goal.png");
           game.load.image("tile", "tile.png");
-          game.load.image("wall", "tile.png");
+          game.load.image("wall", "wall.png");
           game.load.image("prey", "prey.png");
           game.load.image("predator", "predator.png");
           game.load.image("ready", "ready.png");
           game.load.image("set", "set.png");
           game.load.image("go", "go.png");
           game.load.image("game_over", "game_over.png");
+          game.load.image("you_win", "you_win.png");
      },
      create: function(){
           groups.status = game.add.group();
