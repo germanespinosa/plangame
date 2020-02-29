@@ -1,9 +1,9 @@
-var Dungeon = {
-    dimensions: {w:15,h:15},
+let Dungeon = {
+    dimensions: {},
     map: null,
-    rooms: [],
     ready : false,
     occlusions : [],
+    scale : {},
     draw: function () {
         if (Dungeon.ready) {
             groups.maze.removeAll();
@@ -22,17 +22,19 @@ var Dungeon = {
         Dungeon.loadWorld("savanna","1");
     },
     loadWorld: function (world_type, world_version) {
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', 'maps/' +world_type + '-' + world_version + '.json', true);
-        xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                let world = JSON.parse(xobj.responseText);
+        let request = new XMLHttpRequest();
+        request.overrideMimeType("application/json");
+        request.open('GET', 'maps/' +world_type + '-' + world_version + '.json', true);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status === 200) {
+                let world = JSON.parse(request.responseText);
                 Dungeon.occlusions = world.occlusions;
+                Dungeon.dimensions = world.dimensions;
+                Dungeon.visualRange = world.visualRange;
                 Dungeon.map = [];
-                for (var x = 0; x < Dungeon.dimensions.h; x++) {
+                for (let x = 0; x < Dungeon.dimensions.h; x++) {
                     Dungeon.map[x] = [];
-                    for (var y = 0; y < Dungeon.dimensions.w; y++) {
+                    for (let y = 0; y < Dungeon.dimensions.w; y++) {
                         Dungeon.map[x][y] = 1;
                     }
                 }
@@ -45,9 +47,9 @@ var Dungeon = {
                 Dungeon.visualRange = world.visualRange;
             }
         };
-        xobj.send(null);
+        request.send(null);
     },
     free: function(pos){
-        return pos.x>=0 && pos.y>=0 && pos.x < Dungeon.dimensions.w && pos.y< Dungeon.dimensions.h && Dungeon.map[pos.y][pos.x]==1;
+        return Dungeon.ready && pos.x>=0 && pos.y>=0 && pos.x < Dungeon.dimensions.w && pos.y< Dungeon.dimensions.h && Dungeon.map[pos.y][pos.x]==1;
     }
 }
