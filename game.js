@@ -17,16 +17,16 @@ let groups = {
 
 playGame.prototype = {
      preload: function(){
-          game.load.image("goal", "goal.png");
-          game.load.image("tile", "tile.png");
-          game.load.image("wall", "wall.png");
-          game.load.image("prey", "prey.png");
-          game.load.image("predator", "predator.png");
-          game.load.image("ready", "ready.png");
-          game.load.image("set", "set.png");
-          game.load.image("go", "go.png");
-          game.load.image("game_over", "game_over.png");
-          game.load.image("you_win", "you_win.png");
+          game.load.image("goal", "img/goal.png");
+          game.load.image("tile", "img/tile.png");
+          game.load.image("wall", "img/wall.png");
+          game.load.image("prey", "img/prey.png");
+          game.load.image("predator", "img/predator.png");
+          game.load.image("ready", "img/ready.png");
+          game.load.image("set", "img/set.png");
+          game.load.image("go", "img/go.png");
+          game.load.image("game_over", "img/game_over.png");
+          game.load.image("you_win", "img/you_win.png");
      },
      create: function(){
           groups.status = game.add.group();
