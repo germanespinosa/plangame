@@ -37,7 +37,7 @@ playGame.prototype = {
           if (maze.ready) {
                maze.draw();
                this.lineGroup.removeAll(true);
-               this.drawCircle(prey.x, prey.y);
+               this.drawCircle(prey);
           }
      },
      drawBresenham: function(x0, y0, x1, y1){
@@ -89,7 +89,9 @@ playGame.prototype = {
                }
           } while(x0 !== x1 || y0 !== y1)
      },
-     drawCircle: function(x0, y0){
+     drawCircle: function(pos){
+          let x0 = pos.x;
+          let y0 = pos.y;
           let radius = maze.visualRange;
           let x = -radius;
           let y = 0;
