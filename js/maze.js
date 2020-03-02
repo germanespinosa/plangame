@@ -8,8 +8,8 @@ let maze = {
     draw: function () {
         if (maze.ready) {
             groups.maze.removeAll();
-            for (let i = 0; i < maze.world.occlusions.length; i++) {
-                groups.maze.add(maze.drawTile(maze.world.occlusions[i],maze.world.wallSprite));
+            for (let i = 0; i < maze.world.occlusions[0].length; i++) {
+                groups.maze.add(maze.drawTile(maze.world.occlusions[0][i],maze.world.wallSprite));
             }
             groups.maze.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
             groups.agents.removeAll(true);
@@ -45,9 +45,9 @@ let maze = {
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
                 maze.map = maze.newMap();
-                for(let i=0;i<maze.world.occlusions.length;i++) {
-                    const y = maze.world.occlusions[i].y;
-                    const x = maze.world.occlusions[i].x;
+                for(let i=0;i<maze.world.occlusions[0].length;i++) {
+                    const y = maze.world.occlusions[0][i].y;
+                    const x = maze.world.occlusions[0][i].x;
                     maze.map[x][y] = 1;
                 }
                 maze.ready = true;

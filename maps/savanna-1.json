@@ -11,7 +11,7 @@
     "h": 15
   },
   "visualRange": 8,
-  "occlusions": [{
+  "occlusions": [[{
     "x": 13, "y": 0
   },{
     "x": 11, "y": 1
@@ -64,7 +64,7 @@
   },{
     "x": 6, "y": 13
   }
-  ],
+  ]],
   "goalSprite": "savanna_goal",
   "preySprite": "savanna_prey",
   "predatorSprite": "savanna_predator",
