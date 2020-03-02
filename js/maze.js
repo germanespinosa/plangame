@@ -7,90 +7,72 @@ let maze = {
     goalScaleY:0,
     tileSizeX:0,
     tileSizeY:0,
-    startPosition: null,
-    goalPosition: null,
-    dimensions: {},
+    world: null,
     map: null,
     visibility: null,
     ready : false,
-    occlusions : [],
-    scale : {},
     draw: function () {
         if (maze.ready) {
             groups.maze.removeAll();
-            for (let i = 0; i < maze.occlusions.length; i++) {
-                const screenPos = maze.screenLocation(maze.occlusions[i]);
+            for (let i = 0; i < maze.world.occlusions.length; i++) {
+                const screenPos = maze.screenLocation(maze.world.occlusions[i]);
                 let wall = game.add.sprite(screenPos.x, screenPos.y, "wall");
                 wall.scale.setTo(maze.wallScaleX, maze.wallScaleY)
                 groups.maze.add(wall);
             }
-            const screenPos = maze.screenLocation(maze.goalPosition);
+            const screenPos = maze.screenLocation(maze.world.goalPosition);
             let goal = game.add.sprite(screenPos.x, screenPos.y, "goal");
             goal.scale.setTo(maze.goalScaleX, maze.goalScaleY)
             groups.maze.add(goal);
+            groups.agents.removeAll(true);
+            groups.agents.add(maze.drawToTile(prey,maze.newImage(maze.world.preySprite,.5)));
+            groups.agents.add(maze.drawToTile(predator,maze.newImage(maze.world.predatorSprite)));
             game.world.sendToBack(groups.maze);
+            game.world.bringToTop(groups.agents);
         }
     },
     Generate: function () {
         maze.loadWorld("savanna","1");
     },
     computeVisibility: function() {
-        maze.visibility = maze.new_map();
-        for (let x = 0; x < maze.dimensions.h; x++) {
-            for (let y = 0; y < maze.dimensions.w; y++) {
-                maze.visibility[x][y]=maze.new_map();
-                for (let i=0; i< maze.dimensions.h;i++) {
-                    for (let j = 0; j < maze.dimensions.w; j++) {
+        maze.visibility = maze.newMap();
+        for (let x = 0; x < maze.world.dimensions.h; x++) {
+            for (let y = 0; y < maze.world.dimensions.w; y++) {
+                maze.visibility[x][y]=maze.newMap();
+                for (let i=0; i< maze.world.dimensions.h;i++) {
+                    for (let j = 0; j < maze.world.dimensions.w; j++) {
                         maze.visibility[x][y][i][j] = maze.existsViewLine({x:x,y:y},{x:i,y:j});
                     }
                 }
             }
         }
     },
-    loadWorld: function (world_type, world_version) {
+    loadWorld: function (worldType, worldVersion) {
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
-        request.open('GET', 'maps/' +world_type + '-' + world_version + '.json', true);
+        request.open('GET', 'maps/' + worldType + '-' + worldVersion + '.json?r=' + Math.random(), true);
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
-                let world = JSON.parse(request.responseText);
-                maze.occlusions = world.occlusions;
-                maze.dimensions = world.dimensions;
-                maze.startPosition = world.startPosition;
-                maze.goalPosition = world.goalPosition;
-
-                maze.tileSizeX = game.width/maze.dimensions.w;
-                maze.tileSizeY = game.height/maze.dimensions.h;
-                maze.tileScaleX = maze.tileSizeX/game.cache.getImage("tile").width;
-                maze.tileScaleY = maze.tileSizeY/game.cache.getImage("tile").height;
-                maze.wallScaleX = maze.tileSizeX/game.cache.getImage("wall").width;
-                maze.wallScaleY = maze.tileSizeY/game.cache.getImage("wall").height;
-                maze.goalScaleX = maze.tileSizeX/game.cache.getImage("goal").width;
-                maze.goalScaleY = maze.tileSizeY/game.cache.getImage("goal").height;
-
-                console.log(maze.tileSizeY);
-                console.log(game.cache.getImage("goal").width);
-                console.log(maze.tileSizeY);
-                console.log(game.cache.getImage("goal").height);
-                console.log(maze.goalScaleX);
-                console.log(maze.goalScaleY);
-
-                maze.visualRange = world.visualRange;
-                maze.map = maze.new_map();
-                for(let i=0;i<world.occlusions.length;i++) {
-                    const y = world.occlusions[i].y;
-                    const x = world.occlusions[i].x;
+                maze.world = JSON.parse(request.responseText);
+                maze.tileSizeX = game.width/maze.world.dimensions.w;
+                maze.tileSizeY = game.height/maze.world.dimensions.h;
+                maze.map = maze.newMap();
+                for(let i=0;i<maze.world.occlusions.length;i++) {
+                    const y = maze.world.occlusions[i].y;
+                    const x = maze.world.occlusions[i].x;
                     maze.map[x][y] = 1;
                 }
                 maze.ready = true;
-                maze.visualRange = world.visualRange;
                 maze.computeVisibility();
             }
         };
         request.send(null);
     },
     free: function(pos){
-        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.dimensions.w && pos.y< maze.dimensions.h && maze.map[pos.x][pos.y]===0;
+        return maze.ready && pos.x>=0 && pos.y>=0 && pos.x < maze.world.dimensions.w && pos.y< maze.world.dimensions.h && maze.map[pos.x][pos.y]===0;
+    },
+    equal: function (pos0,pos1){
+        return pos0.x === pos1.x && pos0.y === pos1.y;
     },
     distance: function(pos0, pos1){
         let pos = { x: pos0.x - pos1.x, y: pos0.y - pos1.y};
@@ -102,18 +84,18 @@ let maze = {
     addPos: function(pos0,pos1){
         return {x:pos0.x+pos1.x , y:pos0.y+pos1.y};
     },
-    new_map: function (){
+    newMap: function (){
         let map = [];
-        for (let x = 0; x < maze.dimensions.h; x++) {
+        for (let x = 0; x < maze.world.dimensions.h; x++) {
             map[x] = [];
-            for (let y = 0; y < maze.dimensions.w; y++) {
+            for (let y = 0; y < maze.world.dimensions.w; y++) {
                 map[x][y] = 0;
             }
         }
         return map;
     },
     drawVisibility: function(pos){
-        let radius = maze.visualRange;
+        let radius = maze.world.visualRange;
         for (let y = pos.y - radius ; y < pos.y + radius; y++){
             for (let x = pos.x - radius ; x < pos.x + radius; x++){
                 const candidate = {x:x,y:y}
@@ -123,19 +105,19 @@ let maze = {
         }
     },
     copy: function(pos){
-      return {x:pos.x,y:pos.y};
+      return {x:pos.x, y:pos.y};
     },
     drawTile: function(pos, value){
         const screenPos = maze.screenLocation(pos);
         let tile = game.add.sprite(screenPos.x, screenPos.y, "tile");
-        tile.scale.setTo(maze.tileScaleX,maze.tileScaleY);
+        tile.scale.setTo(maze.tileScaleX, maze.tileScaleY);
         tile.tint = 0xffffAA;
-        tile.alpha = 1 - value / maze.visualRange;
-        groups.maze.add(tile);
+        tile.alpha = 1 - value / maze.world.visualRange;
+        return tile;
     },
     existsViewLine: function(pos0, pos1){
         if (!maze.free(pos1)) return false;
-        if (maze.distance(pos0,pos1)>maze.visualRange) return false;
+        if (maze.distance(pos0,pos1)>maze.world.visualRange) return false;
         let a = maze.copy(pos0);
         let b = maze.copy(pos1);
         let dx = Math.abs(b.x - a.x);
@@ -159,5 +141,22 @@ let maze = {
     },
     screenLocation: function (pos){
         return {x:pos.x * maze.tileSizeX, y:pos.y * maze.tileSizeY};
+    },
+    drawToTile: function (pos, img){
+        const screenPos = maze.screenLocation(pos);
+        let cache = game.cache.getImage(img.name);
+        let sprite = game.add.sprite(screenPos.x, screenPos.y, img.name);
+        const scaleX = maze.tileSizeX / cache.width;
+        const scaleY = maze.tileSizeY / cache.height;
+        sprite.scale.setTo(scaleX, scaleY);
+        if ("alpha" in img) sprite.alpha = img.alpha;
+        if ("tint" in img) sprite.tint = img.tint;
+        groups.agents.add(sprite);
+    },
+    newImage: function(name, alpha, tint){
+        let img = {name: name };
+        if (!(typeof alpha === "undefined")) img.alpha = alpha;
+        if (!(typeof tint === "undefined")) img.tint = tint;
+        return img;
     }
 }

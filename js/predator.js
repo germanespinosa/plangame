@@ -45,15 +45,6 @@ let predator = {
         predator.tryMove(selected);
         if (prey.x === predator.x && prey.y === predator.y) gameStatus.gameOver();
     },
-    draw: function (){
-        if (maze.isVisible(predator, prey) || predator.alwaysVisible) {
-            const screenPos = maze.screenLocation(predator);
-            let tile = game.add.sprite(screenPos.x , screenPos.y , "predator");
-            tile.scale.setTo(predator.scaleX, predator.scaleY);
-            if (!maze.isVisible(predator,prey)) tile.alpha = .3;
-            groups.agents.add(tile);
-        }
-    },
     randomMove: function (){
         while (!predator.tryMove(Helpers.GetRandomElement(moves.list)));
     },
@@ -66,5 +57,16 @@ let predator = {
     checkMove: function(move){
         const candidate = predator.addMove(move);
         return maze.free(candidate);
-    }
+    },
+    getImage: function(){
+        let img = maze.newImage(predator.spriteName);
+        if (!maze.isVisible(predator,prey)) {
+            if (predator.alwaysVisible) {
+                img.alpha = .3;
+            } else {
+                img.alpha = 0;
+            }
+        }
+        return img;
+    },
 };

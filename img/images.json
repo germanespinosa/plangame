@@ -1,0 +1,22 @@
+[
+  {
+    "name": "tile",
+    "url": "img/tile.png"
+  },
+  {
+    "name": "savanna_prey",
+    "url": "img/prey.png"
+  },
+  {
+    "name": "savanna_predator",
+    "url": "img/predator.png"
+  },
+  {
+    "name": "savanna_wall",
+    "url": "img/wall.png"
+  },
+  {
+    "name": "savanna_goal",
+    "url": "img/goal.png"
+  }
+]

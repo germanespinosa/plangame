@@ -4,6 +4,7 @@ let gameStatus = {
     code: 0,
     showMessage:function(message,size){
         groups.status.removeAll();
+        groups.status.add(game.add.bitmapText(10, 100, '8bit','Drag me around !',34));
         let sprite = game.add.sprite(game.width/2,game.height/2,message);
         sprite.anchor.x = .5;
         sprite.anchor.y = .5;

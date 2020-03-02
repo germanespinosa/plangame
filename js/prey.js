@@ -1,9 +1,8 @@
 let prey = {
-    x:7,
-    y:14,
-    scaleX: 0,
-    scaleY: 0,
-    nextMove : {x:0,y:0},
+    x:0,
+    y:0,
+    nextMove: {x:0,y:0},
+    spriteName: null,
     onDownKeyDown : function (){
         prey.setNextMove(moves.down);
     },
@@ -32,7 +31,7 @@ let prey = {
         prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
         prey.scaleY = maze.tileSizeY/game.cache.getImage("prey").height;
 
-        const pos = maze.copy(maze.startPosition);
+        const pos = maze.copy(maze.world.startPosition);
         prey.x = pos.x;
         prey.y = pos.y;
     },
@@ -68,18 +67,15 @@ let prey = {
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
         prey.y += prey.nextMove.y;
-        if (maze.goalPosition.x===prey.x && maze.goalPosition.y === prey.y) gameStatus.youWin();
+        if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
         return true;
     },
     checkMove: function(move){
         const candidate = prey.addMove(move);
         return maze.free(candidate);
     },
-    draw: function (){
-        const screenPos = maze.screenLocation(prey);
-        let tile = game.add.sprite(screenPos.x , screenPos.y , "prey");
-        tile.scale.setTo(prey.scaleX, prey.scaleY);
-        groups.agents.add(tile);
+    getImage: function(){
+        return maze.newImage(prey.spriteName);
     },
     getPos: function() {
         return {x:predator.x, y:predator.y};
