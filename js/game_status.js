@@ -26,7 +26,7 @@ let gameStatus = {
     },
     go: function (){
         gameStatus.code = 3;
-        gameStatus.showMessage("GO!",.80,0x00FF00);
+        gameStatus.showMessage("GO",.80,0x00FF00);
         setTimeout(gameStatus.gameOn,gameStatus.titleTimeOut);
     },
     gameOn:function (){
@@ -38,11 +38,11 @@ let gameStatus = {
     },
     gameOver:function(){
         gameStatus.code = 5;
-        gameStatus.showMessage("game_over",.8);
+        gameStatus.showMessage("game over",.8);
     },
     youWin:function(){
         gameStatus.code = 6;
-        gameStatus.showMessage("you_win",.8);
+        gameStatus.showMessage("you win",.8);
     },
     update:function(){
         if (gameStatus.code !== 4) return;
