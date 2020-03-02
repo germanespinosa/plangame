@@ -30,14 +30,16 @@ let gameStatus = {
         setTimeout(gameStatus.gameOn,gameStatus.titleTimeOut);
     },
     gameOn:function (){
+        groups.status.removeAll();
         prey.start();
         predator.start();
         gameStatus.code = 4;
-        groups.status.removeAll();
+        maze.draw();
         setInterval(gameStatus.update, gameStatus.refreshRate);
     },
     gameOver:function(){
         gameStatus.code = 5;
+        maze.draw();
         gameStatus.showMessage("game over",.8);
     },
     youWin:function(){
