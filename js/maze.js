@@ -1,10 +1,4 @@
 let maze = {
-    tileScaleX:0,
-    tileScaleY:0,
-    wallScaleX:0,
-    wallScaleY:0,
-    goalScaleX:0,
-    goalScaleY:0,
     tileSizeX:0,
     tileSizeY:0,
     world: null,

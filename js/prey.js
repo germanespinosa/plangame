@@ -74,9 +74,6 @@ let prey = {
         const candidate = prey.addMove(move);
         return maze.free(candidate);
     },
-    getImage: function(){
-        return maze.newImage(prey.spriteName);
-    },
     getPos: function() {
         return {x:predator.x, y:predator.y};
     },
