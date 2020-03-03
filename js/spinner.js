@@ -27,7 +27,10 @@ class Spinner {
             this.text = game.add.bitmapText(x + w / 2, y + h / 2, font,this.value(),34);
             this.text.anchor.x = .5;
             this.text.anchor.y = .5;
-            this.text.scale.setTo(h / this.text.height,h / this.text.height);
+            const scaleH = h / this.text.height * .8;
+            const scaleV = (w-2*h)  / this.text.width * .8;
+            const scale = scaleH<scaleV?scaleH:scaleV;
+            this.text.scale.setTo(scale,scale);
             this.optionGroup.add(this.text);
         };
         this.clickLeft = function () {

@@ -18,7 +18,7 @@ let gameStatus = {
         gameStatus.code = 0;
         let options=[];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.spinner = new Spinner(50,50,620,50,options,"8bit");
+        gameStatus.spinner = new Spinner(game.width * .1,game.height * .1,game.width *.8,game.height *.1,options,"8bit");
         groups.status.removeAll();
         let playButton = game.add.bitmapText(game.width/2,game.height/2, '8bit',"play",40);
         playButton.anchor.x = .5;
