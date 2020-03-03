@@ -18,5 +18,13 @@
   {
     "name": "savanna_goal",
     "url": "img/goal.png"
+  },
+  {
+    "name": "left_arrow",
+    "url": "img/left_arrow.png"
+  },
+  {
+    "name": "right_arrow",
+    "url": "img/right_arrow.png"
   }
 ]

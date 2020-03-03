@@ -1,6 +1,7 @@
 let maze = {
-    tileSizeX:0,
-    tileSizeY:0,
+    version: 0,
+    tileSizeX: 0,
+    tileSizeY: 0,
     world: null,
     map: null,
     visibility: null,
@@ -8,8 +9,8 @@ let maze = {
     draw: function () {
         if (maze.ready) {
             groups.maze.removeAll();
-            for (let i = 0; i < maze.world.occlusions[0].length; i++) {
-                groups.maze.add(maze.drawTile(maze.world.occlusions[0][i],maze.world.wallSprite));
+            for (let i = 0; i < maze.world.occlusions[maze.version].length; i++) {
+                groups.maze.add(maze.drawTile(maze.world.occlusions[maze.version][i],maze.world.wallSprite));
             }
             groups.agents.removeAll(true);
             groups.agents.add(maze.drawTile(prey,maze.world.preySprite));
@@ -20,7 +21,7 @@ let maze = {
         }
     },
     Generate: function () {
-        maze.loadWorld("savanna","1");
+        maze.loadWorld("savanna",0);
     },
     computeVisibility: function() {
         maze.visibility = maze.newMap();
@@ -35,19 +36,20 @@ let maze = {
             }
         }
     },
-    loadWorld: function (worldType, worldVersion) {
+    loadWorld: function (worldName, worldVersion) {
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
-        request.open('GET', 'maps/' + worldType + '-' + worldVersion + '.json?r=' + Math.random(), true);
+        request.open('GET', 'maps/' + worldName + '.json?r=' + Math.random(), true);
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
+                maze.version = worldVersion;
                 maze.world = JSON.parse(request.responseText);
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
                 maze.map = maze.newMap();
-                for(let i=0;i<maze.world.occlusions[0].length;i++) {
-                    const y = maze.world.occlusions[0][i].y;
-                    const x = maze.world.occlusions[0][i].x;
+                for(let i=0;i<maze.world.occlusions[maze.version].length;i++) {
+                    const y = maze.world.occlusions[maze.version][i].y;
+                    const x = maze.world.occlusions[maze.version][i].x;
                     maze.map[x][y] = 1;
                 }
                 maze.ready = true;

@@ -2,6 +2,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     refreshRate: 300,
     code: 0,
+    maps:[],
     showMessage:function(message,size, tint = 0xFFFFFF){
         groups.status.removeAll();
         let sprite = game.add.bitmapText(game.width/2,game.height/2, '8bit',message,34);
@@ -13,11 +14,25 @@ let gameStatus = {
         groups.status.add(sprite);
         game.world.bringToTop(groups.status);
     },
+    menu: function (){
+        gameStatus.code = 0;
+        let options=[];
+        for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
+        gameStatus.spinner = new Spinner(50,50,620,50,options,"8bit");
+        groups.status.removeAll();
+        let playButton = game.add.bitmapText(game.width/2,game.height/2, '8bit',"play",40);
+        playButton.anchor.x = .5;
+        playButton.anchor.y = .5;
+        groups.status.add(playButton);
+        playButton.inputEnabled = true;
+        playButton.events.onInputDown.add(gameStatus.ready, this);
+    },
     ready: function(){
+        gameStatus.spinner.clear();
         gameStatus.code = 1;
         gameStatus.showMessage("ready",.5, 0xFF0000);
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
-        maze.Generate();
+        maze.loadWorld(gameStatus.maps[gameStatus.spinner.selected].name,0);
     },
     set: function(){
         gameStatus.code = 2;

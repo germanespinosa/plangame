@@ -4,7 +4,8 @@ var scale = 4;
 
 window.onload = function () {
      let div = document.getElementById("game-div")
-     loadImages( function (images){
+     loadMaps( function (maps, images){
+          gameStatus.maps = maps;
           gameStatus.images = images;
           game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.AUTO, "game-div");
           game.state.add("PlayGame", playGame);
@@ -22,19 +23,11 @@ let groups = {
 playGame.prototype = {
      preload: function(){
           for (let i=0;i<gameStatus.images.length;i++){
-               game.load.image(gameStatus.images[i].name, gameStatus.images[i].url);
+               game.load.image(gameStatus.images[i].name, gameStatus.images[i].url + "?r=" + Math.random());
           }
           game.load.image("tile", "img/tile.png");
-          game.load.image("wall", "img/tile.png");
-          game.load.image("goal", "img/tile.png");
-          game.load.image("prey", "img/tile.png");
-          game.load.image("predator", "img/tile.png");
-          game.load.image("ready", "img/ready.png");
-          game.load.image("set", "img/set.png");
-          game.load.image("go", "img/go.png");
-          game.load.image("game_over", "img/game_over.png");
-          game.load.image("you_win", "img/you_win.png");
           game.load.bitmapFont('8bit', 'fonts/8bit.png', 'fonts/8bit.xml');
+          //game.load.script('spinner', 'js/spinner.js?r=' + Math.random());
           game.load.script('maze', 'js/maze.js?r=' + Math.random());
           game.load.script('prey', 'js/prey.js?r=' + Math.random());
           game.load.script('predator', 'js/predator.js?r=' + Math.random());
@@ -43,7 +36,7 @@ playGame.prototype = {
           groups.agents = game.add.group()
           groups.status = game.add.group();
           groups.maze = game.add.group();
-          gameStatus.ready();
+          gameStatus.menu();
      },
      update: function(){
           this.visited = [];
@@ -70,13 +63,26 @@ var Helpers = {
     }
 };
 
-function loadImages (callback) {
+function loadMaps (callback) {
+     let request = new XMLHttpRequest();
+     request.overrideMimeType("application/json");
+     request.open('GET', 'maps/maps.json?r=' + Math.random(), true);
+     request.onreadystatechange = function () {
+          if (request.readyState === 4 && request.status === 200) {
+               loadImages(callback, JSON.parse(request.responseText));
+          }
+     };
+     request.send(null);
+}
+
+
+function loadImages (callback, maps) {
      let request = new XMLHttpRequest();
      request.overrideMimeType("application/json");
      request.open('GET', 'img/images.json?r=' + Math.random(), true);
      request.onreadystatechange = function () {
           if (request.readyState === 4 && request.status === 200) {
-               callback (JSON.parse(request.responseText));
+               callback (maps, JSON.parse(request.responseText));
           }
      };
      request.send(null);
