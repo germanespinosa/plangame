@@ -29,7 +29,7 @@ let gameStatus = {
         gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,options,"8bit");
         gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .5,game.width *.8,game.height *.1,["beginner","expert"],"8bit");
         groups.status.removeAll();
-        let text = game.add.bitmapText(game.width/2,game.height * .1, '8bit',"Game Menu",40);
+        let text = game.add.bitmapText(game.width/2,game.height * .125, '8bit',"Game Menu",54);
         text.anchor.x = .5;
         text.anchor.y = .5;
         groups.menu.add(text);
