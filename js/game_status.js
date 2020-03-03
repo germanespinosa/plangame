@@ -26,10 +26,14 @@ let gameStatus = {
         gameStatus.code = 0;
         let options=[];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .1,game.width *.8,game.height *.1,options,"8bit");
-        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,["beginner","expert"],"8bit");
+        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,options,"8bit");
+        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .5,game.width *.8,game.height *.1,["beginner","expert"],"8bit");
         groups.status.removeAll();
-        let playButton = game.add.bitmapText(game.width/2,game.height * .8, '8bit',"play",40);
+        let text = game.add.bitmapText(game.width/2,game.height * .1, '8bit',"Game Menu",40);
+        text.anchor.x = .5;
+        text.anchor.y = .5;
+        groups.menu.add(text);
+        let playButton = game.add.bitmapText(game.width/2,game.height * .9, '8bit',"play",40);
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
         groups.menu.add(playButton);
