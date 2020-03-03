@@ -1,4 +1,5 @@
 let gameStatus = {
+    updateInterval: null,
     titleTimeOut : 1000,
     refreshRate: 300,
     code: 0,
@@ -15,12 +16,16 @@ let gameStatus = {
         game.world.bringToTop(groups.status);
     },
     menu: function (){
+        groups.status.removeAll();
+        groups.maze.removeAll();
+        groups.agents.removeAll();
         gameStatus.code = 0;
         let options=[];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.spinner = new Spinner(game.width * .1,game.height * .1,game.width *.8,game.height *.1,options,"8bit");
+        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .1,game.width *.8,game.height *.1,options,"8bit");
+        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,["beginner","expert"],"8bit");
         groups.status.removeAll();
-        let playButton = game.add.bitmapText(game.width/2,game.height/2, '8bit',"play",40);
+        let playButton = game.add.bitmapText(game.width/2,game.height * .8, '8bit',"play",40);
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
         groups.status.add(playButton);
@@ -28,11 +33,13 @@ let gameStatus = {
         playButton.events.onInputDown.add(gameStatus.ready, this);
     },
     ready: function(){
-        gameStatus.spinner.clear();
+        gameStatus.mapSpinner.clear();
+        gameStatus.modSpinner.clear();
         gameStatus.code = 1;
         gameStatus.showMessage("ready",.5, 0xFF0000);
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
-        maze.loadWorld(gameStatus.maps[gameStatus.spinner.selected].name,0);
+        maze.mode = gameStatus.modSpinner.selected;
+        maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].name,0);
     },
     set: function(){
         gameStatus.code = 2;
@@ -50,16 +57,20 @@ let gameStatus = {
         predator.start();
         gameStatus.code = 4;
         maze.draw();
-        setInterval(gameStatus.update, gameStatus.refreshRate);
+        gameStatus.updateInterval = setInterval(gameStatus.update, gameStatus.refreshRate);
     },
     gameOver:function(){
+        clearInterval(gameStatus.updateInterval);
         gameStatus.code = 5;
         maze.draw();
         gameStatus.showMessage("game over",.8);
+        setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 5);
     },
     youWin:function(){
+        clearInterval(gameStatus.updateInterval);
         gameStatus.code = 6;
         gameStatus.showMessage("you win",.8);
+        setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 5);
     },
     update:function(){
         if (gameStatus.code !== 4) return;

@@ -14,7 +14,7 @@ let maze = {
             }
             groups.agents.removeAll(true);
             groups.agents.add(maze.drawTile(prey,maze.world.preySprite));
-            groups.agents.add(maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:.3));
+            groups.agents.add(maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:maze.mode==0?.3:0));
             groups.agents.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
             game.world.bringToTop(groups.agents);
             game.world.sendToBack(groups.maze);
