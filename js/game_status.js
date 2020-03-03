@@ -19,6 +19,10 @@ let gameStatus = {
         groups.status.removeAll();
         groups.maze.removeAll();
         groups.agents.removeAll();
+        let back = game.add.image(0, 0, 'background');
+        back.scale.setTo(game.width/back.width,game.height/back.height);
+        groups.menu.add(back);
+
         gameStatus.code = 0;
         let options=[];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
@@ -28,11 +32,12 @@ let gameStatus = {
         let playButton = game.add.bitmapText(game.width/2,game.height * .8, '8bit',"play",40);
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
-        groups.status.add(playButton);
+        groups.menu.add(playButton);
         playButton.inputEnabled = true;
         playButton.events.onInputDown.add(gameStatus.ready, this);
     },
     ready: function(){
+        groups.menu.removeAll(true);
         gameStatus.mapSpinner.clear();
         gameStatus.modSpinner.clear();
         gameStatus.code = 1;

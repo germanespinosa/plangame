@@ -36,6 +36,7 @@ playGame.prototype = {
           groups.agents = game.add.group()
           groups.status = game.add.group();
           groups.maze = game.add.group();
+          groups.menu = game.add.group();
           gameStatus.menu();
      },
      update: function(){

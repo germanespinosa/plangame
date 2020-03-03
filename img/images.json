@@ -26,5 +26,9 @@
   {
     "name": "right_arrow",
     "url": "img/right_arrow.png"
+  },
+  {
+    "name": "background",
+    "url": "img/background.png"
   }
 ]
