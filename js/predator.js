@@ -22,6 +22,7 @@ let predator = {
         } else {
             predator.moveTowards();
         }
+        if (prey.x === predator.x && prey.y === predator.y) gameStatus.gameOver();
     },
     addMove: function(pos){
         let new_pos = {
@@ -33,6 +34,11 @@ let predator = {
         return new_pos;
     },
     moveTowards: function (){
+        if(Helpers.GetRandomInt(gameStatus.predatorRandomness)===0) {
+            predator.randomMove();
+            return;
+        }
+
         let min_distance = maze.distance(prey, predator);
         let selected = { x:0, y:0};
         for (let i = 0; i < moves.list.length; i++){
@@ -41,9 +47,7 @@ let predator = {
                 if (maze.distance(predator,ref) < min_distance) selected = moves.list[i];
             }
         }
-        if(Helpers.GetRandomInt(3)===0) setTimeout(predator.moveTowards, gameStatus.refreshRate/2);
         predator.tryMove(selected);
-        if (prey.x === predator.x && prey.y === predator.y) gameStatus.gameOver();
     },
     randomMove: function (){
         while (!predator.tryMove(Helpers.GetRandomElement(moves.list)));

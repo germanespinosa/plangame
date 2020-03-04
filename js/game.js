@@ -1,6 +1,4 @@
-var game;
-var tileSize = 48;
-var scale = 4;
+let game;
 
 window.onload = function () {
      let div = document.getElementById("game-div")
@@ -13,7 +11,7 @@ window.onload = function () {
      });
 }
 
-var playGame = function(game){};
+let playGame = function(game){};
 
 let groups = {
      maze:null,
