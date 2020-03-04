@@ -1,29 +1,32 @@
 class Spinner {
-    constructor (x,y,w,h,options,font){
+    constructor (x,y,w,h,options,font, group = null){
         this.optionGroup = game.add.group();
-        this.group = game.add.group();
+        this.group = group;
         this.height = h;
         this.width = w;
         this.x = x;
         this.y = y;
         this.font = font;
-
+        this.text = null;
         this.leftArrow = game.add.button(x,y,"left_arrow");
         this.leftArrow.scale.setTo(h/this.leftArrow.width,h/this.leftArrow.height);
         this.leftArrow.anchor.setTo(0,0);
-        this.group.add(this.leftArrow);
+        if (this.group) this.group.add(this.leftArrow);
 
         this.rightArrow = game.add.button(x + w,y,"right_arrow");
         this.rightArrow.scale.setTo(h/this.rightArrow.width,h/this.rightArrow.height);
         this.rightArrow.anchor.setTo(1,0);
-        this.group.add(this.rightArrow);
+        if (this.group) this.group.add(this.rightArrow);
 
         this.selected = 0;
         this.options = options;
 
         this.update = function(){
             this.changing = false;
-            this.optionGroup.removeAll(true);
+            if (this.text) {
+                if (this.group) this.group.remove(this.text);
+                this.text.destroy();
+            }
             this.text = game.add.bitmapText(x + w / 2, y + h / 2, font,this.value(),34);
             this.text.anchor.x = .5;
             this.text.anchor.y = .5;
@@ -31,7 +34,7 @@ class Spinner {
             const scaleV = (w-2*h)  / this.text.width * .8;
             const scale = scaleH<scaleV?scaleH:scaleV;
             this.text.scale.setTo(scale,scale);
-            this.optionGroup.add(this.text);
+            if (this.group) this.group.add(this.text);
         };
         this.clickLeft = function () {
             if (this.changing) return;
@@ -49,9 +52,15 @@ class Spinner {
             let tween = game.add.tween(this.text).to( { width: 0}, 200, "Linear", true, 200);
             tween.onComplete.add(this.update, this);
         };
-        this.clear = function(){
-          this.group.removeAll(true);
-          this.optionGroup.removeAll(true);
+        this.destroy = function(){
+            if (this.group) {
+                this.group.remove(this.text);
+                this.group.remove(this.rightArrow);
+                this.group.remove(this.leftArrow);
+            }
+            this.text.destroy();
+            this.rightArrow.destroy();
+            this.leftArrow.destroy();
         },
         this.value = function(){
             return this.options[this.selected];

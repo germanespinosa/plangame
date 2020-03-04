@@ -36,8 +36,22 @@ playGame.prototype = {
           groups.agents = game.add.group()
           groups.status = game.add.group();
           groups.maze = game.add.group();
-          groups.menu = game.add.group();
           gameStatus.menu();
+
+          prey.keyLeft = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+          prey.keyRight = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+          prey.keyUp = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+          prey.keyDown = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+          prey.keyLeft.onDown.add(prey.onLeftKeyDown);
+          prey.keyRight.onDown.add(prey.onRightKeyDown);
+          prey.keyUp.onDown.add(prey.onUpKeyDown);
+          prey.keyDown.onDown.add(prey.onDownKeyDown);
+
+          /*prey.keyLeft.on('up', prey.onLeftKeyUp);
+          prey.keyRight.on('up', prey.onRightKeyUp);
+          prey.keyUp.on('up', prey.onUpKeyUp);
+          prey.keyDown.on('up', prey.onDownKeyUp);*/
+
      },
      update: function(){
           this.visited = [];
