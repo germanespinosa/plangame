@@ -7,10 +7,10 @@ let gameStatus = {
     code: 0,
     maps:[],
     predatorRandomness: 4, //%25 percent random
-    showMessage:function(message, size, tint = 0xFFFFFF, location = {x:  .5, y: .5}){
+    showMessage:function(message, size, tint = 0xFFFFFF, location = {x:  .5, y: .5}, anchor = {x:.5,y:.5}){
         let sprite = game.add.bitmapText(game.width * location.x,game.height * location.y, '8bit',message,34);
-        sprite.anchor.x = .5;
-        sprite.anchor.y = .5;
+        sprite.anchor.x = anchor.x;
+        sprite.anchor.y = anchor.y;
         sprite.tint = tint;
         let scaleX = game.width * size.w / sprite.width;
         let scaleY = game.width * size.h / sprite.height;
@@ -28,14 +28,17 @@ let gameStatus = {
         groups.status.add(back);
 
         gameStatus.code = 0;
+        gameStatus.showMessage("GAME MENU",{w:.95,h:.1},0xFFFFFF,{x:.5,y:.10});
+        gameStatus.showMessage("MAP: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.275}, {x:0,y:.5});
+        gameStatus.showMessage("MODE: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.425}, {x:0,y:.5});
+        gameStatus.showMessage("SPEED: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.575}, {x:0,y:.5});
+        gameStatus.showMessage("PURSUIT: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.725}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .20,game.width *.8,game.height *.1,options,"8bit", groups.status);
-        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .35,game.width *.8,game.height *.1,["beginner","expert"],"8bit", groups.status);
-        gameStatus.speedSpinner = new Spinner(game.width * .1,game.height * .50,game.width *.8,game.height *.1,["normal","fast", "fastest", "slowest", "slow"],"8bit", groups.status);
-        gameStatus.randomnessSpinner = new Spinner(game.width * .1,game.height * .65,game.width *.8,game.height *.1,["natural","assertive", "random"],"8bit", groups.status);
-        gameStatus.showMessage("GAME MENU",{w:.8,h:.1},0xFFFFFF,{x:.5,y:.10});
-
+        gameStatus.mapSpinner = new Spinner(game.width * .325,game.height * .225,game.width *.675,game.height *.1,options,"8bit", groups.status);
+        gameStatus.modSpinner = new Spinner(game.width * .325,game.height * .375,game.width *.675,game.height *.1,["beginner","expert"],"8bit", groups.status);
+        gameStatus.speedSpinner = new Spinner(game.width * .325,game.height * .525,game.width *.675,game.height *.1,["normal","fast", "fastest", "slowest", "slow"],"8bit", groups.status);
+        gameStatus.randomnessSpinner = new Spinner(game.width * .325,game.height * .675,game.width *.675,game.height *.1,["natural","agressive", "random"],"8bit", groups.status);
         let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xFFFFFF,{x:.5,y:.9});
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
