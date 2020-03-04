@@ -40,15 +40,28 @@ playGame.prototype = {
           prey.keyRight = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
           prey.keyUp = game.input.keyboard.addKey(Phaser.Keyboard.UP);
           prey.keyDown = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
           prey.keyLeft.onDown.add(prey.onLeftKeyDown);
           prey.keyRight.onDown.add(prey.onRightKeyDown);
           prey.keyUp.onDown.add(prey.onUpKeyDown);
           prey.keyDown.onDown.add(prey.onDownKeyDown);
 
-          /*prey.keyLeft.on('up', prey.onLeftKeyUp);
-          prey.keyRight.on('up', prey.onRightKeyUp);
-          prey.keyUp.on('up', prey.onUpKeyUp);
-          prey.keyDown.on('up', prey.onDownKeyUp);*/
+          prey.keyLeft.onUp.add(prey.onLeftKeyUp);
+          prey.keyLeft.onUp.add(prey.onRightKeyUp);
+          prey.keyLeft.onUp.add(prey.onUpKeyUp);
+          prey.keyLeft.onUp.add(prey.onDownKeyUp);
+
+          virtualGamePad.addEventListener("leftdown", prey.onLeftKeyDown);
+          virtualGamePad.addEventListener("rightdown", prey.onRightKeyDown);
+          virtualGamePad.addEventListener("updown", prey.onUpKeyDown);
+          virtualGamePad.addEventListener("downdown", prey.onDownKeyDown);
+
+          virtualGamePad.addEventListener("leftup", prey.onLeftKeyUp);
+          virtualGamePad.addEventListener("rightup", prey.onRightKeyUp);
+          virtualGamePad.addEventListener("upup", prey.onUpKeyUp);
+          virtualGamePad.addEventListener("downup", prey.onDownKeyUp);
+
+          virtualGamePad.start(game.width*.10);
 
      },
      update: function(){
@@ -87,7 +100,6 @@ function loadMaps (callback) {
      };
      request.send(null);
 }
-
 
 function loadImages (callback, maps) {
      let request = new XMLHttpRequest();

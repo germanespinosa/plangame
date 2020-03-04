@@ -1,4 +1,5 @@
 let gameStatus = {
+    anchor:{x:0,y:0},
     updatePreyInterval: null,
     updatePredatorInterval: null,
     titleTimeOut : 1000,
