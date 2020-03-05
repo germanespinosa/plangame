@@ -49,11 +49,7 @@ let prey = {
         prey.nextMove.y = move.y;
     },
     move: function() {
-        if (!prey.checkMove(prey.nextMove)) return false;
-        prey.x += prey.nextMove.x;
-        prey.y += prey.nextMove.y;
-        if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
-        /*if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
+        if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
             prey.setNextMove(moves.stay);
         } else if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
             prey.setNextMove(moves.stay);
@@ -61,7 +57,11 @@ let prey = {
             prey.setNextMove(moves.stay);
         } else if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
             prey.setNextMove(moves.stay);
-        }*/
+        }
+        if (!prey.checkMove(prey.nextMove)) return false;
+        prey.x += prey.nextMove.x;
+        prey.y += prey.nextMove.y;
+        if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
         return true;
     },
     checkMove: function(move){
