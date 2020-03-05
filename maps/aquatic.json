@@ -1,0 +1,19 @@
+{
+  "startPosition": {
+    "x":7,"y":14
+  },
+  "goalPosition": {
+    "x": 7,
+    "y": 0
+  },
+  "dimensions": {
+    "w": 15,
+    "h": 15
+  },
+  "visualRange": 3,
+  "occlusions": [[]],
+  "goalSprite": "savanna_goal",
+  "preySprite": "savanna_prey",
+  "predatorSprite": "savanna_predator",
+  "wallSprite": "savanna_wall"
+}

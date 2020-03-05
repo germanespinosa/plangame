@@ -1,4 +1,6 @@
 [
+  { "name": "aquatic",
+    "file": "aquatic.json" },
   { "name": "savanna",
     "file": "savanna.json" },
   { "name": "jungle",
