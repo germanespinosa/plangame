@@ -5,6 +5,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     preyUpdateRate: 3,
     predatorUpdateRate: 4.5,
+    spinnersValues: [0,0,0,0],
     code: 0,
     maps:[],
     predatorRandomness: 4, //%25 percent random
@@ -37,9 +38,17 @@ let gameStatus = {
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
         gameStatus.mapSpinner = new Spinner(game.width * .325,game.height * .225,game.width *.675,game.height *.1,options,"8bit", groups.status);
+        gameStatus.mapSpinner.selected = gameStatus.spinnersValues[0];
+        gameStatus.mapSpinner.update();
         gameStatus.modSpinner = new Spinner(game.width * .325,game.height * .375,game.width *.675,game.height *.1,["beginner","expert"],"8bit", groups.status);
+        gameStatus.modSpinner.selected = gameStatus.spinnersValues[1];
+        gameStatus.modSpinner.update();
         gameStatus.speedSpinner = new Spinner(game.width * .325,game.height * .525,game.width *.675,game.height *.1,["normal","fast", "fastest", "slowest", "slow"],"8bit", groups.status);
+        gameStatus.speedSpinner.selected = gameStatus.spinnersValues[2];
+        gameStatus.speedSpinner.update();
         gameStatus.randomnessSpinner = new Spinner(game.width * .325,game.height * .675,game.width *.675,game.height *.1,["natural","agressive", "random"],"8bit", groups.status);
+        gameStatus.randomnessSpinner.selected = gameStatus.spinnersValues[3];
+        gameStatus.randomnessSpinner.update();
         let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xFFFFFF,{x:.5,y:.9});
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
@@ -48,6 +57,11 @@ let gameStatus = {
         playButton.events.onInputDown.add(gameStatus.ready, this);
     },
     ready: function(){
+        gameStatus.spinnersValues[0] = gameStatus.mapSpinner.selected;
+        gameStatus.spinnersValues[1] = gameStatus.modSpinner.selected;
+        gameStatus.spinnersValues[2] = gameStatus.speedSpinner.selected;
+        gameStatus.spinnersValues[3] = gameStatus.randomnessSpinner.selected;
+
         let speeds = [3,4,6,1.5,2];
         gameStatus.preyUpdateRate = speeds[gameStatus.speedSpinner.selected];
         gameStatus.predatorUpdateRate = gameStatus.preyUpdateRate * 1.5;
@@ -59,6 +73,7 @@ let gameStatus = {
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
         maze.mode = gameStatus.modSpinner.selected;
         maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].name,0);
+        maze.version =  Helpers.GetRandomInt(maze.world.occlusions.length);
         gameStatus.mapSpinner.destroy();
         gameStatus.modSpinner.destroy();
         gameStatus.speedSpinner.destroy();

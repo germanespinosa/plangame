@@ -1,12 +1,10 @@
 let predator = {
     alwaysVisible : true,
-    scaleX: 0,
-    scaleY: 0,
     x: 0,
     y: 0,
     start: function(){
-        predator.scaleX = maze.tileSizeX/game.cache.getImage("predator").width;
-        predator.scaleY = maze.tileSizeY/game.cache.getImage("predator").height;
+        predator.x = 7;
+        predator.y = 7;
     },
     contact: false,
     getPos: function() {
