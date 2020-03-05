@@ -12,21 +12,22 @@ let prey = {
     },
     onLeftKeyDown : function (){
         prey.setNextMove(moves.left);
+        console.log("WHAAAAAA");
     },
     onRightKeyDown : function (){
         prey.setNextMove(moves.right);
     },
     onDownKeyUp : function (){
-        if (moves.isDown(prey.nextMove)) prey.nextMove = moves.stay;
+        if (moves.isDown(prey.nextMove)) prey.setNextMove(moves.stay);
     },
     onUpKeyUp : function (){
-        if (moves.isUp(prey.nextMove)) prey.nextMove = moves.stay;
+        if (moves.isUp(prey.nextMove)) prey.setNextMove(moves.stay);
     },
     onLeftKeyUp : function (){
-        if (moves.isLeft(prey.nextMove)) prey.nextMove = moves.stay;
+        if (moves.isLeft(prey.nextMove)) prey.setNextMove(moves.stay);
     },
     onRightKeyUp : function (){
-        if (moves.isRight(prey.nextMove)) prey.nextMove = moves.stay;
+        if (moves.isRight(prey.nextMove)) prey.setNextMove(moves.stay);
     },
     start: function(){
         prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
@@ -49,12 +50,14 @@ let prey = {
         prey.nextMoveSet = true;
         prey.nextMove.x = move.x;
         prey.nextMove.y = move.y;
-        console.log(move);
     },
     move: function() {
         if (!prey.nextMoveSet){
             if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
                 prey.setNextMove(moves.stay);
+                console.log(moves.isMove(prey.nextMove,moves.left));
+                console.log(prey.nextMove);
+                console.log(moves.left);
             }
             if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
                 prey.setNextMove(moves.stay);
@@ -66,10 +69,10 @@ let prey = {
                 prey.setNextMove(moves.stay);
             }
         }
+        prey.nextMoveSet = false;
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
         prey.y += prey.nextMove.y;
-        prey.nextMoveSet = false;
         if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
         return true;
     },
