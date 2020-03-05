@@ -49,24 +49,27 @@ let prey = {
         prey.nextMoveSet = true;
         prey.nextMove.x = move.x;
         prey.nextMove.y = move.y;
+        console.log(move);
     },
     move: function() {
-        if (prey.nextMoveSet){
-            prey.nextMoveSet = false;
-        } else {
+        if (!prey.nextMoveSet){
             if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
                 prey.setNextMove(moves.stay);
-            } else if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
+            }
+            if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
                 prey.setNextMove(moves.stay);
-            } else if (moves.isUp(prey.nextMove) && !prey.keyUp.isDown) {
+            }
+            if (moves.isUp(prey.nextMove) && !prey.keyUp.isDown) {
                 prey.setNextMove(moves.stay);
-            } else if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
+            }
+            if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
                 prey.setNextMove(moves.stay);
             }
         }
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
         prey.y += prey.nextMove.y;
+        prey.nextMoveSet = false;
         if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
         return true;
     },

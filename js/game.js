@@ -1,11 +1,15 @@
 let game;
 
 window.onload = function () {
-     let div = document.getElementById("game-div")
+     let body = document.body;
+     let w = body.clientWidth;
+     let h = body.clientHeight;
+     let size = w<1024?w:1024;
+     console.log(body);
      loadMaps( function (maps, images){
           gameStatus.maps = maps;
           gameStatus.images = images;
-          game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.AUTO, "game-div");
+          game = new Phaser.Game(size, size, Phaser.AUTO, "game-div");
           game.state.add("PlayGame", playGame);
           game.state.start("PlayGame");
      });
@@ -15,7 +19,8 @@ let playGame = function(game){};
 
 let groups = {
      maze:null,
-     status:null
+     status:null,
+     agents:null
 }
 
 playGame.prototype = {
