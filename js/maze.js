@@ -36,14 +36,15 @@ let maze = {
             }
         }
     },
-    loadWorld: function (worldName, worldVersion) {
+    loadWorld: function (worldName) {
+
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
         request.open('GET', 'maps/' + worldName + '.json?r=' + Math.random(), true);
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
-                maze.version = worldVersion;
                 maze.world = JSON.parse(request.responseText);
+                maze.version = Helpers.GetRandomInt(maze.world.occlusions.length);
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
                 maze.map = maze.newMap();

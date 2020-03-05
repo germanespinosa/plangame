@@ -73,7 +73,6 @@ let gameStatus = {
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
         maze.mode = gameStatus.modSpinner.selected;
         maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].name,0);
-        maze.version =  Helpers.GetRandomInt(maze.world.occlusions.length);
         gameStatus.mapSpinner.destroy();
         gameStatus.modSpinner.destroy();
         gameStatus.speedSpinner.destroy();
