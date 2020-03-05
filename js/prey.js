@@ -3,6 +3,7 @@ let prey = {
     y:0,
     nextMove: {x:0,y:0},
     spriteName: null,
+    nextMoveSet: false,
     onDownKeyDown : function (){
         prey.setNextMove(moves.down);
     },
@@ -30,7 +31,7 @@ let prey = {
     start: function(){
         prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
         prey.scaleY = maze.tileSizeY/game.cache.getImage("prey").height;
-
+        prey.setNextMove(moves.stay);
         const pos = maze.copy(maze.world.startPosition);
         prey.x = pos.x;
         prey.y = pos.y;
@@ -45,18 +46,23 @@ let prey = {
         return new_pos;
     },
     setNextMove: function(move){
+        prey.nextMoveSet = true;
         prey.nextMove.x = move.x;
         prey.nextMove.y = move.y;
     },
     move: function() {
-        if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
-            prey.setNextMove(moves.stay);
-        } else if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
-            prey.setNextMove(moves.stay);
-        } else if (moves.isUp(prey.nextMove) && !prey.keyUp.isDown) {
-            prey.setNextMove(moves.stay);
-        } else if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
-            prey.setNextMove(moves.stay);
+        if (prey.nextMoveSet){
+            prey.nextMoveSet = false;
+        } else {
+            if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
+                prey.setNextMove(moves.stay);
+            } else if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
+                prey.setNextMove(moves.stay);
+            } else if (moves.isUp(prey.nextMove) && !prey.keyUp.isDown) {
+                prey.setNextMove(moves.stay);
+            } else if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
+                prey.setNextMove(moves.stay);
+            }
         }
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
