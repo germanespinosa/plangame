@@ -1,7 +1,7 @@
 let virtualGamePad = {
     _anchor : {x:0, y:0},
     _isDown : false,
-    _radius : 30,
+    _radius : 15,
     _lastEvent : "",
     _dispatch : function (a){
         virtualGamePad._lastEvent = a;
