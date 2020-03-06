@@ -233,8 +233,8 @@
       "x": 13, "y": 10
     }
     ]],
-  "goalSprite": "savanna_goal",
-  "preySprite": "savanna_prey",
-  "predatorSprite": "savanna_predator",
-  "wallSprite": "savanna_wall"
+  "goalSprite": "hut",
+  "preySprite": "boar",
+  "predatorSprite": "leopard",
+  "wallSprite": "bush"
 }

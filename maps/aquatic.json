@@ -12,8 +12,8 @@
   },
   "visualRange": 3,
   "occlusions": [[]],
-  "goalSprite": "savanna_goal",
-  "preySprite": "savanna_prey",
-  "predatorSprite": "savanna_predator",
-  "wallSprite": "savanna_wall"
+  "goalSprite": "cave",
+  "preySprite": "fish",
+  "predatorSprite": "shark",
+  "wallSprite": "coral"
 }

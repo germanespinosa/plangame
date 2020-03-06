@@ -30,5 +30,41 @@
   {
     "name": "background",
     "url": "img/background.png"
+  },
+  {
+    "name": "cave",
+    "url": "img/cave.png"
+  },
+  {
+    "name": "fish",
+    "url": "img/fish.png"
+  },
+  {
+    "name": "shark",
+    "url": "img/shark.png"
+  },
+  {
+    "name": "tree",
+    "url": "img/tree.png"
+  },
+  {
+    "name": "bush",
+    "url": "img/bush.png"
+  },
+  {
+    "name": "coral",
+    "url": "img/coral.png"
+  },
+  {
+    "name": "hut",
+    "url": "img/hut.png"
+  },
+  {
+    "name": "boar",
+    "url": "img/boar.png"
+  },
+  {
+    "name": "leopard",
+    "url": "img/leopard.png"
   }
 ]
