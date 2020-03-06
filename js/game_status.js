@@ -5,7 +5,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     preyUpdateRate: 3,
     predatorUpdateRate: 4.5,
-    spinnersValues: [0,0,0,0],
+    spinnersValues: [0,0,4,0],
     code: 0,
     maps:[],
     predatorRandomness: 4, //%25 percent random
@@ -30,7 +30,7 @@ let gameStatus = {
         groups.status.add(back);
 
         gameStatus.code = 0;
-        gameStatus.showMessage("GAME MENU",{w:.95,h:.1},0xFFFFFF,{x:.5,y:.10});
+        gameStatus.showMessage("SURVIVAL",{w:.95,h:.1},0xFFFFFF,{x:.5,y:.10});
         gameStatus.showMessage("MAP: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.275}, {x:0,y:.5});
         gameStatus.showMessage("MODE: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.425}, {x:0,y:.5});
         gameStatus.showMessage("SPEED: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.575}, {x:0,y:.5});
@@ -40,13 +40,13 @@ let gameStatus = {
         gameStatus.mapSpinner = new Spinner(game.width * .325,game.height * .225,game.width *.675,game.height *.1,options,"8bit", groups.status);
         gameStatus.mapSpinner.selected = gameStatus.spinnersValues[0];
         gameStatus.mapSpinner.update();
-        gameStatus.modSpinner = new Spinner(game.width * .325,game.height * .375,game.width *.675,game.height *.1,["beginner","expert"],"8bit", groups.status);
+        gameStatus.modSpinner = new Spinner(game.width * .325,game.height * .375,game.width *.675,game.height *.1,["beginner","natural"],"8bit", groups.status);
         gameStatus.modSpinner.selected = gameStatus.spinnersValues[1];
         gameStatus.modSpinner.update();
-        gameStatus.speedSpinner = new Spinner(game.width * .325,game.height * .525,game.width *.675,game.height *.1,["normal","fast", "fastest", "slowest", "slow"],"8bit", groups.status);
+        gameStatus.speedSpinner = new Spinner(game.width * .325,game.height * .525,game.width *.675,game.height *.1,["natural","fast", "fastest", "slowest", "slow"],"8bit", groups.status);
         gameStatus.speedSpinner.selected = gameStatus.spinnersValues[2];
         gameStatus.speedSpinner.update();
-        gameStatus.randomnessSpinner = new Spinner(game.width * .325,game.height * .675,game.width *.675,game.height *.1,["natural","agressive", "random"],"8bit", groups.status);
+        gameStatus.randomnessSpinner = new Spinner(game.width * .325,game.height * .675,game.width *.675,game.height *.1,["natural","aggressive", "fumbling"],"8bit", groups.status);
         gameStatus.randomnessSpinner.selected = gameStatus.spinnersValues[3];
         gameStatus.randomnessSpinner.update();
         let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xFFFFFF,{x:.5,y:.9});
