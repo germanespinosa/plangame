@@ -7,13 +7,28 @@ let maze = {
     visibility: null,
     ready : false,
     tiles: [],
+    predator : null,
+    prey : null,
+    start: function (){
+        groups.agents.removeAll(true);
+        prey.start();
+        predator.start();
+        maze.prey = maze.drawTile(prey,maze.world.preySprite);
+        maze.predator = maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:maze.mode==0?.3:0);
+        groups.agents.add(maze.prey);
+        groups.agents.add(maze.predator);
+        groups.agents.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
+        game.world.bringToTop(groups.agents);
+    },
     draw: function () {
         if (maze.ready) {
-            groups.agents.removeAll(true);
-            groups.agents.add(maze.drawTile(prey,maze.world.preySprite));
-            groups.agents.add(maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:maze.mode==0?.3:0));
-            groups.agents.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
-            game.world.bringToTop(groups.agents);
+            const preyPos = maze.screenLocation(prey);
+            const predatorPos = maze.screenLocation(predator);
+            maze.prey.x = preyPos.x;
+            maze.prey.y = preyPos.y;
+            maze.predator.x = predatorPos.x;
+            maze.predator.y = predatorPos.y;
+            maze.predator.alpha = maze.isVisible(prey,predator)?1:maze.mode==0?.3:0;
             for (let x = 0; x < maze.world.dimensions.w; x++){
                 for (let y = 0; y < maze.world.dimensions.h; y++){
                     let sprite = maze.tiles[x][y];
@@ -61,7 +76,6 @@ let maze = {
                 maze.tiles = maze.newMap();
                 for (let x = 0; x < maze.world.dimensions.w; x++){
                     for (let y = 0; y < maze.world.dimensions.h; y++){
-                        console.log ( )
                         maze.tiles[x][y] = maze.drawTile({x: x,y: y}, (maze.map[x][y] === 1)?maze.world.wallSprite:maze.world.tileSprite, 1);
                         groups.maze.add(maze.tiles[x][y]);
                     }

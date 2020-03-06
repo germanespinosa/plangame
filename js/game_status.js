@@ -92,8 +92,7 @@ let gameStatus = {
     },
     gameOn:function (){
         groups.status.removeAll();
-        prey.start();
-        predator.start();
+        maze.start();
         gameStatus.code = 4;
         maze.draw();
         gameStatus.updatePreyInterval = setInterval(gameStatus.updatePrey, 1000/ gameStatus.preyUpdateRate);
