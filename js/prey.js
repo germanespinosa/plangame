@@ -4,30 +4,45 @@ let prey = {
     nextMove: {x:0,y:0},
     spriteName: null,
     nextMoveSet: false,
+    leftIsDown: false,
+    rightIsDown: false,
+    upIsDown: false,
+    downIsDown: false,
     onDownKeyDown : function (){
+        prey.downIsDown = true;
         prey.setNextMove(moves.down);
+        console.log("down down");
     },
     onUpKeyDown : function (){
+        prey.upIsDown = true;
         prey.setNextMove(moves.up);
+        console.log("up down");
     },
     onLeftKeyDown : function (){
+        prey.leftIsDown = true;
         prey.setNextMove(moves.left);
-        console.log("WHAAAAAA");
+        console.log("left down");
     },
     onRightKeyDown : function (){
+        prey.rightIsDown = true;
         prey.setNextMove(moves.right);
+        console.log("right down");
     },
     onDownKeyUp : function (){
-        if (moves.isDown(prey.nextMove)) prey.setNextMove(moves.stay);
+        prey.downIsDown = false;
+        console.log("down up");
     },
     onUpKeyUp : function (){
-        if (moves.isUp(prey.nextMove)) prey.setNextMove(moves.stay);
+        prey.upIsDown = false;
+        console.log("up up");
     },
     onLeftKeyUp : function (){
-        if (moves.isLeft(prey.nextMove)) prey.setNextMove(moves.stay);
+        prey.leftIsDown = false;
+        console.log("left up");
     },
     onRightKeyUp : function (){
-        if (moves.isRight(prey.nextMove)) prey.setNextMove(moves.stay);
+        prey.rightIsDown = false;
+        console.log("right up");
     },
     start: function(){
         prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
@@ -53,19 +68,19 @@ let prey = {
     },
     move: function() {
         if (!prey.nextMoveSet){
-            if (moves.isLeft(prey.nextMove) && !prey.keyLeft.isDown) {
+            if (moves.isLeft(prey.nextMove) && !prey.leftIsDown) {
                 prey.setNextMove(moves.stay);
                 console.log(moves.isMove(prey.nextMove,moves.left));
                 console.log(prey.nextMove);
                 console.log(moves.left);
             }
-            if (moves.isRight(prey.nextMove) && !prey.keyRight.isDown) {
+            if (moves.isRight(prey.nextMove) && !prey.rightIsDown) {
                 prey.setNextMove(moves.stay);
             }
-            if (moves.isUp(prey.nextMove) && !prey.keyUp.isDown) {
+            if (moves.isUp(prey.nextMove) && !prey.upIsDown) {
                 prey.setNextMove(moves.stay);
             }
-            if (moves.isDown(prey.nextMove) && !prey.keyDown.isDown) {
+            if (moves.isDown(prey.nextMove) && !prey.downIsDown) {
                 prey.setNextMove(moves.stay);
             }
         }

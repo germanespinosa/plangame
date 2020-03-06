@@ -5,7 +5,6 @@ window.onload = function () {
      let w = body.clientWidth;
      let h = body.clientHeight;
      let size = w<1024?w:1024;
-     console.log(body);
      loadMaps( function (maps, images){
           gameStatus.maps = maps;
           gameStatus.images = images;
@@ -51,20 +50,20 @@ playGame.prototype = {
           prey.keyUp.onDown.add(prey.onUpKeyDown);
           prey.keyDown.onDown.add(prey.onDownKeyDown);
 
-          /*prey.keyLeft.onUp.add(prey.onLeftKeyUp);
-          prey.keyLeft.onUp.add(prey.onRightKeyUp);
-          prey.keyLeft.onUp.add(prey.onUpKeyUp);
-          prey.keyLeft.onUp.add(prey.onDownKeyUp);*/
+          prey.keyLeft.onUp.add(prey.onLeftKeyUp);
+          prey.keyRight.onUp.add(prey.onRightKeyUp);
+          prey.keyUp.onUp.add(prey.onUpKeyUp);
+          prey.keyDown.onUp.add(prey.onDownKeyUp);
 
           virtualGamePad.addEventListener("leftdown", prey.onLeftKeyDown);
           virtualGamePad.addEventListener("rightdown", prey.onRightKeyDown);
           virtualGamePad.addEventListener("updown", prey.onUpKeyDown);
           virtualGamePad.addEventListener("downdown", prey.onDownKeyDown);
 
-/*          virtualGamePad.addEventListener("leftup", prey.onLeftKeyUp);
+          virtualGamePad.addEventListener("leftup", prey.onLeftKeyUp);
           virtualGamePad.addEventListener("rightup", prey.onRightKeyUp);
           virtualGamePad.addEventListener("upup", prey.onUpKeyUp);
-          virtualGamePad.addEventListener("downup", prey.onDownKeyUp);*/
+          virtualGamePad.addEventListener("downup", prey.onDownKeyUp);
 
           virtualGamePad.start(game.width*.10);
 
