@@ -236,5 +236,6 @@
   "goalSprite": "hut",
   "preySprite": "boar",
   "predatorSprite": "leopard",
-  "wallSprite": "bush"
+  "wallSprite": "bush",
+  "tileSprite": "tile"
 }

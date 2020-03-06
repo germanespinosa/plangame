@@ -66,5 +66,13 @@
   {
     "name": "leopard",
     "url": "img/leopard.png"
+  },
+  {
+    "name": "water_tile",
+    "url": "img/water_tile.png"
+  },
+  {
+    "name": "jungle_tile",
+    "url": "img/jungle_tile.png"
   }
 ]

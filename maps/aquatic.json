@@ -15,5 +15,6 @@
   "goalSprite": "cave",
   "preySprite": "fish",
   "predatorSprite": "shark",
-  "wallSprite": "coral"
+  "wallSprite": "coral",
+  "tileSprite": "water_tile"
 }

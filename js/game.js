@@ -19,7 +19,8 @@ let playGame = function(game){};
 let groups = {
      maze:null,
      status:null,
-     agents:null
+     agents:null,
+     tiles:null
 }
 
 playGame.prototype = {
@@ -38,6 +39,7 @@ playGame.prototype = {
           groups.agents = game.add.group()
           groups.status = game.add.group();
           groups.maze = game.add.group();
+          groups.tiles = game.add.group();
           gameStatus.menu();
 
           prey.keyLeft = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
@@ -73,7 +75,6 @@ playGame.prototype = {
           this.visited.length = 0;
           if (gameStatus.code===4) {
                maze.draw();
-               maze.drawVisibility(prey);
           }
      },
 }

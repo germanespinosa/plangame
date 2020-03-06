@@ -6,22 +6,27 @@ let maze = {
     map: null,
     visibility: null,
     ready : false,
+    tiles: [],
     draw: function () {
         if (maze.ready) {
-            groups.maze.removeAll();
-            for (let i = 0; i < maze.world.occlusions[maze.version].length; i++) {
-                groups.maze.add(maze.drawTile(maze.world.occlusions[maze.version][i],maze.world.wallSprite));
-            }
             groups.agents.removeAll(true);
             groups.agents.add(maze.drawTile(prey,maze.world.preySprite));
             groups.agents.add(maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:maze.mode==0?.3:0));
             groups.agents.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
             game.world.bringToTop(groups.agents);
+            for (let x = 0; x < maze.world.dimensions.w; x++){
+                for (let y = 0; y < maze.world.dimensions.h; y++){
+                    let sprite = maze.tiles[x][y];
+                    const pos = {x:x,y:y};
+                    if (maze.isVisible(prey, pos)) {
+                        sprite.alpha = 1-.6 * maze.distance(prey, pos)/maze.world.visualRange;
+                    } else {
+                        sprite.alpha = .2;
+                    }
+                }
+            }
             game.world.sendToBack(groups.maze);
         }
-    },
-    Generate: function () {
-        maze.loadWorld("savanna",0);
     },
     computeVisibility: function() {
         maze.visibility = maze.newMap();
@@ -37,7 +42,6 @@ let maze = {
         }
     },
     loadWorld: function (worldName) {
-
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
         request.open('GET', 'maps/' + worldName + '.json?r=' + Math.random(), true);
@@ -47,11 +51,20 @@ let maze = {
                 maze.version = Helpers.GetRandomInt(maze.world.occlusions.length);
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
+                groups.maze.removeAll(true);
                 maze.map = maze.newMap();
                 for(let i=0;i<maze.world.occlusions[maze.version].length;i++) {
                     const y = maze.world.occlusions[maze.version][i].y;
                     const x = maze.world.occlusions[maze.version][i].x;
                     maze.map[x][y] = 1;
+                }
+                maze.tiles = maze.newMap();
+                for (let x = 0; x < maze.world.dimensions.w; x++){
+                    for (let y = 0; y < maze.world.dimensions.h; y++){
+                        console.log ( )
+                        maze.tiles[x][y] = maze.drawTile({x: x,y: y}, (maze.map[x][y] === 1)?maze.world.wallSprite:maze.world.tileSprite, 1);
+                        groups.maze.add(maze.tiles[x][y]);
+                    }
                 }
                 maze.ready = true;
                 maze.computeVisibility();
@@ -85,21 +98,11 @@ let maze = {
         }
         return map;
     },
-    drawVisibility: function(pos){
-        let radius = maze.world.visualRange;
-        for (let y = pos.y - radius ; y < pos.y + radius; y++){
-            for (let x = pos.x - radius ; x < pos.x + radius; x++){
-                const candidate = {x:x,y:y};
-                if (maze.free(candidate) && maze.isVisible(pos,candidate))
-                    groups.maze.add(maze.drawTile(candidate,"tile", 1-maze.distance(pos,candidate)/maze.world.visualRange,0xffffAA));
-            }
-        }
-    },
     copy: function(pos){
       return {x:pos.x, y:pos.y};
     },
     existsViewLine: function(pos0, pos1){
-        if (!maze.free(pos1)) return false;
+        //if (!maze.free(pos1)) return false;
         if (maze.distance(pos0,pos1)>maze.world.visualRange) return false;
         let a = maze.copy(pos0);
         let b = maze.copy(pos1);
@@ -125,7 +128,7 @@ let maze = {
     screenLocation: function (pos){
         return {x:pos.x * maze.tileSizeX, y:pos.y * maze.tileSizeY};
     },
-    drawTile: function (pos, img, alpha, tint){
+    drawTile: function (pos, img, alpha){
         const screenPos = maze.screenLocation(pos);
         let cache = game.cache.getImage(img);
         let sprite = game.add.sprite(screenPos.x, screenPos.y, img);
@@ -133,7 +136,6 @@ let maze = {
         const scaleY = maze.tileSizeY / cache.height;
         sprite.scale.setTo(scaleX, scaleY);
         if (!(typeof alpha === "undefined")) sprite.alpha = alpha;
-        if (!(typeof tint === "undefined")) sprite.tint = tint;
         return sprite;
     },
 }
