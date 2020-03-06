@@ -74,5 +74,9 @@
   {
     "name": "jungle_tile",
     "url": "img/jungle_tile.png"
+  },
+  {
+    "name": "savanna_tile",
+    "url": "img/savanna_tile.png"
   }
 ]

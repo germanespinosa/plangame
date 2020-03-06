@@ -237,5 +237,5 @@
   "preySprite": "boar",
   "predatorSprite": "leopard",
   "wallSprite": "bush",
-  "tileSprite": "tile"
+  "tileSprite": "savanna_tile"
 }
