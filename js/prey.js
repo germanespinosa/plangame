@@ -62,9 +62,6 @@ let prey = {
         if (!prey.nextMoveSet){
             if (moves.isLeft(prey.nextMove) && !prey.leftIsDown) {
                 prey.setNextMove(moves.stay);
-                console.log(moves.isMove(prey.nextMove,moves.left));
-                console.log(prey.nextMove);
-                console.log(moves.left);
             }
             if (moves.isRight(prey.nextMove) && !prey.rightIsDown) {
                 prey.setNextMove(moves.stay);

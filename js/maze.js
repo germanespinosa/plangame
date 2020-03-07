@@ -38,7 +38,7 @@ let maze = {
     },
     draw: function () {
         if (maze.ready) {
-            maze.setAlpha(maze.predator, maze.isVisible(prey,predator)?1:maze.mode === 0?.3:0);
+            maze.setAlpha(maze.predator, maze.isVisible(prey,predator)?1:maze.mode === 0?.3:0, true);
             for (let x = 0; x < maze.world.dimensions.w; x++){
                 for (let y = 0; y < maze.world.dimensions.h; y++){
                     let sprite = maze.tiles[x][y];
@@ -56,7 +56,7 @@ let maze = {
     setAlpha: function (sprite, value, animation = false){
         if (sprite.alpha !== value){
             if (animation) {
-                game.add.tween(sprite).to( {alpha : value}, gameStatus.updatePreyInterval / 4 , "Linear", true);
+                game.add.tween(sprite).to( {alpha : value}, gameStatus.updatePreyInterval / 2 , "Linear", true);
             } else {
                 sprite.alpha = value;
             }
