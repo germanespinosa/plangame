@@ -11,38 +11,30 @@ let prey = {
     onDownKeyDown : function (){
         prey.downIsDown = true;
         prey.setNextMove(moves.down);
-        console.log("down down");
     },
     onUpKeyDown : function (){
         prey.upIsDown = true;
         prey.setNextMove(moves.up);
-        console.log("up down");
     },
     onLeftKeyDown : function (){
         prey.leftIsDown = true;
         prey.setNextMove(moves.left);
-        console.log("left down");
     },
     onRightKeyDown : function (){
         prey.rightIsDown = true;
         prey.setNextMove(moves.right);
-        console.log("right down");
     },
     onDownKeyUp : function (){
         prey.downIsDown = false;
-        console.log("down up");
     },
     onUpKeyUp : function (){
         prey.upIsDown = false;
-        console.log("up up");
     },
     onLeftKeyUp : function (){
         prey.leftIsDown = false;
-        console.log("left up");
     },
     onRightKeyUp : function (){
         prey.rightIsDown = false;
-        console.log("right up");
     },
     start: function(){
         prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;

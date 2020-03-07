@@ -96,18 +96,20 @@ let gameStatus = {
         maze.start();
         gameStatus.updatePreyInterval = 1000 / gameStatus.preyUpdateRate;
         gameStatus.updatePredatorInterval = 1000 / gameStatus.predatorUpdateRate;
+        gameStatus.preyDaemon = setInterval(maze.updatePrey,gameStatus.updatePreyInterval);
+        gameStatus.predatorDaemon = setInterval(maze.updatePredator,gameStatus.updatePredatorInterval);
     },
     gameOver:function(){
-        //clearInterval(gameStatus.updatePreyInterval);
-        //clearInterval(gameStatus.updatePredatorInterval);
+        clearInterval(gameStatus.preyDaemon);
+        clearInterval(gameStatus.predatorDaemon);
         gameStatus.code = 5;
         maze.draw();
         gameStatus.showMessage("game over",{w:.8,h:1});
         setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 5);
     },
     youWin:function(){
-        clearInterval(gameStatus.updatePreyInterval);
-        clearInterval(gameStatus.updatePredatorInterval);
+        clearInterval(gameStatus.preyDaemon);
+        clearInterval(gameStatus.predatorDaemon);
         gameStatus.code = 6;
         maze.draw();
         gameStatus.showMessage("you win",{w:.8,h:1});

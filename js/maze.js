@@ -25,18 +25,16 @@ let maze = {
         maze.updatePredator();
     },
     updatePrey: function(){
-        console.log(gameStatus.code === 4);
         const c = gameStatus.code === 4 && prey.move();
         const pos = maze.screenLocation(prey);
         maze.preyTween = game.add.tween(maze.prey).to( { x: pos.x, y: pos.y}, gameStatus.updatePreyInterval, "Linear", true);
-        if (c) maze.preyTween.onComplete.add(maze.updatePrey, this);
+        //if (c) maze.preyTween.onComplete.add(maze.updatePrey, this);
     },
     updatePredator: function(){
-        console.log(gameStatus.code === 4);
         const c = gameStatus.code === 4 && predator.move();
         const pos = maze.screenLocation(predator);
         maze.predatorTween = game.add.tween(maze.predator).to( { x: pos.x, y: pos.y}, gameStatus.updatePredatorInterval, "Linear", true);
-        if (c) maze.predatorTween.onComplete.add(maze.updatePredator, this);
+        //if (c) maze.predatorTween.onComplete.add(maze.updatePredator, this);
     },
     draw: function () {
         if (maze.ready) {
@@ -46,23 +44,23 @@ let maze = {
                     let sprite = maze.tiles[x][y];
                     const pos = {x:x,y:y};
                     if (maze.isVisible(prey, pos)) {
-                        maze.setAlpha(sprite, 1-.8 * maze.distance(prey, pos)/maze.world.visualRange);
+                        maze.setAlpha(sprite, 1-.8 * maze.distance(prey, pos)/maze.world.visualRange, true);
                     } else {
-                        maze.setAlpha(sprite,.15);
+                        maze.setAlpha(sprite,.15, true);
                     }
                 }
             }
             game.world.sendToBack(groups.maze);
         }
     },
-    setAlpha: function (sprite, value){
-        //if (sprite.alpha !== value){
-        //    console.log("hit");
-        //    game.add.tween(sprite).to( {alpha : value}, gameStatus.updatePreyInterval / 2 , "Linear", true);
-        //} else {
-            sprite.alpha = value;
-            console.log("skip");
-        //}
+    setAlpha: function (sprite, value, animation = false){
+        if (sprite.alpha !== value){
+            if (animation) {
+                game.add.tween(sprite).to( {alpha : value}, gameStatus.updatePreyInterval / 4 , "Linear", true);
+            } else {
+                sprite.alpha = value;
+            }
+        }
     },
     computeVisibility: function() {
         maze.visibility = maze.newMap();

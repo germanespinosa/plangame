@@ -5,7 +5,6 @@ let virtualGamePad = {
     _lastEvent : "",
     _dispatch : function (a){
         virtualGamePad._lastEvent = a;
-        console.log(a);
         for (let i=0;i<virtualGamePad._callbacks[a].length;i++)
             virtualGamePad._callbacks[a][i]();
     },
@@ -17,7 +16,6 @@ let virtualGamePad = {
         }
     },
     _down : function(a) {
-        console.log(a);
         virtualGamePad._isDown = true;
         virtualGamePad._anchor = virtualGamePad._getPos(a);
     },
