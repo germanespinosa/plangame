@@ -88,7 +88,10 @@ let prey = {
         if (!prey.checkMove(prey.nextMove)) return false;
         prey.x += prey.nextMove.x;
         prey.y += prey.nextMove.y;
-        if (maze.equal(maze.world.goalPosition,prey))gameStatus.youWin();
+        if (maze.equal(maze.world.goalPosition,prey)) {
+            gameStatus.youWin();
+            return false;
+        }
         return true;
     },
     checkMove: function(move){

@@ -20,7 +20,11 @@ let predator = {
         } else {
             predator.moveTowards();
         }
-        if (prey.x === predator.x && prey.y === predator.y) gameStatus.gameOver();
+        if (prey.x === predator.x && prey.y === predator.y) {
+            gameStatus.gameOver();
+            return false;
+        }
+        return true;
     },
     addMove: function(pos){
         let new_pos = {

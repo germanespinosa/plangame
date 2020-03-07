@@ -5,7 +5,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     preyUpdateRate: 3,
     predatorUpdateRate: 4.5,
-    spinnersValues: [0,0,4,0],
+    spinnersValues: [0,0,0,0],
     code: 0,
     maps:[],
     predatorRandomness: 4, //%25 percent random
@@ -92,15 +92,14 @@ let gameStatus = {
     },
     gameOn:function (){
         groups.status.removeAll();
-        maze.start();
         gameStatus.code = 4;
-        maze.draw();
-        gameStatus.updatePreyInterval = setInterval(gameStatus.updatePrey, 1000/ gameStatus.preyUpdateRate);
-        gameStatus.updatePredatorInterval = setInterval(gameStatus.updatePredator, 1000 / gameStatus.predatorUpdateRate);
+        maze.start();
+        gameStatus.updatePreyInterval = 1000 / gameStatus.preyUpdateRate;
+        gameStatus.updatePredatorInterval = 1000 / gameStatus.predatorUpdateRate;
     },
     gameOver:function(){
-        clearInterval(gameStatus.updatePreyInterval);
-        clearInterval(gameStatus.updatePredatorInterval);
+        //clearInterval(gameStatus.updatePreyInterval);
+        //clearInterval(gameStatus.updatePredatorInterval);
         gameStatus.code = 5;
         maze.draw();
         gameStatus.showMessage("game over",{w:.8,h:1});

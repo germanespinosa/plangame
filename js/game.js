@@ -2,9 +2,10 @@ let game;
 
 window.onload = function () {
      let body = document.body;
-     let w = body.clientWidth;
-     let h = body.clientHeight;
-     let size = w<1024?w:1024;
+     let w = window.innerWidth;
+     let h = window.innerHeight;
+     let size = Math.min (1024,w,h);
+     body.style.marginLeft = ((w - size) / 2) + "px";
      loadMaps( function (maps, images){
           gameStatus.maps = maps;
           gameStatus.images = images;
