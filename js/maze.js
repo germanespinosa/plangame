@@ -50,7 +50,8 @@ let maze = {
                     }
                 }
             }
-            game.world.sendToBack(groups.maze);
+            game.world.sendToBack(groups.tiles);
+            game.world.bringToTop(groups.maze);
         }
     },
     setAlpha: function (sprite, value, animation = false){
@@ -86,6 +87,7 @@ let maze = {
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
                 groups.maze.removeAll(true);
+                groups.tiles.removeAll(true);
                 maze.map = maze.newMap();
                 for(let i=0;i<maze.world.occlusions[maze.version].length;i++) {
                     const y = maze.world.occlusions[maze.version][i].y;
@@ -95,8 +97,11 @@ let maze = {
                 maze.tiles = maze.newMap();
                 for (let x = 0; x < maze.world.dimensions.w; x++){
                     for (let y = 0; y < maze.world.dimensions.h; y++){
-                        maze.tiles[x][y] = maze.drawTile({x: x,y: y}, (maze.map[x][y] === 1)?maze.world.wallSprite:maze.world.tileSprite, 0);
-                        groups.maze.add(maze.tiles[x][y]);
+                        maze.tiles[x][y] = maze.drawTile({x: x,y: y}, maze.world.tileSprite, 0);
+                        groups.tiles.add(maze.tiles[x][y]);
+                        if (maze.map[x][y] === 1) {
+                            groups.maze.add(maze.drawTile({x: x,y: y}, maze.world.wallSprite, 1));
+                        }
                     }
                 }
                 maze.ready = true;
