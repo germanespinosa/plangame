@@ -17,7 +17,7 @@ let predator = {
       predator.y = pos.y;
     },
     move: function(){
-        if (!maze.isVisible(prey,predator)) { // no visual contact random move
+        if (maze.isVisible(prey,predator)) { // visual contact random move
             predator.lastPreyLocation = maze.copy(prey);
             predator.chasing = true;
         }
