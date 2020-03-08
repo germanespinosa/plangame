@@ -5,7 +5,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     preyUpdateRate: 3,
     predatorUpdateRate: 4.5,
-    spinnersValues: [0,0,0,0],
+    spinnersValues: [0,1,0,0],
     code: 0,
     maps:[],
     predatorRandomness: 4, //%25 percent random
@@ -72,7 +72,7 @@ let gameStatus = {
         gameStatus.showMessage("ready",{w:.5,h:1}, 0xFF0000);
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
         maze.mode = gameStatus.modSpinner.selected;
-        maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].name,0);
+        maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].file,0);
         gameStatus.mapSpinner.destroy();
         gameStatus.modSpinner.destroy();
         gameStatus.speedSpinner.destroy();

@@ -75,10 +75,10 @@ let maze = {
             }
         }
     },
-    loadWorld: function (worldName) {
+    loadWorld: function (worldFile) {
         let request = new XMLHttpRequest();
         request.overrideMimeType("application/json");
-        request.open('GET', 'maps/' + worldName + '.json?r=' + Math.random(), true);
+        request.open('GET', 'maps/' + worldFile + '?r=' + Math.random(), true);
         request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
                 maze.world = JSON.parse(request.responseText);
