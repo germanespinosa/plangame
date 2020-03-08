@@ -1,4 +1,6 @@
 let predator = {
+    chasing: false,
+    lastPreyLocation: {x:0,y:0},
     alwaysVisible : true,
     x: 0,
     y: 0,
@@ -16,9 +18,17 @@ let predator = {
     },
     move: function(){
         if (!maze.isVisible(prey,predator)) { // no visual contact random move
+            predator.lastPreyLocation = maze.copy(prey);
+            predator.chasing = true;
+        }
+        if (predator.chasing){
+            predator.moveTowards(predator.lastPreyLocation);
+            if (predator.lastPreyLocation.x === predator.x && predator.lastPreyLocation.y === predator.y) {
+                predator.chasing = false;
+            }
+        }
+        else {
             predator.randomMove();
-        } else {
-            predator.moveTowards();
         }
         if (prey.x === predator.x && prey.y === predator.y) {
             gameStatus.gameOver();
@@ -35,17 +45,17 @@ let predator = {
         new_pos.y += predator.y;
         return new_pos;
     },
-    moveTowards: function (){
+    moveTowards: function (pos){
         if(Helpers.GetRandomInt(gameStatus.predatorRandomness)===0) {
             predator.randomMove();
             return;
         }
 
-        let min_distance = maze.distance(prey, predator);
+        let min_distance = maze.distance(pos, predator);
         let selected = { x:0, y:0};
         for (let i = 0; i < moves.list.length; i++){
             if (predator.checkMove(moves.list[i])) {
-                const ref = {x:prey.x - moves.list[i].x,y:prey.y - moves.list[i].y};
+                const ref = {x:pos.x - moves.list[i].x,y:pos.y - moves.list[i].y};
                 if (maze.distance(predator,ref) < min_distance) selected = moves.list[i];
             }
         }
