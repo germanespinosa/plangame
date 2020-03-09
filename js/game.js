@@ -4,9 +4,21 @@ window.onload = function () {
      let body = document.body;
      let w = window.innerWidth;
      let h = window.innerHeight;
-     let size = Math.min (1024,w,h);
-     body.style.marginLeft = ((w - size) / 2) + "px";
-     virtualGamePad.start(size*.05); //, document.getElementById("joystick-div"),200);
+     let size = Math.min (1000,w,h);
+
+     let container = document.getElementById("game-div");
+     container.style.width = size + "px";
+     container.style.marginTop = ((h-size)/2) + "px";
+
+     let joystick = document.getElementById("joystick-div");
+     const jw = joystick.clientWidth;
+     container.style.marginLeft = ((w - (size + jw)) / 2) + "px";
+     if (jw > 0) {
+          joystick.style.marginTop = ((h - jw) / 2) + "px";
+          virtualGamePad.start(size * .05, document.getElementById("joystick-div"), jw);
+     } else {
+          virtualGamePad.start(size * .05);
+     }
      loadMaps( function (maps, images){
           gameStatus.maps = maps;
           gameStatus.images = images;

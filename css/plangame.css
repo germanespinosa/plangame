@@ -1,0 +1,37 @@
+@media all and (min-width: 1200px) {
+    #joystick-div{
+        display:table;
+        width: 220px;
+    }
+
+}
+
+@media all and (max-width: 1199px) {
+    #joystick-div{
+        display:none;
+        width: 0px;
+    }
+}
+
+#content{
+    content: "";
+    display: table;
+    clear: both;
+    height: 100%;
+}
+#game-div{
+
+}
+#joystick-div{
+    height: 220px;
+}
+
+div{
+    float:left;
+    height:100%;
+    padding:0 0px;
+}
+
+body{
+    background: black;
+}
