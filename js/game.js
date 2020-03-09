@@ -16,7 +16,7 @@ window.onload = function () {
           joystick.style.width = jw + "px";
           joystick.style.height = jw + "px";
           joystick.style.marginLeft = ((w - jw) / 2) + "px";
-          virtualGamePad.start(size * .05, document.getElementById("joystick-div"), jw);
+          virtualGamePad.start(size * .05, joystick, jw);
           container.style.marginTop = ((h - (size+jw))/2) + "px";
      } else {
           container.style.marginTop = ((h - size)/2) + "px";
