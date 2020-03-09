@@ -43,8 +43,6 @@ let prey = {
         prey.removeDownKey(moves.right());
     },
     start: function(){
-        prey.scaleX = maze.tileSizeX/game.cache.getImage("prey").width;
-        prey.scaleY = maze.tileSizeY/game.cache.getImage("prey").height;
         const pos = maze.copy(maze.world.startPosition);
         prey.x = pos.x;
         prey.y = pos.y;
