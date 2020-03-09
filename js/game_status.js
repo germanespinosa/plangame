@@ -9,7 +9,8 @@ let gameStatus = {
     predatorUpdateRate: 4.5,
     spinnersValues: [0,1],
     code: 0,
-    maps:[],
+    maps: [],
+    circleSprite: null,
     predatorRandomness: 4, //%25 percent random
     showMessage:function(message, size, tint = 0xFFFFFF, location = {x:  .5, y: .5}, anchor = {x:.5,y:.5}){
         let sprite = game.add.bitmapText(game.width * location.x,game.height * location.y, '8bit',message,34);
@@ -75,10 +76,20 @@ let gameStatus = {
     go: function (){
         gameStatus.code = 3;
         groups.status.removeAll();
-        gameStatus.showMessage("GO",{w:.80,h:1},0x00FF00);
+        gameStatus.showMessage("GET TO",{w:.40,h:1},0x00FF00, {x:.5, y:.4});
+        gameStatus.showMessage("THE GOAL",{w:.90,h:2},0x00FF00, {x:.5, y:.6});
+        gameStatus.circleSprite = maze.drawTile(maze.world.goalPosition,"white_circle",1, {w:game.width,h:game.height});
+        gameStatus.circleSprite.x += maze.tileSizeX / 2;
+        gameStatus.circleSprite.y += maze.tileSizeY / 2;
+        gameStatus.circleSprite.anchor.setTo(.5,.5);
+        let tween = game.add.tween(gameStatus.circleSprite).to( { width: maze.tileSizeX, height: maze.tileSizeY }, gameStatus.titleTimeOut * .9, "Linear", true);
         setTimeout(gameStatus.gameOn,gameStatus.titleTimeOut);
     },
     gameOn:function (){
+        setTimeout(function (){
+            gameStatus.circleSprite.destroy();
+        },gameStatus.titleTimeOut);
+
         groups.status.removeAll();
         gameStatus.code = 4;
         maze.start();

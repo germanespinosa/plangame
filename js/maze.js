@@ -19,7 +19,6 @@ let maze = {
         maze.predator = maze.drawTile(predator,maze.world.predatorSprite, maze.isVisible(prey,predator)?1:maze.mode==0?.3:0);
         groups.agents.add(maze.prey);
         groups.agents.add(maze.predator);
-        groups.agents.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
         game.world.bringToTop(groups.agents);
         maze.updatePrey();
         maze.updatePredator();
@@ -104,6 +103,7 @@ let maze = {
                         }
                     }
                 }
+                groups.maze.add(maze.drawTile(maze.world.goalPosition,maze.world.goalSprite));
                 maze.ready = true;
                 maze.computeVisibility();
             }
@@ -140,7 +140,6 @@ let maze = {
       return {x:pos.x, y:pos.y};
     },
     existsViewLine: function(pos0, pos1){
-        //if (!maze.free(pos1)) return false;
         if (maze.distance(pos0,pos1)>maze.world.visualRange) return false;
         let a = maze.copy(pos0);
         let b = maze.copy(pos1);
@@ -166,12 +165,13 @@ let maze = {
     screenLocation: function (pos){
         return {x:pos.x * maze.tileSizeX, y:pos.y * maze.tileSizeY};
     },
-    drawTile: function (pos, img, alpha){
+    drawTile: function (pos, img, alpha, size){
+        if (typeof size === "undefined") size = {w: maze.tileSizeX, h: maze.tileSizeY};
         const screenPos = maze.screenLocation(pos);
         let cache = game.cache.getImage(img);
         let sprite = game.add.sprite(screenPos.x, screenPos.y, img);
-        const scaleX = maze.tileSizeX / cache.width;
-        const scaleY = maze.tileSizeY / cache.height;
+        const scaleX = size.w / cache.width;
+        const scaleY = size.h / cache.height;
         sprite.scale.setTo(scaleX, scaleY);
         if (!(typeof alpha === "undefined")) sprite.alpha = alpha;
         return sprite;
