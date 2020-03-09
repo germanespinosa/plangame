@@ -99,12 +99,28 @@ let virtualGamePad = {
         }
     },
     runJoystick: function(game){},
+    drawSprite: function (screenPos, img, size){
+        let cache = virtualGamePad.joystick.cache.getImage(img);
+        let sprite = virtualGamePad.joystick.add.sprite(screenPos.x, screenPos.y, img);
+        const scaleX = size / cache.width;
+        const scaleY = size / cache.height;
+        sprite.scale.setTo(scaleX, scaleY);
+        return sprite;
+    }
 };
 
 virtualGamePad.runJoystick.prototype = {
     preload: function () {
+        virtualGamePad.joystick.load.image("circle", "img/grey_circle.png");
+        virtualGamePad.joystick.load.image("ball", "img/red_ball.png");
     },
     create: function() {
+        virtualGamePad.circle = virtualGamePad.drawSprite({x:virtualGamePad.joystick.width/2,y:virtualGamePad.joystick.height/2},"circle", virtualGamePad.joystick.width);
+        virtualGamePad.circle.z = 1;
+        virtualGamePad.circle.anchor.setTo(.5,.5);
+        virtualGamePad.ball = virtualGamePad.drawSprite({x:virtualGamePad.joystick.width/2,y:virtualGamePad.joystick.height/2},"ball", virtualGamePad.joystick.width * .5);
+        virtualGamePad.ball.z = 2;
+        virtualGamePad.ball.anchor.setTo(.5,.5);
     },
     update: function() {
     }

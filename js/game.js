@@ -42,9 +42,8 @@ playGame.prototype = {
           for (let i=0;i<gameStatus.images.length;i++){
                game.load.image(gameStatus.images[i].name, gameStatus.images[i].url + "?r=" + Math.random());
           }
-          game.load.image("tile", "img/tile.png");
           game.load.bitmapFont('8bit', 'fonts/8bit.png', 'fonts/8bit.xml');
-          //game.load.script('spinner', 'js/spinner.js?r=' + Math.random());
+          game.load.script('spinner', 'js/spinner.js?r=' + Math.random());
           game.load.script('maze', 'js/maze.js?r=' + Math.random());
           game.load.script('prey', 'js/prey.js?r=' + Math.random());
           game.load.script('predator', 'js/predator.js?r=' + Math.random());
