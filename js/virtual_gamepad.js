@@ -1,32 +1,33 @@
 let virtualGamePad = {
-    _anchor : {x:0, y:0},
-    _isDown : false,
-    _radius : 15,
-    _lastEvent : "",
-    _dispatch : function (a){
+    joystick: null,
+    _anchor: {x:0, y:0},
+    _isDown: false,
+    _radius: 15,
+    _lastEvent: "",
+    _dispatch: function (a){
         virtualGamePad._lastEvent = a;
         for (let i=0;i<virtualGamePad._callbacks[a].length;i++)
             virtualGamePad._callbacks[a][i]();
     },
-    _getPos : function(a){
+    _getPos: function(a){
         if ("touches" in a ) {
             return {x: a.touches[0].screenX, y: a.touches[0].screenY};
         } else {
             return {x: a.screenX, y: a.screenY};
         }
     },
-    _down : function(a) {
+    _down: function(a) {
         virtualGamePad._isDown = true;
         virtualGamePad._anchor = virtualGamePad._getPos(a);
     },
-    _up : function(a) {
+    _up: function(a) {
         virtualGamePad._isDown = false;
         if (virtualGamePad._lastEvent.endsWith("down")){
             const up = virtualGamePad._lastEvent.substring(0,virtualGamePad._lastEvent.length - 4);
             virtualGamePad._dispatch(up + "up");
         }
     },
-    _move : function(a) {
+    _move: function(a) {
         if (virtualGamePad._isDown) {
             const c = virtualGamePad._getPos(a);
             const l = {x:c.x - virtualGamePad._anchor.x, y:c.y - virtualGamePad._anchor.y};
@@ -63,7 +64,7 @@ let virtualGamePad = {
             }
         }
     },
-    _callbacks:{
+    _callbacks: {
         leftup: [],
         leftdown:[],
         rightup: [],
@@ -76,11 +77,8 @@ let virtualGamePad = {
     addEventListener: function(event, callback){
         virtualGamePad._callbacks[event].push(callback);
     },
-    start: function(radius) {
-
-
-
-        let defaultPrevent=function(e){e.preventDefault();}
+    start: function(radius, div, size) {
+        let defaultPrevent = function(e){e.preventDefault();}
         window.addEventListener("touchstart", defaultPrevent);
         window.addEventListener("touchmove" , defaultPrevent);
 
@@ -91,48 +89,23 @@ let virtualGamePad = {
         window.addEventListener("touchend", virtualGamePad._up);
         window.addEventListener("mousemove", virtualGamePad._move);
         window.addEventListener("touchmove", virtualGamePad._move);
-    }
-};
 
-/*
-*     onLeftDown: function (){
-
-    },
-    onRightDown: function (){
-
-    },
-    onUpDown: function (){
-
-    },
-    onDownDown: function (){
-
-    },
-    onLeftUp: function (){
-
-    },
-    onRightUp: function (){
-
-    },
-    onUpUp: function (){
-
-    },
-    onDownUp: function (){
-
-    },
-    update: function() {
-        if (game.input.activePointer.isDown) {
-            let new_anchor = {x: game.input.activePointer.clientX, y: game.input.activePointer.clientY};
-            if (gameStatus.anchor.x === 0 && gameStatus.anchor.y === 0) {
-                gameStatus.anchor = new_anchor;
-            } else {
-                if (maze.distance(gameStatus, new_anchor) > 30) {
-
-                }
-            }
-        } else {
-            gameStatus.anchor = {x: 0, y: 0};
+        if (typeof div !== "undefined") {
+            let w = div.clientWidth;
+            let h = div.clientHeight;
+            virtualGamePad.joystick = new Phaser.Game(w, h, Phaser.AUTO, div.id);
+            virtualGamePad.joystick.state.add("virtualGamePad.runJoystick", virtualGamePad.runJoystick);
+            virtualGamePad.joystick.state.start("virtualGamePad.runJoystick");
         }
     },
+    runJoystick: function(game){},
+};
 
-*
-* */
+virtualGamePad.runJoystick.prototype = {
+    preload: function () {
+    },
+    create: function() {
+    },
+    update: function() {
+    }
+}

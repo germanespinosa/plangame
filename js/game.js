@@ -6,6 +6,7 @@ window.onload = function () {
      let h = window.innerHeight;
      let size = Math.min (1024,w,h);
      body.style.marginLeft = ((w - size) / 2) + "px";
+     virtualGamePad.start(size*.05); //, document.getElementById("joystick-div"),200);
      loadMaps( function (maps, images){
           gameStatus.maps = maps;
           gameStatus.images = images;
@@ -67,9 +68,6 @@ playGame.prototype = {
           virtualGamePad.addEventListener("rightup", prey.onRightKeyUp);
           virtualGamePad.addEventListener("upup", prey.onUpKeyUp);
           virtualGamePad.addEventListener("downup", prey.onDownKeyUp);
-
-          virtualGamePad.start(game.width*.10);
-
      },
      update: function(){
           this.visited = [];
