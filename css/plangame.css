@@ -1,21 +1,6 @@
-@media all and (min-width: 1200px) {
-    #joystick-div{
-        display:table;
-        width: 220px;
-    }
-
-}
-
-@media all and (max-width: 1199px) {
-    #joystick-div{
-        display:none;
-        width: 0px;
-    }
-}
-
 #content{
     content: "";
-    display: table;
+    display: block;
     clear: both;
     height: 100%;
 }

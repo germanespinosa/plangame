@@ -1,22 +1,5 @@
 let game;
 
-function toggleFullScreen() {
-     var doc = window.document;
-     var docEl = doc.documentElement;
-
-     var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-     var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-     if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-          requestFullScreen.call(docEl);
-     }
-     else {
-          cancelFullScreen.call(doc);
-     }
-}
-
-toggleFullScreen();
-
 window.onload = function () {
      let body = document.body;
      let w = window.innerWidth;
@@ -25,15 +8,17 @@ window.onload = function () {
 
      let container = document.getElementById("game-div");
      container.style.width = size + "px";
-     container.style.marginTop = ((h-size)/2) + "px";
+     container.style.marginLeft = ((w - size) / 2) + "px";
 
-     let joystick = document.getElementById("joystick-div");
-     const jw = joystick.clientWidth;
-     container.style.marginLeft = ((w - (size + jw)) / 2) + "px";
-     if (jw > 0) {
-          joystick.style.marginTop = ((h - jw) / 2) + "px";
+     if (h > size + 200) {
+          const jw = 200;
+          let joystick = document.getElementById("joystick-div");
+          joystick.style.width = jw + "px";
+          joystick.style.marginLeft = ((w - jw) / 2) + "px";
           virtualGamePad.start(size * .05, document.getElementById("joystick-div"), jw);
+          container.style.marginTop = ((h - (size+jw))/2) + "px";
      } else {
+          container.style.marginTop = ((h - size)/2) + "px";
           virtualGamePad.start(size * .05);
      }
      loadMaps( function (maps, images){
