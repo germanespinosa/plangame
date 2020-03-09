@@ -4,16 +4,17 @@ window.onload = function () {
      let body = document.body;
      let w = window.innerWidth;
      let h = window.innerHeight;
-     let size = Math.min (1000,w,h);
+     let size = Math.min (1000,w*.9,h);
 
      let container = document.getElementById("game-div");
      container.style.width = size + "px";
      container.style.marginLeft = ((w - size) / 2) + "px";
 
-     if (h > size + 200) {
-          const jw = 200;
+     const jw = 250;
+     if (h > size + jw) {
           let joystick = document.getElementById("joystick-div");
           joystick.style.width = jw + "px";
+          joystick.style.height = jw + "px";
           joystick.style.marginLeft = ((w - jw) / 2) + "px";
           virtualGamePad.start(size * .05, document.getElementById("joystick-div"), jw);
           container.style.marginTop = ((h - (size+jw))/2) + "px";
