@@ -92,7 +92,7 @@ let gameStatus = {
         clearInterval(gameStatus.predatorDaemon);
         gameStatus.code = 5;
         maze.draw();
-        gameStatus.showMessage("game over",{w:.8,h:1});
+        gameStatus.showMessage("game over",{w:.9,h:2}, 0xFF0000);
         setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 5);
     },
     youWin:function(){
@@ -100,7 +100,7 @@ let gameStatus = {
         clearInterval(gameStatus.predatorDaemon);
         gameStatus.code = 6;
         maze.draw();
-        gameStatus.showMessage("you win",{w:.8,h:1});
+        gameStatus.showMessage("you win",{w:.9,h:2}, 0x00FF00);
         setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 5);
     },
     updatePrey:function(){
