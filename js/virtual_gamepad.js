@@ -26,14 +26,17 @@ let virtualGamePad = {
             const up = virtualGamePad._lastEvent.substring(0,virtualGamePad._lastEvent.length - 4);
             virtualGamePad._dispatch(up + "up");
         }
+        virtualGamePad._offset =  {x:0,y:0};
     },
+    _offset: {x:0,y:0},
     _move: function(a) {
         if (virtualGamePad._isDown) {
             const c = virtualGamePad._getPos(a);
-            const l = {x:c.x - virtualGamePad._anchor.x, y:c.y - virtualGamePad._anchor.y};
+            virtualGamePad._offset = {x:c.x - virtualGamePad._anchor.x, y:c.y - virtualGamePad._anchor.y};
+            let l = virtualGamePad._offset;
             const d = Math.sqrt(l.x * l.x + l.y * l.y );
             let event = "";
-            if (d>virtualGamePad._radius) {
+            if (d > virtualGamePad._radius) {
                 if (Math.abs(l.x) > Math.abs(l.y)){
                     if (l.x>0) {
                         event = "right";
@@ -123,5 +126,18 @@ virtualGamePad.runJoystick.prototype = {
         virtualGamePad.ball.anchor.setTo(.5,.5);
     },
     update: function() {
+        const d = Math.sqrt(Math.pow(virtualGamePad._offset.x,2) + Math.pow(virtualGamePad._offset.y,2));
+        const p = {x:0,y:0};
+        if (d>0) {
+            p.x = virtualGamePad._offset.x * 50 / d;
+            p.y = virtualGamePad._offset.y * 50 / d;
+        }
+        virtualGamePad.ball.x = virtualGamePad.joystick.width/2 + p.x;
+        virtualGamePad.ball.y = virtualGamePad.joystick.height/2 + p.y;
+        console.log(p);
+
+
+        virtualGamePad.ball.z = 2;
+
     }
 }
