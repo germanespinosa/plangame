@@ -1,7 +1,7 @@
 let gameStatus = {
     speeds: [3,4,6], //moves per second
     predatorPreySpeedRatio: 1.5,
-    randomness: [2,4,8], // 50% random, 25% random, 12.5% random
+    randomness: [2,4,5], // 50% random, 25% random, 20% random
     anchor:{x:0,y:0},
     updatePreyInterval: null,
     updatePredatorInterval: null,

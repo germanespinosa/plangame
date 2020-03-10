@@ -80,12 +80,12 @@ let virtualGamePad = {
     addEventListener: function(event, callback){
         virtualGamePad._callbacks[event].push(callback);
     },
-    start: function(radius, div, size) {
+    start: function(type, div, size) {
         let defaultPrevent = function(e){e.preventDefault();}
         window.addEventListener("touchstart", defaultPrevent);
         window.addEventListener("touchmove" , defaultPrevent);
 
-        virtualGamePad._radius = radius;
+        virtualGamePad._radius = window.innerWidth*.05;
         window.addEventListener("touchstart", virtualGamePad._down);
         window.addEventListener("mousedown", virtualGamePad._down);
         window.addEventListener("mouseup", virtualGamePad._up);
