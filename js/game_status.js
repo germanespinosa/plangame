@@ -1,5 +1,6 @@
 let gameStatus = {
     speeds: [3,4,6], //moves per second
+    predatorPreySpeedRatio: 1.5,
     randomness: [2,4,8], // 50% random, 25% random, 12.5% random
     anchor:{x:0,y:0},
     updatePreyInterval: null,
@@ -7,7 +8,7 @@ let gameStatus = {
     titleTimeOut : 1000,
     preyUpdateRate: 3,
     predatorUpdateRate: 4.5,
-    spinnersValues: [0,1],
+    spinnersValues: [0, 1],
     code: 0,
     maps: [],
     circleSprite: null,
@@ -34,8 +35,8 @@ let gameStatus = {
 
         gameStatus.code = 0;
         gameStatus.showMessage("SURVIVAL",{w:.95,h:.1},0xFFFFFF,{x:.51,y:.10});
-        gameStatus.showMessage("HABITAT: ",{w:.3,h:.05},0xFFFFFF,{x:.025,y:.25}, {x:0,y:.5});
-        gameStatus.showMessage("DIFFICULTY: ",{w:.4,h:.05},0xFFFFFF,{x:.025,y:.5}, {x:0,y:.5});
+        gameStatus.showMessage("HABITAT: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.25}, {x:0,y:.5});
+        gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.5}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
         gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,options,"8bit", groups.status);
@@ -54,9 +55,8 @@ let gameStatus = {
     ready: function(){
         gameStatus.spinnersValues[0] = gameStatus.mapSpinner.selected;
         gameStatus.spinnersValues[1] = gameStatus.modSpinner.selected;
-
         gameStatus.preyUpdateRate = gameStatus.speeds[gameStatus.modSpinner.selected];
-        gameStatus.predatorUpdateRate = gameStatus.preyUpdateRate * 1.5;
+        gameStatus.predatorUpdateRate = gameStatus.preyUpdateRate * gameStatus.predatorPreySpeedRatio;
         gameStatus.predatorRandomness = gameStatus.randomness[gameStatus.modSpinner.selected];
         groups.status.removeAll(true);
         gameStatus.code = 1;

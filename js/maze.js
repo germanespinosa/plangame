@@ -11,6 +11,7 @@ let maze = {
     prey : null,
     preyTween : null,
     predatorTween : null,
+    predatorStartPosition : {x:7,y:7},
     start: function (){
         groups.agents.removeAll(true);
         prey.start();
@@ -27,13 +28,11 @@ let maze = {
         const c = gameStatus.code === 4 && prey.move();
         const pos = maze.screenLocation(prey);
         maze.preyTween = game.add.tween(maze.prey).to( { x: pos.x, y: pos.y}, gameStatus.updatePreyInterval, "Linear", true);
-        //if (c) maze.preyTween.onComplete.add(maze.updatePrey, this);
     },
     updatePredator: function(){
         const c = gameStatus.code === 4 && predator.move();
         const pos = maze.screenLocation(predator);
         maze.predatorTween = game.add.tween(maze.predator).to( { x: pos.x, y: pos.y}, gameStatus.updatePredatorInterval, "Linear", true);
-        //if (c) maze.predatorTween.onComplete.add(maze.updatePredator, this);
     },
     draw: function () {
         if (maze.ready) {
@@ -83,6 +82,7 @@ let maze = {
             if (request.readyState === 4 && request.status === 200) {
                 maze.world = JSON.parse(request.responseText);
                 maze.version = Helpers.GetRandomInt(maze.world.occlusions.length);
+                maze.predatorStartPosition = Helpers.GetRandomElement(maze.world.predatorStartPositions[maze.version]);
                 maze.tileSizeX = game.width/maze.world.dimensions.w;
                 maze.tileSizeY = game.height/maze.world.dimensions.h;
                 groups.maze.removeAll(true);

@@ -5,8 +5,8 @@ let predator = {
     x: 0,
     y: 0,
     start: function(){
-        predator.x = 7;
-        predator.y = 7;
+        predator.x = maze.predatorStartPosition.x;
+        predator.y = maze.predatorStartPosition.y;
     },
     contact: false,
     getPos: function() {

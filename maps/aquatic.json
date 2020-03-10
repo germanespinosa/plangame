@@ -10,6 +10,16 @@
     "w": 15,
     "h": 15
   },
+  "predatorStartPositions": [[{
+    "x": 2,
+    "y": 4
+  },{
+    "x": 14,
+    "y": 2
+  },{
+    "x": 14,
+    "y": 10
+  }]],
   "visualRange": 3,
   "occlusions": [[]],
   "goalSprite": "cave",
