@@ -10,8 +10,9 @@ window.onload = function () {
      container.style.width = size + "px";
      container.style.marginLeft = ((w - size) / 2) + "px";
 
-     const jw = 400;
-     if (h > size + jw) {
+     const misSize = 250;
+     if (h > size + misSize) {
+          const jw = Math.min(h-size,w);
           let joystick = document.getElementById("joystick-div");
           joystick.style.width = jw + "px";
           joystick.style.height = jw + "px";
