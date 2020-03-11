@@ -16,7 +16,10 @@ window.onload = function () {
           joystick.style.width = jw + "px";
           joystick.style.height = jw + "px";
           joystick.style.marginLeft = ((w - jw) / 2) + "px";
-          virtualGamePad.start(size * .05, joystick, jw);
+          let control = Helpers.getUrlVars()["control"];
+
+          if (typeof control == "undefined") control = "gamepad";
+          virtualGamePad.start(control, joystick, jw);
           container.style.marginTop = ((h - (size+jw))/2) + "px";
      } else {
           container.style.marginTop = ((h - size)/2) + "px";
@@ -104,6 +107,13 @@ var Helpers = {
     },
     GetRandomElement: function (arr) {
          return arr[Helpers.GetRandomInt(arr.length)];
+    },
+    getUrlVars: function() {
+          var vars = {};
+          var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+               vars[key] = value;
+          });
+          return vars;
     }
 };
 
