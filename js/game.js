@@ -1,7 +1,8 @@
 let game;
-
-window.onload = setTimeout(start,500);
-
+window.onload = function () {
+     document.body.style.backgroundColor = "#a0a0a0";
+     setTimeout(start,500);
+};
 
 function start () {
      let body = document.body;

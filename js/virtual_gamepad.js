@@ -134,6 +134,7 @@ virtualGamePad.runJoystick.prototype = {
         virtualGamePad.game.load.image("ball", "img/red_ball.png");
     },
     create: function() {
+        virtualGamePad.game.stage.backgroundColor = "#a0a0a0";
         virtualGamePad.circle = virtualGamePad.drawSprite({x:virtualGamePad.game.width/2,y:virtualGamePad.game.height/2},"circle", virtualGamePad.game.width);
         virtualGamePad.circle.z = 1;
         virtualGamePad.circle.anchor.setTo(.5,.5);
@@ -166,6 +167,7 @@ virtualGamePad.runGamepad.prototype = {
         virtualGamePad.game.load.image("down_button_down", "img/down_button_down.png?r=" + Math.random());
     },
     create: function() {
+        virtualGamePad.game.stage.backgroundColor = "#a0a0a0";
         const buttonSize = {w:virtualGamePad.game.height * .40,h:virtualGamePad.game.height * .40};
         virtualGamePad.leftButton = virtualGamePad.drawSprite({x:virtualGamePad.game.width/2,y:virtualGamePad.game.height/2},"left_button", virtualGamePad.game.height * .40);
         virtualGamePad.leftButton.anchor.setTo(1.15,.5);
