@@ -1,6 +1,9 @@
 let game;
 
-window.onload = function () {
+window.onload = setTimeout(start,500);
+
+
+function start () {
      let body = document.body;
      let w = window.innerWidth;
      let h = window.innerHeight;
