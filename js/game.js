@@ -14,8 +14,8 @@ function start () {
      container.style.width = size + "px";
      container.style.marginLeft = ((w - size) / 2) + "px";
 
-     const misSize = 250;
-     if (h > size + misSize) {
+     const minSize = 250;
+     if (h > size + minSize && h > w) {
           const jw = Math.min(h-size,w);
           let joystick = document.getElementById("joystick-div");
           joystick.style.width = jw + "px";
