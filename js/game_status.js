@@ -26,6 +26,11 @@ let gameStatus = {
         return sprite;
     },
     menu: function (){
+        loadStats( function (a) {
+            gameStatus.showMenu(a.Items[0].played);
+        });
+    },
+    showMenu: function (p){
         groups.status.removeAll();
         groups.maze.removeAll();
         groups.agents.removeAll();
@@ -37,6 +42,7 @@ let gameStatus = {
         gameStatus.showMessage("SURVIVAL",{w:.95,h:.1},0xFFFFFF,{x:.51,y:.10});
         gameStatus.showMessage("HABITAT: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.25}, {x:0,y:.5});
         gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.5}, {x:0,y:.5});
+        gameStatus.showMessage("Played " + p + " times",{w:.8,h:.02},0xFFFFFF,{x:.025,y:.975}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
         gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,options,"8bit", groups.status);
@@ -104,6 +110,7 @@ let gameStatus = {
         gameStatus.code = 5;
         maze.draw();
         gameStatus.showMessage("game over",{w:.9,h:2}, 0xFF0000);
+        saveResult("l");
         setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 3);
     },
     youWin:function(){
@@ -112,6 +119,7 @@ let gameStatus = {
         gameStatus.code = 6;
         maze.draw();
         gameStatus.showMessage("you win",{w:.9,h:2}, 0x00FF00);
+        saveResult("w");
         setTimeout(gameStatus.menu,gameStatus.titleTimeOut * 3);
     },
     updatePrey:function(){

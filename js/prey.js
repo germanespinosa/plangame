@@ -4,8 +4,6 @@ let prey = {
     y:0,
     lastMove: moves.stay(),
     nextMove: function (){
-        console.log(Math.random());
-        console.log(prey.downKeys[prey.downKeys.length-1]);
         return prey.downKeys[prey.downKeys.length-1];
     },
     spriteName: null,
