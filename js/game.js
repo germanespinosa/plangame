@@ -9,6 +9,8 @@ function start () {
      let w = window.innerWidth;
      let h = window.innerHeight;
      let size = Math.min (1000,w*.9,h);
+     console.log ("here");
+     loadStats();
 
      let container = document.getElementById("game-div");
      container.style.width = size + "px";
@@ -121,6 +123,19 @@ var Helpers = {
           return vars;
     }
 };
+
+function loadStats (callback) {
+     let request = new XMLHttpRequest();
+     request.overrideMimeType("application/json");
+     request.open('GET', 'https://ebyfm58hmk.execute-api.ca-central-1.amazonaws.com/default/plan_game_counter?r=g&p=' + Math.random(), true);
+     request.onreadystatechange = function () {
+          if (request.readyState === 4 && request.status === 200) {
+               console.log(JSON.parse(request.responseText));
+          }
+     };
+     request.send(null);
+}
+
 
 function loadMaps (callback) {
      let request = new XMLHttpRequest();
