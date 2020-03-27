@@ -41,14 +41,14 @@ let gameStatus = {
         gameStatus.code = 0;
         //gameStatus.showMessage("SURVIVAL",{w:.95,h:.1},0xFFFFFF,{x:.51,y:.10});
         gameStatus.showMessage("HABITAT: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.45}, {x:0,y:.5});
-        gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.6}, {x:0,y:.5});
+        gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.64}, {x:0,y:.5});
         gameStatus.showMessage("Played " + p + " times",{w:.75,h:.015},0xFFFFFF,{x:.3,y:.975}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .3,game.width *.8,game.height *.1,options,"8bit", groups.status);
+        gameStatus.mapSpinner = new Spinner(game.width * .1,game.height * .5,game.width *.8,game.height *.1,options,"8bit", groups.status);
         gameStatus.mapSpinner.selected = gameStatus.spinnersValues[0];
         gameStatus.mapSpinner.update();
-        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .55,game.width *.8,game.height *.1,["easy","natural", "hard"],"8bit", groups.status);
+        gameStatus.modSpinner = new Spinner(game.width * .1,game.height * .667,game.width *.8,game.height *.1,["easy","natural", "hard"],"8bit", groups.status);
         gameStatus.modSpinner.selected = gameStatus.spinnersValues[1];
         gameStatus.modSpinner.update();
         let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xFFFFFF,{x:.5,y:.85});
