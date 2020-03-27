@@ -5,19 +5,19 @@
   },
   {
     "name": "savanna_prey",
-    "url": "img/prey.png"
+    "url": "img/Game_Savanna_Human.png"
   },
   {
     "name": "savanna_predator",
-    "url": "img/predator.png"
+    "url": "img/Game_Savanna_Lion.png"
   },
   {
     "name": "savanna_wall",
-    "url": "img/wall.png"
+    "url": "img/Game_Savanna_Obstacle.png"
   },
   {
     "name": "savanna_goal",
-    "url": "img/goal.png"
+    "url": "img/Game_Savanna_Home.png"
   },
   {
     "name": "left_arrow",
@@ -77,7 +77,7 @@
   },
   {
     "name": "savanna_tile",
-    "url": "img/savanna_tile.png"
+    "url": "img/Game_Savanna_background.png"
   },
   {
     "name": "white_circle",
