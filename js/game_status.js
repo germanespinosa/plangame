@@ -45,7 +45,7 @@ let gameStatus = {
         gameStatus.showMessage("Played " + p + " times",{w:.75,h:.015},0xFFFFFF,{x:.45,y:.975}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
-        gameStatus.mapSpinner = new Spinner(game.width * .215,game.height * .47,game.width *.55,game.height *.075,options,"8bit", groups.status);
+        gameStatus.mapSpinner = new Spinner(game.width * .215,game.height * .5,game.width *.55,game.height *.075,options,"8bit", groups.status);
         gameStatus.mapSpinner.selected = gameStatus.spinnersValues[0];
         gameStatus.mapSpinner.update();
         gameStatus.modSpinner = new Spinner(game.width * .215,game.height * .65,game.width *.55,game.height *.075,["easy","natural", "hard"],"8bit", groups.status);
