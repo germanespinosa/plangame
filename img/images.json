@@ -82,5 +82,9 @@
   {
     "name": "white_circle",
     "url": "img/white_circle.png"
+  },
+  {
+	"name":"test",
+	"url": "img/Game_Savanna_background.png"
   }
 ]
