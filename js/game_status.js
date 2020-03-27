@@ -40,8 +40,8 @@ let gameStatus = {
 
         gameStatus.code = 0;
         //gameStatus.showMessage("SURVIVAL",{w:.95,h:.1},0xFFFFFF,{x:.51,y:.10});
-        gameStatus.showMessage("HABITAT: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.25}, {x:0,y:.5});
-        gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.5}, {x:0,y:.5});
+        gameStatus.showMessage("HABITAT: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.42}, {x:0,y:.5});
+        gameStatus.showMessage("DIFFICULTY: ",{w:.8,h:.03},0xFFFFFF,{x:.025,y:.6}, {x:0,y:.5});
         gameStatus.showMessage("Played " + p + " times",{w:.8,h:.02},0xFFFFFF,{x:.025,y:.975}, {x:0,y:.5});
         let options = [];
         for (let i = 0;i < gameStatus.maps.length ;i++) options.push(gameStatus.maps[i].name);
