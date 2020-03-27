@@ -21,11 +21,11 @@
   },
   {
     "name": "left_arrow",
-    "url": "img/left_arrow.png"
+    "url": "img/Game_Menu_LeftButton.png"
   },
   {
     "name": "right_arrow",
-    "url": "img/right_arrow.png"
+    "url": "img/Game_Menu_RightButton.png"
   },
   {
     "name": "background",
