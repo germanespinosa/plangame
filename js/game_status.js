@@ -48,7 +48,7 @@ let gameStatus = {
         gameStatus.mapSpinner = new Spinner(game.width * .215,game.height * .495,game.width *.55,game.height *.075,options,"8bit", groups.status);
         gameStatus.mapSpinner.selected = gameStatus.spinnersValues[0];
         gameStatus.mapSpinner.update();
-        gameStatus.modSpinner = new Spinner(game.width * .215,game.height * .65,game.width *.55,game.height *.075,["easy","natural", "hard"],"8bit", groups.status);
+        gameStatus.modSpinner = new Spinner(game.width * .215,game.height * .655,game.width *.55,game.height *.075,["easy","natural", "hard"],"8bit", groups.status);
         gameStatus.modSpinner.selected = gameStatus.spinnersValues[1];
         gameStatus.modSpinner.update();
         let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xD34F1D,{x:.5,y:.85});
