@@ -51,7 +51,7 @@ let gameStatus = {
         gameStatus.modSpinner = new Spinner(game.width * .215,game.height * .655,game.width *.55,game.height *.075,["easy","natural", "hard"],"8bit", groups.status);
         gameStatus.modSpinner.selected = gameStatus.spinnersValues[1];
         gameStatus.modSpinner.update();
-        let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xD34F1D,{x:.5,y:.85});
+        let playButton = gameStatus.showMessage("PLAY",{w:.8,h:.1},0xD34F1D,{x:.51,y:.85});
         playButton.anchor.x = .5;
         playButton.anchor.y = .5;
         groups.status.add(playButton);
