@@ -61,11 +61,11 @@
   },
   {
     "name": "boar",
-    "url": "img/boar.png"
+    "url": "img/Game_Jungle_Monkey.png"
   },
   {
     "name": "leopard",
-    "url": "img/leopard.png"
+    "url": "img/Game_Jungle_Leopard.png"
   },
   {
     "name": "water_tile",
@@ -73,7 +73,7 @@
   },
   {
     "name": "jungle_tile",
-    "url": "img/jungle_tile.png"
+    "url": "img/Game_Jungle_Background.png"
   },
   {
     "name": "savanna_tile",
