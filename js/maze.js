@@ -2,6 +2,7 @@ let maze = {
     version: 0,
     tileSizeX: 0,
     tileSizeY: 0,
+    worldName: "",
     world: null,
     map: null,
     visibility: null,

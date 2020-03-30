@@ -139,6 +139,8 @@ function saveResult (res) {
      request.overrideMimeType("application/json");
      request.open('POST', 'https://ebyfm58hmk.execute-api.ca-central-1.amazonaws.com/default/plan_game_counter?r=' + res + '&p=' + Math.random(), true);
      let p = {
+          world: maze.worldName,
+          version: maze.version,
           prey: { interval: gameStatus.updatePreyInterval, positionHistory: prey.positionHistory },
           predator: { interval: gameStatus.updatePredatorInterval, positionHistory:predator.positionHistory }
      };
