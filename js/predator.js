@@ -2,11 +2,13 @@ let predator = {
     chasing: false,
     lastPreyLocation: {x:0,y:0},
     alwaysVisible : true,
+    positionHistory : [],
     x: 0,
     y: 0,
     start: function(){
         predator.x = maze.predatorStartPosition.x;
         predator.y = maze.predatorStartPosition.y;
+        predator.positionHistory =[{x: predator.x, y: predator.y}];
     },
     contact: false,
     getPos: function() {
@@ -30,6 +32,7 @@ let predator = {
         else {
             predator.randomMove();
         }
+        predator.positionHistory.push ({x:predator.x , y:predator.y});
         if (prey.x === predator.x && prey.y === predator.y) {
             gameStatus.gameOver();
             return false;

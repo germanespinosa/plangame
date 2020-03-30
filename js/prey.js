@@ -3,6 +3,7 @@ let prey = {
     x:0,
     y:0,
     lastMove: moves.stay(),
+    positionHistory: [],
     nextMove: function (){
         return prey.downKeys[prey.downKeys.length-1];
     },
@@ -46,6 +47,7 @@ let prey = {
         const pos = maze.copy(maze.world.startPosition);
         prey.x = pos.x;
         prey.y = pos.y;
+        prey.positionHistory =[{x: prey.x, y: prey.y}];
     },
     addMove: function(pos){
         let new_pos = {
@@ -62,9 +64,11 @@ let prey = {
             nextMove = prey.lastMove;
         }
         prey.lastMove = moves.stay();
-        if (!prey.checkMove(nextMove)) return false;
-        prey.x += nextMove.x;
-        prey.y += nextMove.y;
+        if (prey.checkMove(nextMove)) {
+            prey.x += nextMove.x;
+            prey.y += nextMove.y;
+        }
+        prey.positionHistory.push ({x: prey.x , y:prey.y});
         if (maze.equal(maze.world.goalPosition,prey)) {
             gameStatus.youWin();
             return false;
