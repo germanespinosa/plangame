@@ -69,8 +69,8 @@ let gameStatus = {
         gameStatus.showMessage("ready",{w:.5,h:1}, 0xFF0000);
         setTimeout(gameStatus.set,gameStatus.titleTimeOut);
         maze.mode = gameStatus.modSpinner.selected;
-        maze.worldName = gameStatus.maps[gameStatus.mapSpinner.selected].file;
-        maze.loadWorld(maze.worldName,0);
+        maze.worldName = gameStatus.maps[gameStatus.mapSpinner.selected].name;
+        maze.loadWorld(gameStatus.maps[gameStatus.mapSpinner.selected].file,0);
         gameStatus.mapSpinner.destroy();
         gameStatus.modSpinner.destroy();
     },
