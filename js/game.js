@@ -137,10 +137,14 @@ function loadStats (callback) {
 function saveResult (res) {
      let request = new XMLHttpRequest();
      request.overrideMimeType("application/json");
-     request.open('GET', 'https://ebyfm58hmk.execute-api.ca-central-1.amazonaws.com/default/plan_game_counter?r=' + res + '&p=' + Math.random(), true);
-     request.send(null);
+     request.open('POST', 'https://ebyfm58hmk.execute-api.ca-central-1.amazonaws.com/default/plan_game_counter?r=' + res + '&p=' + Math.random(), true);
+     let p = {
+          prey: { interval: gameStatus.updatePreyInterval, positionHistory: prey.positionHistory },
+          predator: { interval: gameStatus.updatePredatorInterval, positionHistory:predator.positionHistory }
+     };
+     // added body
+     request.send(JSON.stringify(p));
 }
-
 
 function loadMaps (callback) {
      let request = new XMLHttpRequest();
