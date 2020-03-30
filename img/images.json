@@ -37,11 +37,11 @@
   },
   {
     "name": "fish",
-    "url": "img/Game_Water_Clownfish.png"
+    "url": "img/Game_Water_Clownfish-01.png"
   },
   {
     "name": "shark",
-    "url": "img/Game_Water_Shark.png"
+    "url": "img/Game_Water_Shark-01.png"
   },
   {
     "name": "tree",
@@ -69,7 +69,7 @@
   },
   {
     "name": "water_tile",
-    "url": "img/Game_Water_Background.png"
+    "url": "img/Game_Water_Background-01.png"
   },
   {
     "name": "jungle_tile",
