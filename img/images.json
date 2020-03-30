@@ -5,47 +5,47 @@
   },
   {
     "name": "savanna_prey",
-    "url": "img/prey.png"
+    "url": "img/Game_Savanna_HumanV2.png"
   },
   {
     "name": "savanna_predator",
-    "url": "img/predator.png"
+    "url": "img/Game_Savanna_Lion2.png"
   },
   {
     "name": "savanna_wall",
-    "url": "img/wall.png"
+    "url": "img/Game_Savanna_Obstacle.png"
   },
   {
     "name": "savanna_goal",
-    "url": "img/goal.png"
+    "url": "img/Game_Savanna_Home.png"
   },
   {
     "name": "left_arrow",
-    "url": "img/left_arrow.png"
+    "url": "img/Game_Menu_LeftButton.png"
   },
   {
     "name": "right_arrow",
-    "url": "img/right_arrow.png"
+    "url": "img/Game_Menu_RightButton.png"
   },
   {
     "name": "background",
-    "url": "img/background.png"
+    "url": "img/Game_Menu_Background.png"
   },
   {
     "name": "cave",
-    "url": "img/cave.png"
+    "url": "img/Game_Water_Home.png"
   },
   {
     "name": "fish",
-    "url": "img/fish.png"
+    "url": "img/Game_Water_Clownfish.png"
   },
   {
     "name": "shark",
-    "url": "img/shark.png"
+    "url": "img/Game_Water_Shark.png"
   },
   {
     "name": "tree",
-    "url": "img/tree.png"
+    "url": "img/Game_Jungle_Obstacles.png"
   },
   {
     "name": "bush",
@@ -53,34 +53,38 @@
   },
   {
     "name": "coral",
-    "url": "img/coral.png"
+    "url": "img/Game_Water_Obstacle.png"
   },
   {
     "name": "hut",
-    "url": "img/hut.png"
+    "url": "img/Game_Jungle_Banana.png"
   },
   {
     "name": "boar",
-    "url": "img/boar.png"
+    "url": "img/Game_Jungle_Monkey.png"
   },
   {
     "name": "leopard",
-    "url": "img/leopard.png"
+    "url": "img/Game_Jungle_Leopard.png"
   },
   {
     "name": "water_tile",
-    "url": "img/water_tile.png"
+    "url": "img/Game_Water_Background.png"
   },
   {
     "name": "jungle_tile",
-    "url": "img/jungle_tile.png"
+    "url": "img/Game_Jungle_Background.png"
   },
   {
     "name": "savanna_tile",
-    "url": "img/savanna_tile.png"
+    "url": "img/Game_Savanna_background.png"
   },
   {
     "name": "white_circle",
     "url": "img/white_circle.png"
+  },
+  {
+	"name":"test",
+	"url": "img/Game_Savanna_background.png"
   }
 ]
